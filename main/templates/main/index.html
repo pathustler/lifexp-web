@@ -1,0 +1,450 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block content %}
+
+    <main class="flex overflow-y-auto" style="height: 100vh;">
+
+    
+    <!-- Main Content -->
+    <div style="width: 80%;" class="flex-1 py-6 pl-6 ">
+        <div class="mb-12 flex gap-4 overflow-x-auto whitespace-nowrap">
+            <div class="bg-gray-200 flex p-4 rounded-xl gap-3 items-center cursor-pointer flex-shrink-0">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeYJRKQh2AdhB2knnEBDBikE1ONI8tQY9Hng&s" class="rounded-full h-12 w-12" alt="User">
+                <div class="flex flex-col justify-between gap-1">
+                    <h1 class="text-l">Patty</h1>
+                    <div class="flex gap-2 items-center">
+                        <span class="bg-purple-300 p-2 rounded-full">
+                            <svg class="h-3 w-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+                                <path fill="#713599" d="M413.5 237.5c-28.2 4.8-58.2-3.6-80-25.4l-38.1-38.1C280.4 159 272 138.8 272 117.6l0-12.1L192.3 62c-5.3-2.9-8.6-8.6-8.3-14.7s3.9-11.5 9.5-14l47.2-21C259.1 4.2 279 0 299.2 0l18.1 0c36.7 0 72 14 98.7 39.1l44.6 42c24.2 22.8 33.2 55.7 26.6 86L503 183l8-8c9.4-9.4 24.6-9.4 33.9 0l24 24c9.4 9.4 9.4 24.6 0 33.9l-88 88c-9.4 9.4-24.6 9.4-33.9 0l-24-24c-9.4-9.4-9.4-24.6 0-33.9l8-8-17.5-17.5zM27.4 377.1L260.9 182.6c3.5 4.9 7.5 9.6 11.8 14l38.1 38.1c6 6 12.4 11.2 19.2 15.7L134.9 484.6c-14.5 17.4-36 27.4-58.6 27.4C34.1 512 0 477.8 0 435.7c0-22.6 10.1-44.1 27.4-58.6z"/>
+                            </svg>
+                        </span>
+                        <span class="bg-blue-300 p-2 rounded-full">
+                            <svg class="h-3 w-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                <path fill="#4187a2" d="M184 0c30.9 0 56 25.1 56 56l0 400c0 30.9-25.1 56-56 56c-28.9 0-52.7-21.9-55.7-50.1c-5.2 1.4-10.7 2.1-16.3 2.1c-35.3 0-64-28.7-64-64c0-7.4 1.3-14.6 3.6-21.2C21.4 367.4 0 338.2 0 304c0-31.9 18.7-59.5 45.8-72.3C37.1 220.8 32 207 32 192c0-30.7 21.6-56.3 50.4-62.6C80.8 123.9 80 118 80 112c0-29.9 20.6-55.1 48.3-62.1C131.3 21.9 155.1 0 184 0zM328 0c28.9 0 52.6 21.9 55.7 49.9c27.8 7 48.3 32.1 48.3 62.1c0 6-.8 11.9-2.4 17.4c28.8 6.2 50.4 31.9 50.4 62.6c0 15-5.1 28.8-13.8 39.7C493.3 244.5 512 272.1 512 304c0 34.2-21.4 63.4-51.6 74.8c2.3 6.6 3.6 13.8 3.6 21.2c0 35.3-28.7 64-64 64c-5.6 0-11.1-.7-16.3-2.1c-3 28.2-26.8 50.1-55.7 50.1c-30.9 0-56-25.1-56-56l0-400c0-30.9 25.1-56 56-56z"/>
+                            </svg>
+                        </span>
+                        <p class="text-gray-400 text-sm">+1</p>
+                    </div>
+                </div>
+            </div>
+            
+          
+            
+
+        
+            <div class="bg-gray-200 flex p-4 rounded-xl gap-3 items-center cursor-pointer flex-shrink-0">
+                <div>
+                    <img src="https://avatarfiles.alphacoders.com/336/336872.png" class="rounded-full h-12 w-12" alt="User">
+
+                </div>
+                <div class="flex flex-col justify-between gap-1">
+                    <h1 class="text-l">Dannie</h1>
+                    <div class="flex gap-2 items-center">
+                        <span class="bg-green-300 p-2 rounded-full">
+                            <svg class="h-3 w-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path fill="#31784e" d="M96 128a128 128 0 1 0 256 0A128 128 0 1 0 96 128zm94.5 200.2l18.6 31L175.8 483.1l-36-146.9c-2-8.1-9.8-13.4-17.9-11.3C51.9 342.4 0 405.8 0 481.3c0 17 13.8 30.7 30.7 30.7l131.7 0c0 0 0 0 .1 0l5.5 0 112 0 5.5 0c0 0 0 0 .1 0l131.7 0c17 0 30.7-13.8 30.7-30.7c0-75.5-51.9-138.9-121.9-156.4c-8.1-2-15.9 3.3-17.9 11.3l-36 146.9L238.9 359.2l18.6-31c6.4-10.7-1.3-24.2-13.7-24.2L224 304l-19.7 0c-12.4 0-20.1 13.6-13.7 24.2z"/></svg>
+                        </span>
+
+                        <span class="bg-yellow-200 p-2 rounded-full">
+                            <svg class="h-3 w-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path fill="#eccc00" d="M349.4 44.6c5.9-13.7 1.5-29.7-10.6-38.5s-28.6-8-39.9 1.8l-256 224c-10 8.8-13.6 22.9-8.9 35.3S50.7 288 64 288l111.5 0L98.6 467.4c-5.9 13.7-1.5 29.7 10.6 38.5s28.6 8 39.9-1.8l256-224c10-8.8 13.6-22.9 8.9-35.3s-16.6-20.7-30-20.7l-111.5 0L349.4 44.6z"/></svg>
+                        </span>
+                      
+
+                        <p class="text-gray-400 text-sm">+1</p>
+                    </div>
+
+                </div>
+
+                
+            </div>
+
+            <div class="bg-gray-200 flex p-4 rounded-xl gap-3 items-center cursor-pointer flex-shrink-0">
+                <div>
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1gwmt2gOp9QvkHXUPKDzSlPSRV316hl0Rgw&s" class="rounded-full h-12 w-12" alt="User">
+
+                </div>
+                <div class="flex flex-col justify-between gap-1">
+                    <h1 class="text-l">Yucey</h1>
+                    <div class="flex gap-2 items-center">
+                        <span class="bg-green-300 p-2 rounded-full">
+                            <svg class="h-3 w-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path fill="#31784e" d="M96 128a128 128 0 1 0 256 0A128 128 0 1 0 96 128zm94.5 200.2l18.6 31L175.8 483.1l-36-146.9c-2-8.1-9.8-13.4-17.9-11.3C51.9 342.4 0 405.8 0 481.3c0 17 13.8 30.7 30.7 30.7l131.7 0c0 0 0 0 .1 0l5.5 0 112 0 5.5 0c0 0 0 0 .1 0l131.7 0c17 0 30.7-13.8 30.7-30.7c0-75.5-51.9-138.9-121.9-156.4c-8.1-2-15.9 3.3-17.9 11.3l-36 146.9L238.9 359.2l18.6-31c6.4-10.7-1.3-24.2-13.7-24.2L224 304l-19.7 0c-12.4 0-20.1 13.6-13.7 24.2z"/></svg>
+                        </span>
+
+                        <span class="bg-yellow-200 p-2 rounded-full">
+                            <svg class="h-3 w-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path fill="#eccc00" d="M349.4 44.6c5.9-13.7 1.5-29.7-10.6-38.5s-28.6-8-39.9 1.8l-256 224c-10 8.8-13.6 22.9-8.9 35.3S50.7 288 64 288l111.5 0L98.6 467.4c-5.9 13.7-1.5 29.7 10.6 38.5s28.6 8 39.9-1.8l256-224c10-8.8 13.6-22.9 8.9-35.3s-16.6-20.7-30-20.7l-111.5 0L349.4 44.6z"/></svg>
+                        </span>
+                        
+
+                        <p class="text-gray-400 text-sm">+1</p>
+                    </div>
+
+                </div>
+
+                
+            </div>
+
+
+            <div class="bg-gray-200 flex p-4 rounded-xl gap-3 items-center cursor-pointer flex-shrink-0">
+                <div>
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpBnX4LTFte2D1GJJgEVkZvwTN-38zRwT2-NxF2ac4YDxBCBpqwfUv_3nWdX-NUs2TIp4&usqp=CAU" class="rounded-full h-12 w-12" alt="User">
+
+                </div>
+                <div class="flex flex-col justify-between gap-1">
+                    <h1 class="text-l">Yani</h1>
+                    <div class="flex gap-2 items-center">
+                        
+
+                        <span class="bg-yellow-200 p-2 rounded-full">
+                            <svg class="h-3 w-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path fill="#eccc00" d="M349.4 44.6c5.9-13.7 1.5-29.7-10.6-38.5s-28.6-8-39.9 1.8l-256 224c-10 8.8-13.6 22.9-8.9 35.3S50.7 288 64 288l111.5 0L98.6 467.4c-5.9 13.7-1.5 29.7 10.6 38.5s28.6 8 39.9-1.8l256-224c10-8.8 13.6-22.9 8.9-35.3s-16.6-20.7-30-20.7l-111.5 0L349.4 44.6z"/></svg>
+                        </span>
+                        <span class="bg-red-300 p-2 rounded-full">
+                            <svg class="h-3 w-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path fill="#8d2e2e" d="M96 64c0-17.7 14.3-32 32-32l32 0c17.7 0 32 14.3 32 32l0 160 0 64 0 160c0 17.7-14.3 32-32 32l-32 0c-17.7 0-32-14.3-32-32l0-64-32 0c-17.7 0-32-14.3-32-32l0-64c-17.7 0-32-14.3-32-32s14.3-32 32-32l0-64c0-17.7 14.3-32 32-32l32 0 0-64zm448 0l0 64 32 0c17.7 0 32 14.3 32 32l0 64c17.7 0 32 14.3 32 32s-14.3 32-32 32l0 64c0 17.7-14.3 32-32 32l-32 0 0 64c0 17.7-14.3 32-32 32l-32 0c-17.7 0-32-14.3-32-32l0-160 0-64 0-160c0-17.7 14.3-32 32-32l32 0c17.7 0 32 14.3 32 32zM416 224l0 64-192 0 0-64 192 0z"/></svg>
+                        </span>
+
+                        <p class="text-gray-400 text-sm">+1</p>
+                    </div>
+
+                </div>
+
+                
+            </div>
+
+        </div>
+
+
+        <div class="bg-white p-6 rounded-xl border-2 border-gray-200">
+            <div class="flex items-center mb-4">
+                <img src="https://avatarfiles.alphacoders.com/336/336872.png" class="rounded-full w-10 h-10" alt="User">
+                <div class="ml-3">
+                    <p class="font-semibold">Dannie</p>
+                    <p class="text-sm text-gray-500">Yesterday at 4:06am</p>
+                </div>
+            </div>
+            <div class="w-full mb-4">
+                <img class="w-full" src="https://i0.wp.com/inesepogagallery.com/wp-content/uploads/016-2-old-house-black-and-white.jpg?ssl=1">
+            </div>
+            <p class="text-gray-700 mb-3">Drawing of a house that i made myself, took some time but ig it does look pretty good, what do you think?</p>
+            <div class="flex text-sm text-gray-500 space-x-4 mb-3">
+                <p><strong>1h 31min</strong> Duration</p>
+                <span class="border-2 border-gray-600 text-gray-600 text-xs px-2 cursor-pointer hover:bg-gray-600 hover:text-white rounded-lg">Drawing</span>
+                <span class="border-2 border-gray-600 text-gray-600 text-xs px-2 cursor-pointer hover:bg-gray-600 hover:text-white rounded-lg">Shading</span>
+                <span class="border-2 border-gray-600 text-gray-600 text-xs px-2 cursor-pointer hover:bg-gray-600 hover:text-white rounded-lg">Art</span>
+                <span class=" text-gray-600 text-xs cursor-pointer  rounded-lg">+2</span>
+            </div>
+            <div
+  class="flex flex-col w-full justify-between items-start self-stretch flex-grow-0 flex-shrink-0 h-[50px] overflow-hidden border-t border-r-0 border-b-0 border-l-0 border-black/5"
+>
+  <div
+    class="flex justify-between w-full items-center self-stretch flex-grow-0 flex-shrink-0 overflow-hidden gap-2.5 "
+  >
+    <div class="flex justify-center w-full items-start  gap-[5px]">
+      <div
+        class="flex h-10 flex-col w-full justify-between items-center flex-grow overflow-hidden gap-2.5 p-2.5 rounded-[5px] bg-[#baafea]"
+      >
+        <div
+          class="flex justify-center items-center  relative gap-[5px]"
+        >
+          <svg
+            width="11"
+            height="10"
+            viewBox="0 0 11 10"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            class="flex-grow-0 flex-shrink-0 w-4 h-4 relative"
+            preserveAspectRatio="xMidYMid meet"
+          >
+            <path
+              d="M7.87944 4.63867C7.38982 4.73242 6.86894 4.56836 6.49043 4.14258L5.82892 3.39844C5.56848 3.10547 5.42263 2.71094 5.42263 2.29688V2.06055L4.03883 1.21094C3.94681 1.1543 3.88951 1.04297 3.89472 0.923828C3.89993 0.804688 3.96244 0.699219 4.05967 0.650391L4.87918 0.240234C5.19866 0.0820312 5.54417 0 5.8949 0H6.20916C6.84637 0 7.45927 0.273437 7.92285 0.763672L8.69722 1.58398C9.1174 2.0293 9.27366 2.67188 9.15907 3.26367L9.4334 3.57422L9.5723 3.41797C9.73551 3.23438 9.99942 3.23438 10.1609 3.41797L10.5776 3.88672C10.7408 4.07031 10.7408 4.36719 10.5776 4.54883L9.04968 6.26758C8.88648 6.45117 8.62256 6.45117 8.46109 6.26758L8.04439 5.79883C7.88118 5.61523 7.88118 5.31836 8.04439 5.13672L8.18329 4.98047L7.87944 4.63867ZM1.17574 7.36523L5.22991 3.56641C5.29068 3.66211 5.36013 3.75391 5.43479 3.83984L6.0963 4.58398C6.20048 4.70117 6.3116 4.80273 6.42966 4.89062L3.04222 9.46484C2.79046 9.80469 2.41716 10 2.02477 10C1.29207 10 0.700001 9.33203 0.700001 8.50977C0.700001 8.06836 0.875363 7.64844 1.17574 7.36523Z"
+              fill="#713599"
+            ></path>
+          </svg>
+          <p class="flex-grow-0 flex-shrink-0 text-xs text-left text-[#713599]">24</p>
+        </div>
+      </div>
+      <div
+        class="flex h-10 flex-col w-full justify-center items-center w-[62.4px] overflow-hidden gap-2.5 p-3 rounded-[5px] bg-[#afd9ea]"
+      >
+        <div
+          class="flex justify-center items-center h-2.5 relative gap-[5px]"
+        >
+          <svg
+            width="11"
+            height="10"
+            viewBox="0 0 11 10"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            class="flex-grow-0 flex-shrink-0 w-4 h-4 relative"
+            preserveAspectRatio="xMidYMid meet"
+          >
+            <path
+              d="M4.01112 0C3.49202 0 3.06147 0.400391 2.9382 0.941406C2.92431 0.941406 2.9139 0.9375 2.90001 0.9375C2.28716 0.9375 1.7889 1.49805 1.7889 2.1875C1.7889 2.28125 1.79931 2.37305 1.81841 2.46094C1.31147 2.69531 0.955565 3.25391 0.955565 3.90625C0.955565 4.15234 1.01112 4.38086 1.09966 4.58789C0.682995 4.85742 0.400009 5.35742 0.400009 5.9375C0.400009 6.58789 0.754176 7.14648 1.25765 7.38086C1.24202 7.4707 1.23334 7.5625 1.23334 7.65625C1.23334 8.43359 1.79237 9.0625 2.48334 9.0625C2.55452 9.0625 2.62397 9.05273 2.69168 9.03906C2.85834 9.5957 3.32015 10 3.87223 10C4.5632 10 5.12223 9.37109 5.12223 8.59375V1.25C5.12223 0.560547 4.62397 0 4.01112 0ZM10.4 5.9375C10.4 5.35742 10.117 4.85742 9.70036 4.58789C9.79064 4.38086 9.84445 4.15234 9.84445 3.90625C9.84445 3.25391 9.48855 2.69531 8.98161 2.46094C8.99897 2.37305 9.01112 2.28125 9.01112 2.1875C9.01112 1.49805 8.51286 0.9375 7.90001 0.9375C7.88612 0.9375 7.87397 0.941406 7.86181 0.941406C7.73855 0.400391 7.308 0 6.7889 0C6.17605 0 5.67779 0.558594 5.67779 1.25V8.59375C5.67779 9.37109 6.23681 10 6.92779 10C7.47987 10 7.94168 9.5957 8.10834 9.03906C8.17605 9.05273 8.2455 9.0625 8.31668 9.0625C9.00765 9.0625 9.56668 8.43359 9.56668 7.65625C9.56668 7.5625 9.55799 7.4707 9.54237 7.38086C10.0458 7.14648 10.4 6.58789 10.4 5.9375Z"
+              fill="#4187A2"
+            ></path>
+          </svg>
+          <p class="flex-grow-0 flex-shrink-0 text-xs text-left text-[#4187a2]">24</p>
+        </div>
+      </div>
+      <div
+        class="flex h-10 flex-col w-full justify-center items-center  w-[62.4px] overflow-hidden gap-2.5 p-2.5 rounded-[5px] bg-[#fdf099]"
+      >
+        <div
+          class="flex justify-center items-center  h-2.5 relative gap-[5px]"
+        >
+          <svg
+            width="11"
+            height="10"
+            viewBox="0 0 11 10"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            class="flex-grow-0 flex-shrink-0 w-4 h-4 relative"
+            preserveAspectRatio="xMidYMid meet"
+          >
+            <path
+              d="M2.98864 10L3.4858 6.5H1L5.47443 0H6.46875L5.97159 4H8.95455L3.98295 10H2.98864Z"
+              fill="#BFA600"
+            ></path>
+          </svg>
+          <p class="flex-grow-0 flex-shrink-0 text-xs text-left text-[#bfa600]">24</p>
+        </div>
+      </div>
+      <div
+        class="flex  h-10 flex-col w-full justify-center items-center  w-[62.4px] overflow-hidden gap-2.5 p-2.5 rounded-[5px] bg-[#afeac7]"
+      >
+        <div
+          class="flex justify-center items-center h-2.5 relative gap-[5px]"
+        >
+          <svg
+            width="11"
+            height="10"
+            viewBox="0 0 11 10"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            class="flex-grow-0 flex-shrink-0 w-4 h-4 relative"
+            preserveAspectRatio="xMidYMid meet"
+          >
+            <path
+              d="M5.47368 0C4.7486 0 4.05322 0.289731 3.54051 0.805456C3.0278 1.32118 2.73977 2.02065 2.73977 2.75C2.73977 3.47935 3.0278 4.17882 3.54051 4.69454C4.05322 5.21027 4.7486 5.5 5.47368 5.5C6.19876 5.5 6.89415 5.21027 7.40686 4.69454C7.91957 4.17882 8.2076 3.47935 8.2076 2.75C8.2076 2.02065 7.91957 1.32118 7.40686 0.805456C6.89415 0.289731 6.19876 0 5.47368 0ZM3.48538 6C2.82622 6 2.19405 6.26339 1.72795 6.73223C1.26185 7.20107 1 7.83696 1 8.5V10H9.94737V8.5C9.94737 7.83696 9.68552 7.20107 9.21942 6.73223C8.75332 6.26339 8.12115 6 7.46199 6H6.77503L5.47368 8.618L4.17234 6H3.48538Z"
+              fill="#31784E"
+            ></path>
+          </svg>
+          <p class="flex-grow-0 flex-shrink-0 text-xs text-left text-[#31784e]">24</p>
+        </div>
+      </div>
+      <div
+        class="flex h-10 flex-col w-full justify-center items-center  w-[62.4px] overflow-hidden gap-2.5 p-2.5 rounded-[5px] bg-[#eaafaf]"
+      >
+        <div
+          class="flex justify-center items-center  h-2.5 relative gap-[5px]"
+        >
+          <svg
+            width="12"
+            height="10"
+            viewBox="0 0 12 10"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            class="flex-grow-0 flex-shrink-0 w-4 h-4 relative"
+            preserveAspectRatio="xMidYMid meet"
+          >
+            <path
+              d="M1 8.52153C1 8.52153 1.57005 2.27204 3.28022 0L6.13049 0.55551L5.56043 2.27204H4.42032V6.24949H4.99038C6.13049 4.54407 8.49051 3.9219 9.91564 4.54407C11.7968 5.394 11.6258 7.95491 9.91564 9.08815C8.54751 9.99918 4.42032 10.7936 1 8.52153Z"
+              fill="#8D2E2E"
+            ></path>
+          </svg>
+          <p class="flex-grow-0 flex-shrink-0 text-xs text-left text-[#8d2e2e]">24</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+        </div>
+
+
+
+    </div>
+    
+    <!-- Profile Widget -->
+    <aside style="width: 450px;"  class="w-80 p-6 ">
+
+        <div class="bg-white p-6 mb-4 rounded-xl border-2 border-gray-200">
+
+            <div class="text-center flex flex-col items-center">
+                <img class="h-24 w-24 rounded-full" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeYJRKQh2AdhB2knnEBDBikE1ONI8tQY9Hng&s" class="rounded-full mx-auto mb-3" alt="Profile">
+                <h3 class="font-semibold">Patty</h3>
+                <p class="text-sm font-bold text-purple-700">Prodigy XXII</p>
+            </div>
+            <div class="mt-4 flex justify-between text-sm">
+                <div class="text-center">
+                    <p class="font-semibold">43</p>
+                    <p class="text-gray-500">Life Level</p>
+                </div>
+                <div class="text-center">
+                    <p class="font-semibold">12</p>
+                    <p class="text-gray-500">Posts</p>
+                </div>
+                <div class="text-center">
+                    <p class="font-semibold">3</p>
+                    <p class="text-gray-500">Followers</p>
+                </div>
+                <div class="text-center">
+                    <p class="font-semibold">3</p>
+                    <p class="text-gray-500">Following</p>
+                </div>
+            </div>
+            <div class="mt-4 flex justify-between text-sm gap-4">
+                <div class="bg-gray-100 w-full flex flex-col rounded-md items-center justify-between p-4">
+                    <p class="text-sm ">Productivity</p>
+                    <p class="text-green-800 text-lg font-bold ">97/100</p>
+                </div>
+
+                <div class="bg-gray-100 w-full flex flex-col rounded-md items-center justify-between p-4">
+                    <p class="text-sm ">Streak Count</p>
+                    <div class="flex gap-2 items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#60a6fa" class="size-6">
+                            <path fill-rule="evenodd" d="M12.963 2.286a.75.75 0 0 0-1.071-.136 9.742 9.742 0 0 0-3.539 6.176 7.547 7.547 0 0 1-1.705-1.715.75.75 0 0 0-1.152-.082A9 9 0 1 0 15.68 4.534a7.46 7.46 0 0 1-2.717-2.248ZM15.75 14.25a3.75 3.75 0 1 1-7.313-1.172c.628.465 1.35.81 2.133 1a5.99 5.99 0 0 1 1.925-3.546 3.75 3.75 0 0 1 3.255 3.718Z" clip-rule="evenodd" />
+                          </svg>
+                          
+                        
+                        <p class="text-blue-400 text-lg font-bold ">34</p>
+                    </div>
+                    
+                </div>
+
+
+
+            </div>
+            <button class="mt-4 w-full py-2 bg-blue-600 text-white rounded hover:bg-blue-700">See your profile</button>
+
+        </div>
+
+
+
+
+
+
+        <div class="bg-white p-6  rounded-xl border-2 border-gray-200">
+
+            <div
+  class="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 gap-2.5 pb-2.5"
+>
+  <div
+    class="flex justify-between items-center self-stretch w-full relative overflow-hidden">
+    <p class="flex-grow-0 flex-shrink-0 text-md text-left text-black">Discover players</p>
+    <p class="flex-grow-0 flex-shrink-0 text-md font-medium text-left text-[#0d83d7]"></p>
+  </div>
+  <div class="flex flex-col justify-start w-full items-center  overflow-hidden gap-2.5">
+    <div
+      class="flex hover:bg-gray-100 cursor-pointer justify-start items-center  w-full relative overflow-hidden gap-0.5 p-[7px] rounded-[10px] bg-white"
+    >
+    <img src="https://openpsychometrics.org/tests/characters/test-resources/pics/H/4.jpg" class="h-12 w-12 rounded-full" alt="User">
+    <div class="flex flex-col w-full ml-2">
+        <p class="text-sm text-black">
+            Eric Foreman
+          </p>
+          
+          <p class="text-xs font-semibold text-left text-[#713599]">
+            Prodigy XII
+          </p>
+          <p
+            class=" text-xs font-medium text-left text-black/40"
+          >
+            Life Level 153
+          </p>
+          
+
+    </div>
+
+        <p class="flex-grow-0 flex-shrink-0 text-sm text-blue-600 font-medium text-left ">Follow</p>
+
+      
+    </div>
+ 
+    <div
+      class="flex hover:bg-gray-100 cursor-pointer justify-start items-center  w-full relative overflow-hidden gap-0.5 p-[7px] rounded-[10px] bg-white"
+    >
+    <img src="https://openpsychometrics.org/tests/characters/test-resources/pics/H/4.jpg" class="h-12 w-12 rounded-full" alt="User">
+    <div class="flex flex-col w-full ml-2">
+        <p class="text-sm text-black">
+            Eric Foreman
+          </p>
+          
+          <p class="text-xs font-semibold text-left text-[#713599]">
+            Prodigy XII
+          </p>
+          <p
+            class=" text-xs font-medium text-left text-black/40"
+          >
+            Life Level 153
+          </p>
+          
+
+    </div>
+
+        <p class="flex-grow-0 flex-shrink-0 text-sm text-blue-600 font-medium text-left ">Follow</p>
+
+      
+    </div>
+    <div
+      class="flex hover:bg-gray-100 cursor-pointer justify-start items-center  w-full relative overflow-hidden gap-0.5 p-[7px] rounded-[10px] bg-white"
+    >
+    <img src="https://openpsychometrics.org/tests/characters/test-resources/pics/H/4.jpg" class="h-12 w-12 rounded-full" alt="User">
+    <div class="flex flex-col w-full ml-2">
+        <p class="text-sm text-black">
+            Eric Foreman
+          </p>
+          
+          <p class="text-xs font-semibold text-left text-[#713599]">
+            Prodigy XII
+          </p>
+          <p
+            class=" text-xs font-medium text-left text-black/40"
+          >
+            Life Level 153
+          </p>
+          
+
+    </div>
+
+        <p class="flex-grow-0 flex-shrink-0 text-sm text-blue-600 font-medium text-left ">Follow</p>
+
+      
+    </div>
+    <div
+      class="flex hover:bg-gray-100 cursor-pointer justify-start items-center  w-full relative overflow-hidden gap-0.5 p-[7px] rounded-[10px] bg-white"
+    >
+    <img src="https://openpsychometrics.org/tests/characters/test-resources/pics/H/4.jpg" class="h-12 w-12 rounded-full" alt="User">
+    <div class="flex flex-col w-full ml-2">
+        <p class="text-sm text-black">
+            Eric Foreman
+          </p>
+          
+          <p class="text-xs font-semibold text-left text-[#713599]">
+            Prodigy XII
+          </p>
+          <p
+            class=" text-xs font-medium text-left text-black/40"
+          >
+            Life Level 153
+          </p>
+          
+
+    </div>
+
+        <p class="flex-grow-0 flex-shrink-0 text-sm text-blue-600 font-medium text-left ">Follow</p>
+
+      
+    </div>
+
+  </div>
+</div>
+            
+        </div>
+        
+    </aside>
+</main>
+
+{% endblock %}
