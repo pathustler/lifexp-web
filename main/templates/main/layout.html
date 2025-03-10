@@ -6,7 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
     <title>{% block title %}Home{% endblock %}</title>
-
+    <style>
+        .scrollbar-hide::-webkit-scrollbar {
+      display: none;
+    }
+    
+    /* Hide scrollbar for Firefox */
+    .scrollbar-hide {
+      scrollbar-width: none;
+    }
+    </style>
 </head>
 <body class="bg-gray-100">
     <div class="flex h-screen">
