@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-6)f*to0rwqdq4u4y+o&xa*p#m+1_!9re!47x8hli#bx(q!+@*a
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['lifexp-web.onrender.com']
 
 
 # Application definition
