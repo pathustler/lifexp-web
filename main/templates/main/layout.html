@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <title>{% block title %}Home{% endblock %}</title>
     <style>
         .scrollbar-hide::-webkit-scrollbar {
@@ -20,7 +22,7 @@
 <body class="bg-gray-100">
     <div class="flex h-screen">
         <!-- Sidebar -->
-        <aside style="width: 500px;" class="w-64 bg-white p-6 border-r">
+        <aside style="width: 350px;"  class="w-64 bg-white p-6  border-r">
             <div class="flex w-full items-center mb-6">
                 <img class="h-16 w-16" src="{% static 'images/logolight.png' %}" alt="Profile">
                 <h1 class="text-xl font-bold ">LifeXP</h1>
