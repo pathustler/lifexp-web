@@ -76,11 +76,17 @@ WSGI_APPLICATION = 'LifeXP.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+     'default': {
+         'ENGINE': 'django.db.backends.sqlite3',
+         'NAME': BASE_DIR / 'db.sqlite3',
+         'ENGINE': 'django.db.backends.postgresql',
+         'NAME': 'postgres',
+         'USER': 'postgres',
+         'PASSWORD': 'pattyWantsThisDone20',
+         'HOST': 'db.ratfdpmrikyadkddhaei.supabase.co',  # e.g., db.xxx.supabase.co
+         'PORT': '5432',  # Usually 5432
+     }
+ }
 
 
 # Password validation
