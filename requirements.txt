@@ -7,3 +7,6 @@ packaging==24.2
 sqlparse==0.5.3
 uvicorn==0.34.0
 whitenoise==6.9.0
+psycopg==3.2.5
+psycopg2==2.9.10
+roman==5.0
