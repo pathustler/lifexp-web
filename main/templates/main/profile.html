@@ -12,9 +12,9 @@
 
     
     <!-- Main Content -->
-    <div style="width: 90%;" class="flex-1 p-6 ">
+    <div style="width: 90%;" class="flex-1 py-6  lg:px-36 md:px-12 sm:px-12 px-6">
         <div class="bg-white rounded-xl border-2 border-gray-200 flex justify-between w-full">
-        <div class=" p-6 mb-4 flex flex-col gap-2   ">
+        <div class=" p-6 mb-4 flex flex-col gap-2 w-full  ">
             
             <div class="flex gap-8 mb-4">
 
@@ -27,10 +27,7 @@
 
             
             <div class="mt-4 flex gap-8 text-sm">
-                <div class="text-left">
-                    <p class="font-semibold">{{player.lifelevel}}</p>
-                    <p class="text-gray-500">Life Level</p>
-                </div>
+               
                 <div class="text-left">
                     <p class="font-semibold">12</p>
                     <p class="text-gray-500">Posts</p>
@@ -52,10 +49,10 @@
            {{player.title}}
         </p>
         
-            <p class="text-gray-500">
-                {{player.bio}}
-            </p>
-            
+        <p class="text-gray-500">
+            {{ player.bio|linebreaksbr }}
+        </p>
+        
         </div>
         <div class="w-1/2 p-4 flex flex-col items-end justify-end gap-4 p-6">
             <div   class="w-72 h-72">
@@ -67,9 +64,22 @@
     </div>
         <div class="mt-4 flex justify-between text-sm gap-4">
             <div class="bg-white border-2 border-gray-200 w-full flex flex-col rounded-md items-center justify-between p-4">
-                
                 <span class="flex items-center justify-center gap-1">
-                    <p style="color: {{player.primary_accent_color}};"  class=" text-lg font-bold ">232230
+                    <p class="text-blue-400 text-lg font-bold ">Life Level {{player.lifelevel}}</p>
+                </span>
+                <span class="flex items-center justify-center gap-1">
+                    <p style="color: {{player.primary_accent_color}};"  class=" text-lg font-bold ">
+                        {% if player.masterytitle == "Prodigy" %}
+                        {{player.categoryxp.skill}}
+                        {% elif player.masterytitle == "Maverick" %}
+                        {{player.categoryxp.creativity}}
+                        {% elif player.masterytitle == "Diplomat" %}
+                        {{player.categoryxp.social}}
+                        {% elif player.masterytitle == "Protagonist" %}
+                        {{player.categoryxp.energy}}
+                        {% elif player.masterytitle == "Warrior" %}
+                        {{player.categoryxp.physique}}
+                        {%endif%}
                         
                     </p>
                     <svg width="11" height="10" viewBox="0 0 11 10" fill="none" xmlns="http://www.w3.org/2000/svg" class="flex-grow-0 flex-shrink-0 w-4 h-4 relative" preserveAspectRatio="xMidYMid meet">

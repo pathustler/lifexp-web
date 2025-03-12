@@ -75,16 +75,11 @@ WSGI_APPLICATION = 'LifeXP.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
+import dj_database_url
+
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': 'pattyWantsThisDone20',
-        'HOST': 'db.ratfdpmrikyadkddhaei.supabase.co',  # e.g., db.xxx.supabase.co
-        'PORT': '5432',  # Usually 5432
-    }
+    'default': dj_database_url.config(default="postgresql://postgres:pattyWantsThisDone20@db.ratfdpmrikyadkddhaei.supabase.co:5432/postgres")
 }
 
 
