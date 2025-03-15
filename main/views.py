@@ -27,8 +27,25 @@ def profile(request, username):
     
     
     
+    xp_data = [
+        {"day": "Monday", "xp": 200},
+        {"day": "Tuesday", "xp": 20},
+        {"day": "Wednesday", "xp": 90},
+        {"day": "Thursday", "xp": 130},
+        {"day": "Friday", "xp": 5},
+        {"day": "Saturday", "xp": 2},
+    ]
+    
+    total_xp_week = sum(item["xp"] for item in xp_data)
+    total_xp_all_time = 2312320  # Replace with actual database value
+    
+    
+    
     return render(request, 'main/profile.html', {
         'player': player,
         'username': username,
         'title': title,
+         "xp_data": xp_data,
+        "total_xp_week": total_xp_week,
+        "total_xp_all_time": total_xp_all_time
         })

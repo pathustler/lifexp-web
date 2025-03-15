@@ -52,6 +52,17 @@
         <p class="text-gray-500">
             {{ player.bio|linebreaksbr }}
         </p>
+
+        <span class="flex gap-4 items-center">
+            <button class="bg-blue-500 text-white px-8 py-2 rounded-md mt-4">Follow</button>
+            <button class="bg-black text-white px-8 py-2 rounded-md mt-4">Unfollow</button>
+            <button class="bg-black text-white px-8 py-2 rounded-md mt-4">Edit Profile</button>
+            <button class="py-2 rounded-md mt-4"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
+              </svg>
+              </button>
+
+        </span>
         
         </div>
         <div class="w-1/2 p-4 flex flex-col items-end justify-end gap-4 p-6">
@@ -62,11 +73,22 @@
         </div>
         
     </div>
-        <div class="mt-4 flex justify-between text-sm gap-4">
-            <div class="bg-white border-2 border-gray-200 w-full flex flex-col rounded-md items-center justify-between p-4">
+        <div class="my-4 flex justify-between text-sm gap-4">
+            
+
+            <div class="bg-white border-2 rounded-xl border-gray-200 w-full flex flex-col rounded-md items-center justify-between p-4">
+                
                 <span class="flex items-center justify-center gap-1">
-                    <p class="text-blue-400 text-lg font-bold ">Life Level {{player.lifelevel}}</p>
+                    <p class="text-gray-600 text-lg font-bold ">Life Level {{player.lifelevel}}</p>
                 </span>
+                <span class="flex items-center justify-center gap-1">
+                    <p style="font-size: 11px;" class=" text-gray-500">Member since 13 Jan 2027</p> 
+                    
+                </span>
+               
+            </div>
+            <div class="bg-white border-2 rounded-xl border-gray-200 w-full flex flex-col rounded-md items-center justify-between p-4">
+                
                 <span class="flex items-center justify-center gap-1">
                     <p style="color: {{player.primary_accent_color}};"  class=" text-lg font-bold ">
                         {% if player.masterytitle == "Prodigy" %}
@@ -113,7 +135,7 @@
                
             </div>
 
-            <div class="bg-white border-2 border-gray-200 w-full flex flex-col rounded-md items-center justify-between p-4">
+            <div class="bg-white border-2 rounded-xl border-gray-200 w-full flex flex-col rounded-md items-center justify-between p-4">
                 <p class="text-sm ">Streak Count</p>
                 <div class="flex gap-2 items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#60a6fa" class="size-6">
@@ -129,6 +151,147 @@
 
 
         </div>
+        <div class="p-6 my-4 bg-white border-2 border-gray-200 rounded-2xl w-full">
+            <!-- Header -->
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-semibold">{{ total_xp_week }} XP this week</h2>
+                <span class="text-gray-500 text-sm">{{ total_xp_all_time }} XP all time</span>
+            </div>
+    
+            <!-- Chart -->
+            <div class="relative h-64">
+                <canvas id="xpChart"></canvas>
+            </div>
+    
+            <!-- Filters -->
+            <div class="flex justify-between mt-4">
+                <button class="flex items-center text-gray-700">
+                    <span>All</span>
+                    <svg class="w-4 h-4 ml-1" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                    </svg>
+                </button>
+                <button class="flex items-center text-gray-700">
+                    <span>All time</span>
+                    <svg class="w-4 h-4 ml-1" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div class="flex gap-4">
+            <div class="p-6 my-4 bg-white border-2 border-gray-200 rounded-2xl w-full">
+
+                <!-- Header -->
+                <div class="flex justify-between items-center mb-8">
+                    <h2 class="text-lg font-bold">Top Experiences</h2>
+                    <span class="text-gray-500 text-sm">3 Hours</span>
+                </div>
+        
+                <!-- Experience List -->
+                <div class="space-y-4 mb-6">
+                   
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-4">
+                                <span class="text-gray-400 font-semibold w-5">1</span>
+                                <div class="flex items-center space-x-4">
+                                    <span class="bg-purple-300 p-2 rounded-full">
+                                        <svg class="h-3 w-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+                                            <path fill="#713599" d="M413.5 237.5c-28.2 4.8-58.2-3.6-80-25.4l-38.1-38.1C280.4 159 272 138.8 272 117.6l0-12.1L192.3 62c-5.3-2.9-8.6-8.6-8.3-14.7s3.9-11.5 9.5-14l47.2-21C259.1 4.2 279 0 299.2 0l18.1 0c36.7 0 72 14 98.7 39.1l44.6 42c24.2 22.8 33.2 55.7 26.6 86L503 183l8-8c9.4-9.4 24.6-9.4 33.9 0l24 24c9.4 9.4 9.4 24.6 0 33.9l-88 88c-9.4 9.4-24.6 9.4-33.9 0l-24-24c-9.4-9.4-9.4-24.6 0-33.9l8-8-17.5-17.5zM27.4 377.1L260.9 182.6c3.5 4.9 7.5 9.6 11.8 14l38.1 38.1c6 6 12.4 11.2 19.2 15.7L134.9 484.6c-14.5 17.4-36 27.4-58.6 27.4C34.1 512 0 477.8 0 435.7c0-22.6 10.1-44.1 27.4-58.6z"/>
+                                        </svg>
+                                    </span>
+                                    <span class="font-medium">Programming</span>
+                                </div>
+                            </div>
+                            <span class="font-semibold text-md">12 XP</span>
+                        </div>
+
+                </div>
+                <div class="space-y-4 mb-6">
+                   
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-4">
+                            <span class="text-gray-400 font-semibold w-5">2</span>
+                            <div class="flex items-center space-x-4">
+                                <span class="bg-purple-300 p-2 rounded-full">
+                                    <svg class="h-3 w-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+                                        <path fill="#713599" d="M413.5 237.5c-28.2 4.8-58.2-3.6-80-25.4l-38.1-38.1C280.4 159 272 138.8 272 117.6l0-12.1L192.3 62c-5.3-2.9-8.6-8.6-8.3-14.7s3.9-11.5 9.5-14l47.2-21C259.1 4.2 279 0 299.2 0l18.1 0c36.7 0 72 14 98.7 39.1l44.6 42c24.2 22.8 33.2 55.7 26.6 86L503 183l8-8c9.4-9.4 24.6-9.4 33.9 0l24 24c9.4 9.4 9.4 24.6 0 33.9l-88 88c-9.4 9.4-24.6 9.4-33.9 0l-24-24c-9.4-9.4-9.4-24.6 0-33.9l8-8-17.5-17.5zM27.4 377.1L260.9 182.6c3.5 4.9 7.5 9.6 11.8 14l38.1 38.1c6 6 12.4 11.2 19.2 15.7L134.9 484.6c-14.5 17.4-36 27.4-58.6 27.4C34.1 512 0 477.8 0 435.7c0-22.6 10.1-44.1 27.4-58.6z"/>
+                                    </svg>
+                                </span>
+                                <span class="font-medium">Programming</span>
+                            </div>
+                        </div>
+                        <span class="font-semibold text-md">12 XP</span>
+                    </div>
+
+            </div>
+            <div class="space-y-4 mb-6">
+                   
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                        <span class="text-gray-400 font-semibold w-5">3</span>
+                        <div class="flex items-center space-x-4">
+                            <span class="bg-purple-300 p-2 rounded-full">
+                                <svg class="h-3 w-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+                                    <path fill="#713599" d="M413.5 237.5c-28.2 4.8-58.2-3.6-80-25.4l-38.1-38.1C280.4 159 272 138.8 272 117.6l0-12.1L192.3 62c-5.3-2.9-8.6-8.6-8.3-14.7s3.9-11.5 9.5-14l47.2-21C259.1 4.2 279 0 299.2 0l18.1 0c36.7 0 72 14 98.7 39.1l44.6 42c24.2 22.8 33.2 55.7 26.6 86L503 183l8-8c9.4-9.4 24.6-9.4 33.9 0l24 24c9.4 9.4 9.4 24.6 0 33.9l-88 88c-9.4 9.4-24.6 9.4-33.9 0l-24-24c-9.4-9.4-9.4-24.6 0-33.9l8-8-17.5-17.5zM27.4 377.1L260.9 182.6c3.5 4.9 7.5 9.6 11.8 14l38.1 38.1c6 6 12.4 11.2 19.2 15.7L134.9 484.6c-14.5 17.4-36 27.4-58.6 27.4C34.1 512 0 477.8 0 435.7c0-22.6 10.1-44.1 27.4-58.6z"/>
+                                </svg>
+                            </span>
+                            <span class="font-medium">Programming</span>
+                        </div>
+                    </div>
+                    <span class="font-semibold text-md">12 XP</span>
+                </div>
+
+        </div>
+
+                
+            </div>
+            <div class="flex flex-col my-4 h-min bg-white border-2 border-gray-200 rounded-2xl w-full">
+                <div class=" p-4 space-y-4 cursor-pointer hover:bg-gray-100">
+                   
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-4">
+                            <span class="text-black ">Life Analytics</span>
+                            
+                        </div>
+                        <span >
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                              </svg>
+                              
+                        </span>
+                    </div>
+
+                </div>
+                <div class=" p-4 space-y-4 cursor-pointer hover:bg-gray-100">
+                   
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-4">
+                            <span class="text-black ">History</span>
+                            
+                        </div>
+                        <span >
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                              </svg>
+                              
+                        </span>
+                    </div>
+
+            </div>
+            </div>
+
+        </div>
+
+        <div class="grid grid-cols-3  my-4  border-2 border-gray-200 rounded-sm w-full">
+            <img class="border-2 border-gray-200  w-full h-56 " src="https://polytan.com.au/wp-content/uploads/2023/09/IYU-Recreation-Reserve-Pakenham-feature.jpg">
+            <img class="border-2 object-cover w-full h-56 border-gray-200" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc1LFYfjrirzbZ59WH8F7pWPwK7M1TGHyKgg&s">
+            <img class="border-2 border-gray-200  w-full h-56 " src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrjfMBvDtYlmmgJ1Kt9EotWIMQB9xtY99h0Q&s">
+            <img class="border-2 border-gray-200  w-full h-56 " src="https://i1.rgstatic.net/publication/345084524_The_Usage_of_Vlog_in_Combat_Coronavirus_News_Reporting-A_Case_Study_of_Wuhan_My_Dairy_of_Combating_Coronavirus/links/5f9fb12292851c14bcfc55cb/largepreview.png">
+            <img class="border-2 border-gray-200  w-full h-56 " src="https://d10j3mvrs1suex.cloudfront.net/u/397079/d6625d10a5f235b1dc8cd1d21efc3d61f1c38e54/original/plovdivsko-2.jpeg/!!/b%3AWyJyZXNpemU6NzAweDI0NCJd.jpg">
+
+        </div>
+        
     </div>
 </main>
 
@@ -170,5 +333,34 @@
     });
   </script>
   
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const ctx = document.getElementById("xpChart").getContext("2d");
+        const xpData = {{ xp_data|safe }};
+        
+        new Chart(ctx, {
+            type: "line",
+            data: {
+                labels: xpData.map(item => item.day),
+                datasets: [{
+                    label: "XP Gained",
+                    data: xpData.map(item => item.xp),
+                    borderColor: "#3B82F6",
+                    backgroundColor: "rgba(59, 130, 246, 0.2)",
+                    borderWidth: 2,
+                    tension: 0.3,
+                    pointRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+    });
+</script>
 
 {% endblock %}
