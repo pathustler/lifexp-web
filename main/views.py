@@ -6,10 +6,14 @@ import roman
 
 # Create your views here.
 def index(request):
-    return render(request, 'main/index.html')
+    currentpage= "index"
+    return render(request, 'main/index.html',{
+        "currentpage": currentpage
+    })
 
 
 def profile(request, username):
+    currentpage= "profile"
     player = Player.objects.get(username=username)
     
     rom = roman.toRoman(player.masterlevel)
@@ -47,5 +51,6 @@ def profile(request, username):
         'title': title,
          "xp_data": xp_data,
         "total_xp_week": total_xp_week,
-        "total_xp_all_time": total_xp_all_time
+        "total_xp_all_time": total_xp_all_time,
+        "currentpage": currentpage
         })
