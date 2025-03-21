@@ -5,3 +5,5 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('<str:username>/', views.profile, name='profile'),
 ]
+
+

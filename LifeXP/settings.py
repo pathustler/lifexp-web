@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-6)f*to0rwqdq4u4y+o&xa*p#m+1_!9re!47x8hli#bx(q!+@*a
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['lifexp-web.onrender.com', '127.0.0.1']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -38,12 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'main',
-    'users',
+    'users'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -75,11 +74,19 @@ WSGI_APPLICATION = 'LifeXP.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-import dj_database_url
-
 
 DATABASES = {
-    'default': dj_database_url.config(default="postgresql://postgres:pattyWantsThisDone20@db.ratfdpmrikyadkddhaei.supabase.co:5432/postgres")
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres.ratfdpmrikyadkddhaei',
+        'PASSWORD': 'pattyWantsThisDone20',
+        'HOST': 'aws-0-ap-south-1.pooler.supabase.com',  # e.g., db.xxx.supabase.co
+        'PORT': '5432',  # Usually 5432
+        'OPTIONS': {
+            'sslmode': 'require'
+        }
+    }
 }
 
 
@@ -119,7 +126,6 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
-
 import os
 
 STATIC_URL = '/static/'
