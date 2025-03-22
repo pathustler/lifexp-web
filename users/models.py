@@ -4,6 +4,16 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from LifeXP import settings
 from cloudinary.models import CloudinaryField
 import datetime
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
+cloudinary.config( 
+  cloud_name = settings.CLOUDINARY_STORAGE['CLOUD_NAME'], 
+  api_key = settings.CLOUDINARY_STORAGE['API_KEY'], 
+  api_secret = settings.CLOUDINARY_STORAGE['API_SECRET'],
+  secure = True
+)
 
 class PlayerManager(BaseUserManager):
     def create_user(self, username, email, password=None):
@@ -99,8 +109,6 @@ class Player(AbstractBaseUser):
         }
         self.primary_accent_color = "#" + primseckey[self.masterytitle][0]
         self.secondary_accent_color = "#" + primseckey[self.masterytitle][1]
-        
-        
         self.totalxp = sum(self.categoryxp.values())
         self.masterlevel = max(self.categorylevels.values())
         super().save(*args, **kwargs)
@@ -114,9 +122,9 @@ class Post(models.Model):
     )
     title = models.CharField(max_length=255)
     content = models.TextField()
-    image = CloudinaryField('image', blank=True, null=True)  # Cloudinary for better media management
+    post_image = CloudinaryField('image', blank=True, null=True)  # We'll handle public_id dynamically
     created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         constraints = [
@@ -127,3 +135,16 @@ class Post(models.Model):
 
     def __str__(self):
         return f'{self.title} by {self.user.username}'
+
+    def save(self, *args, **kwargs):
+        # Only re-upload if a new image is added
+        if self.pk is None and self.post_image:
+            # Dynamically generate public_id based on user and post
+            upload_result = cloudinary.uploader.upload(
+                self.post_image,
+                public_id=f"posts/user_{self.user.id}/{self.title}_{timezone.now().strftime('%Y%m%d%H%M%S')}",
+                overwrite=True,
+                resource_type="image"
+            )
+            self.post_image = upload_result['public_id']
+        super().save(*args, **kwargs)

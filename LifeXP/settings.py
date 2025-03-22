@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
-
+from dotenv import load_dotenv, dotenv_values 
 
 
 
@@ -43,8 +43,26 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'main',
-    'users'
+    'users',
+    'cloudinary',
+    'cloudinary_storage',
 ]
+
+load_dotenv()
+# key = os.getenv("MY_KEY")
+# print(key)
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'dfohn9dcz',
+    'API_KEY': os.getenv('MY_KEY'),
+    'API_SECRET': os.getenv('MY_SECRET'),
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+MEDIA_URL = '/media/'
+print("Cloudinary API Secret:", CLOUDINARY_STORAGE['API_SECRET'])
+print("Cloudinary API Key:", CLOUDINARY_STORAGE['API_KEY'])
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

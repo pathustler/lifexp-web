@@ -339,6 +339,7 @@
   </script>
   
   <script>
+    console.log("{{player.profile_picture.url}}");
     document.addEventListener("DOMContentLoaded", function () {
         const ctx = document.getElementById("xpChart").getContext("2d");
         const xpData = {{ xp_data|safe }};
