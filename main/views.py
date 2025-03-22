@@ -94,3 +94,10 @@ def leaderboard(request, type):
         "secondaryaccent": primseckey[type][1],
         "label": label
     })
+    
+    
+def settings(request):
+    currentpage= "settings"
+    return render(request, 'main/settings.html',{
+        "currentpage": currentpage
+    })
