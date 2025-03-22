@@ -54,3 +54,10 @@ def profile(request, username):
         "total_xp_all_time": total_xp_all_time,
         "currentpage": currentpage
         })
+
+
+def search(request):
+    currentpage= "search"
+    return render(request, 'main/search.html',{
+        "currentpage": currentpage
+    })

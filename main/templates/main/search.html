@@ -1,0 +1,115 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+
+
+{% block title %}
+    Profile - {{username}}
+{% endblock %}
+
+{% block content %}
+
+<main style="width: 100%;" class="flex overflow-y-auto w-full" style="height: 100vh;">
+
+    <div class="p-6 w-96 border-r border-gray-200 bg-white rounded-md ">
+        <h2 class="font-semibold text-xl">Search</h2>
+        <div class="flex flex-col justify-center items-center flex-grow h-9 gap-2.5 my-8">
+            <div class="flex justify-center items-center h-9 relative p-2 rounded-[36px] w-full bg-gray-200">
+                <div class="w-7 h-7 relative flex items-center justify-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="#888888" class="h-4 w-4">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                  </svg>
+                </div>
+                <input
+                  type="text"
+                  placeholder="Search"
+                  class="flex-grow text-md text-left text-gray-600 bg-transparent outline-none px-2"
+                />
+              </div>
+        </div>
+        <div class="border-t border-gray-200 flex-grow pt-4">
+            <div class="flex flex-col gap-4">
+                <div class="flex justify-between items-center">
+                    <h2 class=" text-sm text-gray-600">Recent</h2>
+                </div>
+
+                <div class="flex justify-between items-center">
+                    <div class="flex gap-4 items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="#888888" class="h-4 w-4">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                          </svg>
+                          
+                        <h2 class=" text-md">Jacey</h2>
+
+                    </div>
+                    <!-- When you click on the svg, i need the parent element to be destoryed -->
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="#888888" class="h-4 w-4 cursor-pointer" onclick="this.parentElement.remove()">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                      </svg>
+                </div>  
+
+                <div class="flex justify-between items-center">
+                    <div class="flex gap-4 items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="#888888" class="h-4 w-4">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                          </svg>
+                          
+                        <h2 class=" text-md">Dannie</h2>
+
+                    </div>
+                    <!-- When you click on the svg, i need the parent element to be destoryed -->
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="#888888" class="h-4 w-4 cursor-pointer" onclick="this.parentElement.remove()">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                      </svg>
+                </div>  
+    
+
+                <div class="flex justify-between items-center">
+                    <div class="flex gap-4 items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="#888888" class="h-4 w-4">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                          </svg>
+                          
+                        <h2 class=" text-md">Patty</h2>
+
+                    </div>
+                    <!-- When you click on the svg, i need the parent element to be destoryed -->
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="#888888" class="h-4 w-4 cursor-pointer" onclick="this.parentElement.remove()">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                      </svg>
+                </div>  
+    
+    
+        </div>
+    </div>
+    </div>
+
+    <div class="overflow-y-auto w-full">
+        <div class="grid grid-cols-3   rounded-sm w-full">
+            <img class="border-2 border-gray-200  w-full h-56 " src="https://polytan.com.au/wp-content/uploads/2023/09/IYU-Recreation-Reserve-Pakenham-feature.jpg">
+            <img class="border-2 object-cover w-full h-56 border-gray-200" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc1LFYfjrirzbZ59WH8F7pWPwK7M1TGHyKgg&s">
+            <img class="border-2 border-gray-200  w-full h-56 " src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrjfMBvDtYlmmgJ1Kt9EotWIMQB9xtY99h0Q&s">
+            <img class="border-2 border-gray-200  w-full h-56 " src="https://i1.rgstatic.net/publication/345084524_The_Usage_of_Vlog_in_Combat_Coronavirus_News_Reporting-A_Case_Study_of_Wuhan_My_Dairy_of_Combating_Coronavirus/links/5f9fb12292851c14bcfc55cb/largepreview.png">
+            <img class="border-2 border-gray-200  w-full h-56 " src="https://d10j3mvrs1suex.cloudfront.net/u/397079/d6625d10a5f235b1dc8cd1d21efc3d61f1c38e54/original/plovdivsko-2.jpeg/!!/b%3AWyJyZXNpemU6NzAweDI0NCJd.jpg">
+            <img class="border-2 border-gray-200  w-full h-56 " src="https://polytan.com.au/wp-content/uploads/2023/09/IYU-Recreation-Reserve-Pakenham-feature.jpg">
+            <img class="border-2 object-cover w-full h-56 border-gray-200" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc1LFYfjrirzbZ59WH8F7pWPwK7M1TGHyKgg&s">
+            <img class="border-2 border-gray-200  w-full h-56 " src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrjfMBvDtYlmmgJ1Kt9EotWIMQB9xtY99h0Q&s">
+            <img class="border-2 border-gray-200  w-full h-56 " src="https://i1.rgstatic.net/publication/345084524_The_Usage_of_Vlog_in_Combat_Coronavirus_News_Reporting-A_Case_Study_of_Wuhan_My_Dairy_of_Combating_Coronavirus/links/5f9fb12292851c14bcfc55cb/largepreview.png">
+            <img class="border-2 border-gray-200  w-full h-56 " src="https://d10j3mvrs1suex.cloudfront.net/u/397079/d6625d10a5f235b1dc8cd1d21efc3d61f1c38e54/original/plovdivsko-2.jpeg/!!/b%3AWyJyZXNpemU6NzAweDI0NCJd.jpg">
+            <img class="border-2 border-gray-200  w-full h-56 " src="https://polytan.com.au/wp-content/uploads/2023/09/IYU-Recreation-Reserve-Pakenham-feature.jpg">
+            <img class="border-2 object-cover w-full h-56 border-gray-200" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc1LFYfjrirzbZ59WH8F7pWPwK7M1TGHyKgg&s">
+            <img class="border-2 border-gray-200  w-full h-56 " src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrjfMBvDtYlmmgJ1Kt9EotWIMQB9xtY99h0Q&s">
+            <img class="border-2 border-gray-200  w-full h-56 " src="https://i1.rgstatic.net/publication/345084524_The_Usage_of_Vlog_in_Combat_Coronavirus_News_Reporting-A_Case_Study_of_Wuhan_My_Dairy_of_Combating_Coronavirus/links/5f9fb12292851c14bcfc55cb/largepreview.png">
+            <img class="border-2 border-gray-200  w-full h-56 " src="https://d10j3mvrs1suex.cloudfront.net/u/397079/d6625d10a5f235b1dc8cd1d21efc3d61f1c38e54/original/plovdivsko-2.jpeg/!!/b%3AWyJyZXNpemU6NzAweDI0NCJd.jpg">
+            <img class="border-2 border-gray-200  w-full h-56 " src="https://polytan.com.au/wp-content/uploads/2023/09/IYU-Recreation-Reserve-Pakenham-feature.jpg">
+            <img class="border-2 object-cover w-full h-56 border-gray-200" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc1LFYfjrirzbZ59WH8F7pWPwK7M1TGHyKgg&s">
+            <img class="border-2 border-gray-200  w-full h-56 " src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrjfMBvDtYlmmgJ1Kt9EotWIMQB9xtY99h0Q&s">
+            <img class="border-2 border-gray-200  w-full h-56 " src="https://i1.rgstatic.net/publication/345084524_The_Usage_of_Vlog_in_Combat_Coronavirus_News_Reporting-A_Case_Study_of_Wuhan_My_Dairy_of_Combating_Coronavirus/links/5f9fb12292851c14bcfc55cb/largepreview.png">
+            <img class="border-2 border-gray-200  w-full h-56 " src="https://d10j3mvrs1suex.cloudfront.net/u/397079/d6625d10a5f235b1dc8cd1d21efc3d61f1c38e54/original/plovdivsko-2.jpeg/!!/b%3AWyJyZXNpemU6NzAweDI0NCJd.jpg">
+
+        </div>
+
+    </div>
+    
+</main>
+
+{% endblock %}
