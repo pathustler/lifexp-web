@@ -61,3 +61,9 @@ def search(request):
     return render(request, 'main/search.html',{
         "currentpage": currentpage
     })
+    
+def new_post(request):
+    currentpage= "new_post"
+    return render(request, 'main/new_post.html',{
+        "currentpage": currentpage
+    })

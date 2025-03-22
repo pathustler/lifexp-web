@@ -7,6 +7,25 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script>
+        function tagInput() {
+            return {
+                tags: [],
+                newTag: '',
+                addTag() {
+                    if (this.newTag.trim() !== '' && !this.tags.includes(this.newTag.trim())) {
+                        this.tags.push(this.newTag.trim());
+                    }
+                    this.newTag = ''; // Clear input
+                },
+                removeTag(index) {
+                    this.tags.splice(index, 1);
+                }
+            }
+        }
+    </script>
     
     <script src="https://cdn.tailwindcss.com"></script>
 
@@ -57,7 +76,11 @@
                           </svg>
                           Search</span>
                 </a>
-                <a href="#" class="flex items-center p-2 rounded text-gray-700 hover:bg-gray-200">
+                {% if currentpage == "new_post" %}
+                <a href="/posts/new" class="flex items-center p-2 rounded bg-blue-100 text-blue-600">
+                {% else %}
+                <a href="/posts/new" class="flex items-center p-2 rounded text-gray-700 hover:bg-gray-200">
+                {% endif %}
                     <span class="ml-2 flex gap-3 items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"  class="h-6 w-6">
                             <path fill-rule="evenodd" d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd" />
@@ -103,4 +126,6 @@
     </div>
 
 </body>
+{%block scripts%}
+{%endblock%}
 </html>
