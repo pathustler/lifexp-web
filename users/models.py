@@ -1,5 +1,7 @@
+from datetime import timezone
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from LifeXP import settings
 from cloudinary.models import CloudinaryField
 
 
@@ -17,8 +19,6 @@ class PlayerManager(BaseUserManager):
         return self.create_user(username, email, password)  # No admin access
 
 class Player(AbstractBaseUser):
-    
-    
     def default_xp():
         return {
             "physique": 0,
@@ -52,7 +52,8 @@ class Player(AbstractBaseUser):
     username = models.CharField(max_length=150, unique=True)
     fullname = models.CharField(max_length=150, blank=True, null=True)
     email = models.EmailField(unique=True)
-    profile_picture = models.ImageField(upload_to="profile_pics/", blank=True, null=True)
+    # profile_picture = models.ImageField(upload_to="profile_pics/", blank=True, null=True)
+    profile_picture = CloudinaryField('image', blank=True, null=True) # Use cloudinary for better media management
 
     masterytitle = models.CharField( choices=masterytitle_choices, default="Rookie",max_length=150, blank=True, null=True)
     # Gamified fields
@@ -103,3 +104,26 @@ class Player(AbstractBaseUser):
         self.totalxp = sum(self.categoryxp.values())
         self.masterlevel = max(self.categorylevels.values())
         super().save(*args, **kwargs)
+
+# Post model
+class Post(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, 
+        on_delete=models.CASCADE, 
+        related_name='posts'
+    )
+    title = models.CharField(max_length=255)
+    content = models.TextField()
+    image = CloudinaryField('image', blank=True, null=True)  # Cloudinary for better media management
+    created_at = models.DateTimeField(default=timezone.now)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        constraints = [
+            models.CheckConstraint(check=~models.Q(title=''), name='title_not_empty'),
+            models.CheckConstraint(check=~models.Q(content=''), name='content_not_empty')
+        ]
+        ordering = ['-created_at']  # Latest posts first
+
+    def __str__(self):
+        return f'{self.title} by {self.user.username}'
