@@ -3,7 +3,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from LifeXP import settings
 from cloudinary.models import CloudinaryField
-
+import datetime
 
 class PlayerManager(BaseUserManager):
     def create_user(self, username, email, password=None):
@@ -108,14 +108,14 @@ class Player(AbstractBaseUser):
 # Post model
 class Post(models.Model):
     user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, 
+        Player, 
         on_delete=models.CASCADE, 
         related_name='posts'
     )
     title = models.CharField(max_length=255)
     content = models.TextField()
     image = CloudinaryField('image', blank=True, null=True)  # Cloudinary for better media management
-    created_at = models.DateTimeField(default=timezone.now)
+    created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
