@@ -67,3 +67,30 @@ def new_post(request):
     return render(request, 'main/new_post.html',{
         "currentpage": currentpage
     })
+    
+    
+def leaderboard(request, type):
+    currentpage= "leaderboard"
+    trophyurl = "images/leaderboard/"+type+".png"
+    primseckey = {
+            "warrior":  ["8D2E2E","EAAFAF"],
+            "protagonist":  ["ECCC00","FDF099"],
+            "diplomat":  ["31784E","AFEAC7"],
+            "maverick":  ["4187A2","AFD9EA"],
+            "prodigy":  ["713599","BAAFEA"],
+        }
+    
+    label = type.capitalize()
+    
+    
+    
+    
+    
+    return render(request, 'main/leaderboard.html',{
+        "currentpage": currentpage,
+        "type": type,
+        "trophyurl": trophyurl,
+        "primaryaccent": primseckey[type][0],
+        "secondaryaccent": primseckey[type][1],
+        "label": label
+    })

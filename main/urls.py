@@ -5,7 +5,8 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('user/<str:username>/', views.profile, name='profile'),
     path('search/', views.search, name='search'),
-    path('posts/new', views.new_post, name='new_post')
+    path('posts/new', views.new_post, name='new_post'),
+    path('leaderboard/<str:type>', views.leaderboard, name='leaderboard'),
 ]
 
 

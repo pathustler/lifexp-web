@@ -1,0 +1,353 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+
+
+{% block title %}
+    Leaderboard
+{% endblock %}
+
+{% block content %}
+
+<main style="width: 100%;" class="flex  w-full" style="height: 100vh;">
+    <div style="width: 80%;" class="flex-1 overflow-y-auto py-8 px-12 scrollbar-hide">
+
+
+        <div class="flex justify-between items-center w-full mb-6 relative">
+            <p class="flex-grow-0 flex-shrink-0 text-xs font-bold text-left text-black/30">{{label}} XXII</p>
+            <p class="flex-grow-0 flex-shrink-0 text-xs font-bold text-left text-black/30">3000-5000 XP</p>
+        </div>
+
+        <div class="flex hover:bg-gray-50 cursor-pointer justify-between items-center w-full overflow-hidden px-4 rounded-md">
+            <div class="flex justify-start items-center flex-grow relative overflow-hidden gap-3 py-2.5">
+                <p class=" w-[17px] text-md font-bold text-left text-black/30">1</p>
+                <img class="h-8 w-8 rounded-full" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPTWoRaFjpvrdYcgZQnj1WgD-G274FIBzlR6jTkBwWLu0c8dqWgf9bLHdb5BedBW-ixZ0&usqp=CAU"/>
+                <p class=" text-md font-medium text-left text-black">Eric Firstman</p>
+            </div>
+            <div class="flex flex-col justify-center items-end  relative overflow-hidden gap-2.5 p-2.5">
+                <p class=" text-md font-medium text-left text-black">4869 XP</p>
+            </div>
+        </div>
+        <div class="flex hover:bg-gray-50 cursor-pointer justify-between items-center w-full overflow-hidden px-4 rounded-md">
+            <div class="flex justify-start items-center flex-grow relative overflow-hidden gap-3 py-2.5">
+                <p class=" w-[17px] text-md font-bold text-left text-black/30">2</p>
+                <img class="h-8 w-8 rounded-full" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPTWoRaFjpvrdYcgZQnj1WgD-G274FIBzlR6jTkBwWLu0c8dqWgf9bLHdb5BedBW-ixZ0&usqp=CAU"/>
+                <p class=" text-md font-medium text-left text-black">Eric Firstman</p>
+            </div>
+            <div class="flex flex-col justify-center items-end  relative overflow-hidden gap-2.5 p-2.5">
+                <p class=" text-md font-medium text-left text-black">4758 XP</p>
+            </div>
+        </div>
+        <div class="flex hover:bg-gray-50 cursor-pointer justify-between items-center w-full overflow-hidden px-4 rounded-md">
+            <div class="flex justify-start items-center flex-grow relative overflow-hidden gap-3 py-2.5">
+                <p class=" w-[17px] text-md font-bold text-left text-black/30">3</p>
+                <img class="h-8 w-8 rounded-full" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPTWoRaFjpvrdYcgZQnj1WgD-G274FIBzlR6jTkBwWLu0c8dqWgf9bLHdb5BedBW-ixZ0&usqp=CAU"/>
+                <p class=" text-md font-medium text-left text-black">Eric Firstman</p>
+            </div>
+            <div class="flex flex-col justify-center items-end  relative overflow-hidden gap-2.5 p-2.5">
+                <p class=" text-md font-medium text-left text-black">4599 XP</p>
+            </div>
+        </div>
+        <div class="flex hover:bg-gray-50 cursor-pointer justify-between items-center w-full overflow-hidden px-4 rounded-md">
+            <div class="flex justify-start items-center flex-grow relative overflow-hidden gap-3 py-2.5">
+                <p class=" w-[17px] text-md font-bold text-left text-black/30">4</p>
+                <img class="h-8 w-8 rounded-full" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPTWoRaFjpvrdYcgZQnj1WgD-G274FIBzlR6jTkBwWLu0c8dqWgf9bLHdb5BedBW-ixZ0&usqp=CAU"/>
+                <p class=" text-md font-medium text-left text-black">Eric Firstman</p>
+            </div>
+            <div class="flex flex-col justify-center items-end  relative overflow-hidden gap-2.5 p-2.5">
+                <p class=" text-md font-medium text-left text-black">4340 XP</p>
+            </div>
+        </div>
+        <div class="flex hover:bg-gray-50 cursor-pointer justify-between items-center w-full overflow-hidden px-4 rounded-md">
+            <div class="flex justify-start items-center flex-grow relative overflow-hidden gap-3 py-2.5">
+                <p class=" w-[17px] text-md font-bold text-left text-black/30">5</p>
+                <img class="h-8 w-8 rounded-full" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPTWoRaFjpvrdYcgZQnj1WgD-G274FIBzlR6jTkBwWLu0c8dqWgf9bLHdb5BedBW-ixZ0&usqp=CAU"/>
+                <p class=" text-md font-medium text-left text-black">Eric Firstman</p>
+            </div>
+            <div class="flex flex-col justify-center items-end  relative overflow-hidden gap-2.5 p-2.5">
+                <p class=" text-md font-medium text-left text-black">4234 XP</p>
+            </div>
+        </div>
+
+        <div class="flex justify-center items-center self-stretch flex-grow-0 flex-shrink-0 h-[19px] relative overflow-hidden px-[30px] py-2.5 bg-black/5">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 cursor-pointer">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+              </svg>
+        </div>
+
+        <div class="flex hover:bg-gray-50 cursor-pointer justify-between items-center w-full overflow-hidden px-4 rounded-md">
+            <div class="flex justify-start items-center flex-grow relative overflow-hidden gap-3 py-2.5">
+                <p class=" w-[17px] text-md font-bold text-left text-black/30">54</p>
+                <img class="h-8 w-8 rounded-full" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPTWoRaFjpvrdYcgZQnj1WgD-G274FIBzlR6jTkBwWLu0c8dqWgf9bLHdb5BedBW-ixZ0&usqp=CAU"/>
+                <p class=" text-md font-medium text-left text-black">Eric Firstman</p>
+            </div>
+            <div class="flex flex-col justify-center items-end  relative overflow-hidden gap-2.5 p-2.5">
+                <p class=" text-md font-medium text-left text-black">4234 XP</p>
+            </div>
+        </div>
+        <div class="flex hover:bg-gray-50 cursor-pointer justify-between items-center w-full overflow-hidden px-4 rounded-md">
+            <div class="flex justify-start items-center flex-grow relative overflow-hidden gap-3 py-2.5">
+                <p class=" w-[17px] text-md font-bold text-left text-black/30">55</p>
+                <img class="h-8 w-8 rounded-full" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPTWoRaFjpvrdYcgZQnj1WgD-G274FIBzlR6jTkBwWLu0c8dqWgf9bLHdb5BedBW-ixZ0&usqp=CAU"/>
+                <p class=" text-md font-medium text-left text-black">Eric Firstman</p>
+            </div>
+            <div class="flex flex-col justify-center items-end  relative overflow-hidden gap-2.5 p-2.5">
+                <p class=" text-md font-medium text-left text-black">4234 XP</p>
+            </div>
+        </div>
+        <div class="flex bg-white cursor-pointer justify-between items-center w-full overflow-hidden px-4 rounded-md">
+            <div class="flex justify-start items-center flex-grow relative overflow-hidden gap-3 py-2.5">
+                <p class=" w-[17px] text-md font-bold text-left" style="color: #{{primaryaccent}};">56</p>
+                <img class="h-8 w-8 rounded-full" src="https://lifexp-web.onrender.com/media/profile_pics/Untitled2_20240804201259.jpg"/>
+                <p class=" text-md font-medium text-left text-black">Jason Lee Borgov Karpov</p>
+            </div>
+            <div class="flex flex-col justify-center items-end  relative overflow-hidden gap-2.5 p-2.5">
+                <p class=" text-md font-medium text-left text-black">4234 XP</p>
+            </div>
+        </div>
+        <div class="flex hover:bg-gray-50 cursor-pointer justify-between items-center w-full overflow-hidden px-4 rounded-md">
+            <div class="flex justify-start items-center flex-grow relative overflow-hidden gap-3 py-2.5">
+                <p class=" w-[17px] text-md font-bold text-left text-black/30">57</p>
+                <img class="h-8 w-8 rounded-full" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPTWoRaFjpvrdYcgZQnj1WgD-G274FIBzlR6jTkBwWLu0c8dqWgf9bLHdb5BedBW-ixZ0&usqp=CAU"/>
+                <p class=" text-md font-medium text-left text-black">Eric Firstman</p>
+            </div>
+            <div class="flex flex-col justify-center items-end  relative overflow-hidden gap-2.5 p-2.5">
+                <p class=" text-md font-medium text-left text-black">4234 XP</p>
+            </div>
+        </div>
+        <div class="flex hover:bg-gray-50 cursor-pointer justify-between items-center w-full overflow-hidden px-4 rounded-md">
+            <div class="flex justify-start items-center flex-grow relative overflow-hidden gap-3 py-2.5">
+                <p class=" w-[17px] text-md font-bold text-left text-black/30">58</p>
+                <img class="h-8 w-8 rounded-full" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPTWoRaFjpvrdYcgZQnj1WgD-G274FIBzlR6jTkBwWLu0c8dqWgf9bLHdb5BedBW-ixZ0&usqp=CAU"/>
+                <p class=" text-md font-medium text-left text-black">Eric Firstman</p>
+            </div>
+            <div class="flex flex-col justify-center items-end  relative overflow-hidden gap-2.5 p-2.5">
+                <p class=" text-md font-medium text-left text-black">4234 XP</p>
+            </div>
+        </div>
+
+        <div class="flex justify-center items-center self-stretch flex-grow-0 flex-shrink-0 h-[19px] relative overflow-hidden px-[30px] py-2.5 bg-black/5">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 cursor-pointer">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+              </svg>
+        </div>
+
+        <div class="flex hover:bg-gray-50 cursor-pointer justify-between items-center w-full overflow-hidden px-4 rounded-md">
+            <div class="flex justify-start items-center flex-grow relative overflow-hidden gap-3 py-2.5">
+                <p class=" w-[17px] text-md font-bold text-left text-black/30">86</p>
+                <img class="h-8 w-8 rounded-full" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPTWoRaFjpvrdYcgZQnj1WgD-G274FIBzlR6jTkBwWLu0c8dqWgf9bLHdb5BedBW-ixZ0&usqp=CAU"/>
+                <p class=" text-md font-medium text-left text-black">Eric Firstman</p>
+            </div>
+            <div class="flex flex-col justify-center items-end  relative overflow-hidden gap-2.5 p-2.5">
+                <p class=" text-md font-medium text-left text-black">4234 XP</p>
+            </div>
+        </div>
+
+        <div class="flex hover:bg-gray-50 cursor-pointer justify-between items-center w-full overflow-hidden px-4 rounded-md">
+            <div class="flex justify-start items-center flex-grow relative overflow-hidden gap-3 py-2.5">
+                <p class=" w-[17px] text-md font-bold text-left text-black/30">87</p>
+                <img class="h-8 w-8 rounded-full" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPTWoRaFjpvrdYcgZQnj1WgD-G274FIBzlR6jTkBwWLu0c8dqWgf9bLHdb5BedBW-ixZ0&usqp=CAU"/>
+                <p class=" text-md font-medium text-left text-black">Eric Firstman</p>
+            </div>
+            <div class="flex flex-col justify-center items-end  relative overflow-hidden gap-2.5 p-2.5">
+                <p class=" text-md font-medium text-left text-black">4234 XP</p>
+            </div>
+        </div>
+
+        <div class="flex hover:bg-gray-50 cursor-pointer justify-between items-center w-full overflow-hidden px-4 rounded-md">
+            <div class="flex justify-start items-center flex-grow relative overflow-hidden gap-3 py-2.5">
+                <p class=" w-[17px] text-md font-bold text-left text-black/30">88</p>
+                <img class="h-8 w-8 rounded-full" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPTWoRaFjpvrdYcgZQnj1WgD-G274FIBzlR6jTkBwWLu0c8dqWgf9bLHdb5BedBW-ixZ0&usqp=CAU"/>
+                <p class=" text-md font-medium text-left text-black">Eric Firstman</p>
+            </div>
+            <div class="flex flex-col justify-center items-end  relative overflow-hidden gap-2.5 p-2.5">
+                <p class=" text-md font-medium text-left text-black">4234 XP</p>
+            </div>
+        </div>
+
+        <div class="flex hover:bg-gray-50 cursor-pointer justify-between items-center w-full overflow-hidden px-4 rounded-md">
+            <div class="flex justify-start items-center flex-grow relative overflow-hidden gap-3 py-2.5">
+                <p class=" w-[17px] text-md font-bold text-left text-black/30">89</p>
+                <img class="h-8 w-8 rounded-full" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPTWoRaFjpvrdYcgZQnj1WgD-G274FIBzlR6jTkBwWLu0c8dqWgf9bLHdb5BedBW-ixZ0&usqp=CAU"/>
+                <p class=" text-md font-medium text-left text-black">Eric Firstman</p>
+            </div>
+            <div class="flex flex-col justify-center items-end  relative overflow-hidden gap-2.5 p-2.5">
+                <p class=" text-md font-medium text-left text-black">4234 XP</p>
+            </div>
+        </div>
+
+    </div>
+     <!-- Profile Widget -->
+     <aside style="width: 450px;"  class="w-80 p-6 overflow-y-auto scrollbar-hide">
+
+        <div class="flex justify-between items-center mb-8">
+            <div
+              class="flex justify-start items-center flex-grow-0 flex-shrink-0  relative gap-[15px]"
+            >
+              <img
+              src="{% static trophyurl %}"
+                class=" w-[42px] h-[50px] object-cover"
+              />
+              <p class="text-xl font-medium text-left text-black">
+                {{label}} XXII Leaderboard
+              </p>
+            </div>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 cursor-pointer">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+              </svg>
+              
+          </div>
+
+
+        <div class="bg-white p-6 mb-4 rounded-xl border-2 border-gray-200">
+
+            <div class="text-center flex flex-col items-center">
+                <img class="h-24 w-24 rounded-full" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeYJRKQh2AdhB2knnEBDBikE1ONI8tQY9Hng&s" class="rounded-full mx-auto mb-3" alt="Profile">
+                <h3 class="font-semibold">Patty</h3>
+                <p class="text-sm font-bold text-purple-700">Prodigy XXII</p>
+            </div>
+            <div class="mt-4 flex justify-between text-sm">
+                <div class="text-center">
+                    <p class="font-semibold">43</p>
+                    <p class="text-gray-500">Life Level</p>
+                </div>
+                <div class="text-center">
+                    <p class="font-semibold">12</p>
+                    <p class="text-gray-500">Posts</p>
+                </div>
+                <div class="text-center">
+                    <p class="font-semibold">3</p>
+                    <p class="text-gray-500">Followers</p>
+                </div>
+                <div class="text-center">
+                    <p class="font-semibold">3</p>
+                    <p class="text-gray-500">Following</p>
+                </div>
+            </div>
+            <div class="mt-4 flex justify-between text-sm gap-4">
+                <div class="bg-gray-100 w-full flex flex-col rounded-md items-center justify-between p-4">
+                    
+                    <span class="flex items-center justify-center gap-1">
+                        <p class="text-purple-800 text-lg font-bold ">232230
+                            
+                        </p>
+                        <svg width="11" height="10" viewBox="0 0 11 10" fill="none" xmlns="http://www.w3.org/2000/svg" class="flex-grow-0 flex-shrink-0 w-4 h-4 relative" preserveAspectRatio="xMidYMid meet">
+                                <path
+                                d="M7.87944 4.63867C7.38982 4.73242 6.86894 4.56836 6.49043 4.14258L5.82892 3.39844C5.56848 3.10547 5.42263 2.71094 5.42263 2.29688V2.06055L4.03883 1.21094C3.94681 1.1543 3.88951 1.04297 3.89472 0.923828C3.89993 0.804688 3.96244 0.699219 4.05967 0.650391L4.87918 0.240234C5.19866 0.0820312 5.54417 0 5.8949 0H6.20916C6.84637 0 7.45927 0.273437 7.92285 0.763672L8.69722 1.58398C9.1174 2.0293 9.27366 2.67188 9.15907 3.26367L9.4334 3.57422L9.5723 3.41797C9.73551 3.23438 9.99942 3.23438 10.1609 3.41797L10.5776 3.88672C10.7408 4.07031 10.7408 4.36719 10.5776 4.54883L9.04968 6.26758C8.88648 6.45117 8.62256 6.45117 8.46109 6.26758L8.04439 5.79883C7.88118 5.61523 7.88118 5.31836 8.04439 5.13672L8.18329 4.98047L7.87944 4.63867ZM1.17574 7.36523L5.22991 3.56641C5.29068 3.66211 5.36013 3.75391 5.43479 3.83984L6.0963 4.58398C6.20048 4.70117 6.3116 4.80273 6.42966 4.89062L3.04222 9.46484C2.79046 9.80469 2.41716 10 2.02477 10C1.29207 10 0.700001 9.33203 0.700001 8.50977C0.700001 8.06836 0.875363 7.64844 1.17574 7.36523Z"
+                                fill="#713599"
+                                ></path>
+                            </svg>
+
+                    </span>
+                    <span class="flex items-center justify-center gap-1">
+                        <p style="font-size: 11px;" class=" text-gray-500">Prodigy XXIII at 300000</p> 
+                        
+                    </span>
+                   
+                </div>
+
+                <div class="bg-gray-100 w-full flex flex-col rounded-md items-center justify-between p-4">
+                    <p class="text-sm ">Streak Count</p>
+                    <div class="flex gap-2 items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#ffc05b" class="size-6">
+                            <path fill-rule="evenodd" d="M12.963 2.286a.75.75 0 0 0-1.071-.136 9.742 9.742 0 0 0-3.539 6.176 7.547 7.547 0 0 1-1.705-1.715.75.75 0 0 0-1.152-.082A9 9 0 1 0 15.68 4.534a7.46 7.46 0 0 1-2.717-2.248ZM15.75 14.25a3.75 3.75 0 1 1-7.313-1.172c.628.465 1.35.81 2.133 1a5.99 5.99 0 0 1 1.925-3.546 3.75 3.75 0 0 1 3.255 3.718Z" clip-rule="evenodd" />
+                          </svg>
+                          
+                        
+                        <p class="text-blue-400 text-lg font-bold " style="color: #1f1f1f">34</p>
+                    </div>
+                    
+                </div>
+
+
+
+            </div>
+            
+        </div>
+
+        <div class="w-full flex justify-between items-center px-2">
+            <p class="text-md text-gray-600">Friends</p>
+            <p class="text-sm text-gray-400">28</p>
+        </div>
+
+        <div class="bg-white p-6 mb-4 mt-2 rounded-xl border-2 border-gray-200 flex flex-col">
+            <div class="flex justify-between items-center mb-4">
+                <div
+                  class="flex justify-start items-center flex-grow-0 flex-shrink-0  relative gap-[15px]"
+                >
+                  <img
+                  src="{% static trophyurl %}"
+                    class="h-8 object-cover"
+                  />
+                  <p class="text-xs font-medium text-left text-black">
+                    {{label}} XXIII
+                  </p>
+                </div>
+                  
+              </div>
+
+              <div class="grid grid-cols-4 gap-4">
+                <img class="h-16 w-16 rounded-full cursor-pointer" src="data:image/jpeg;base64,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" class="rounded-full mx-auto mb-3" alt="Profile">
+                <img class="h-16 w-16 rounded-full cursor-pointer" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTulSMeLxbGyCxHhOoksCR8i6OZgx_LF_WwKw&s"/>
+            </div>
+        </div>
+        <div class="bg-white p-6 mb-4 mt-2 rounded-xl border-2 border-gray-200 flex flex-col">
+            <div class="flex justify-between items-center mb-4">
+                <div
+                  class="flex justify-start items-center flex-grow-0 flex-shrink-0  relative gap-[15px]"
+                >
+                  <img
+                  src="{% static trophyurl %}"
+                    class="h-8 object-cover"
+                  />
+                  <p class="text-xs font-medium text-left text-black">
+                    {{label}} XXIV
+                  </p>
+                </div>
+                  
+              </div>
+
+              <div class="grid grid-cols-4 gap-4 ">
+                <img class="h-16 w-16 rounded-full cursor-pointer" src="https://pbs.twimg.com/media/Fn5qjz9WQAAXUgE.jpg"/>
+                <img class="h-16 w-16 rounded-full cursor-pointer" src="https://pbs.twimg.com/media/Fn5qjz9WQAAXUgE.jpg"/>
+                <img class="h-16 w-16 rounded-full cursor-pointer" src="https://pbs.twimg.com/media/Fn5qjz9WQAAXUgE.jpg"/>
+                <img class="h-16 w-16 rounded-full cursor-pointer" src="https://pbs.twimg.com/media/Fn5qjz9WQAAXUgE.jpg"/>
+                <img class="h-16 w-16 rounded-full cursor-pointer" src="https://pbs.twimg.com/media/Fn5qjz9WQAAXUgE.jpg"/>
+                <img class="h-16 w-16 rounded-full cursor-pointer" src="https://pbs.twimg.com/media/Fn5qjz9WQAAXUgE.jpg"/>
+                <img class="h-16 w-16 rounded-full cursor-pointer" src="https://pbs.twimg.com/media/Fn5qjz9WQAAXUgE.jpg"/>
+                <img class="h-16 w-16 rounded-full cursor-pointer" src="https://pbs.twimg.com/media/Fn5qjz9WQAAXUgE.jpg"/>
+                <img class="h-16 w-16 rounded-full cursor-pointer" src="https://pbs.twimg.com/media/Fn5qjz9WQAAXUgE.jpg"/>
+                <img class="h-16 w-16 rounded-full cursor-pointer" src="https://pbs.twimg.com/media/Fn5qjz9WQAAXUgE.jpg"/>
+                <img class="h-16 w-16 rounded-full cursor-pointer" src="https://pbs.twimg.com/media/Fn5qjz9WQAAXUgE.jpg"/>
+                <img class="h-16 w-16 rounded-full cursor-pointer" src="https://pbs.twimg.com/media/Fn5qjz9WQAAXUgE.jpg"/>
+            </div>
+        </div>
+
+
+        <div class="bg-white p-6 mb-4 mt-2 rounded-xl border-2 border-gray-200 flex flex-col">
+            <div class="flex justify-between items-center mb-4">
+                <div
+                  class="flex justify-start items-center flex-grow-0 flex-shrink-0  relative gap-[15px]"
+                >
+                
+                  <img
+                    src="{% static trophyurl %}"
+                    class="h-8 object-cover"
+                  />
+                  <p class="text-xs font-medium text-left text-black">
+                    {{label}} XXV
+                  </p>
+                </div>
+                  
+              </div>
+
+              <div class="grid grid-cols-4 gap-4">
+                <img class="h-16 w-16 rounded-full cursor-pointer" src="data:image/jpeg;base64,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" class="rounded-full mx-auto mb-3" alt="Profile">
+                <img class="h-16 w-16 rounded-full cursor-pointer" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTulSMeLxbGyCxHhOoksCR8i6OZgx_LF_WwKw&s"/>
+            </div>
+        </div>
+
+        
+    </aside>
+</main>
+
+{% endblock %}
