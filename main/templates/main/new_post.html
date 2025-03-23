@@ -116,15 +116,15 @@
             <img src="https://avatarfiles.alphacoders.com/336/336872.png" class="rounded-full w-10 h-10" alt="User">
             <div class="ml-3">
                 <p class="font-semibold">Dannie</p>
-                <p class="text-sm text-gray-500">Yesterday at 4:06am</p>
+                <p class="text-sm text-gray-500">Just now</p>
             </div>
         </div>
         <div class="w-full mb-4">
-            <img class="w-full" src="https://i0.wp.com/inesepogagallery.com/wp-content/uploads/016-2-old-house-black-and-white.jpg?ssl=1">
+            <img class="w-full" style="aspect-ratio: 4 / 3; object-fit: cover;" id="image-preview-big"  src="https://www.mariposakids.co.nz/wp-content/uploads/2014/08/image-placeholder2.jpg">
         </div>
-        <p class="text-gray-700 text-sm mb-3">Drawing of a house that i made myself, took some time but ig it does look pretty good, what do you think?</p>
+        <p class="text-gray-700 text-sm mb-3" id="preview-content">Captions</p>
         <div class="flex text-sm text-gray-500 space-x-4 mb-3">
-            <p><strong>1h 31min</strong> Duration</p>
+            <p class="font-bold" id="duration-preview">0m</p>
             <span class="border-2 border-gray-600 text-gray-600 text-xs px-2 cursor-pointer hover:bg-gray-600 hover:text-white rounded-lg">Drawing</span>
             <span class=" text-gray-600 text-xs cursor-pointer  rounded-lg">+4</span>
         </div>
@@ -329,17 +329,71 @@ preserveAspectRatio="xMidYMid meet"
     function previewImage(event) {
         const input = event.target;
         const preview = document.getElementById('image-preview');
+        const previewbig = document.getElementById('image-preview-big');
         const placeholder = document.getElementById('upload-placeholder');
+
 
         if (input.files && input.files[0]) {
             const reader = new FileReader();
             reader.onload = function (e) {
                 preview.src = e.target.result;
+                previewbig.src = e.target.result;
                 preview.classList.remove('hidden');
+                previewbig.classList.remove('hidden');
                 placeholder.classList.add('hidden');
+
             };
             reader.readAsDataURL(input.files[0]);
         }
     }
+
+// When #id_content is being edited, i want #preview-content to be updated
+document.getElementById('id_content').addEventListener('input', function() {
+    document.getElementById('preview-content').textContent = this.value;
+});
+
+
+// I want to calculate the duration of the post
+document.getElementById('start').addEventListener('input', function() {
+    const start = this.value;
+    const end = document.getElementById('end').value;
+
+    const start_time = new Date(`01/01/2021 ${start}`);
+    const end_time = new Date(`01/01/2021 ${end}`);
+
+    const duration = end_time - start_time;
+    const hours = Math.floor(duration / 1000 / 60 / 60);
+    const minutes = Math.floor((duration / 1000 / 60) % 60);
+
+    if (hours < 0 || minutes < 0) {
+        document.getElementById('duration-preview').textContent = 'Invalid Time';
+        return;
+    } if (hours === 0 ){
+        document.getElementById('duration-preview').textContent = `${minutes}m`;
+        return;
+    }
+    document.getElementById('duration-preview').textContent = `${hours}h ${minutes}m`;
+});
+
+document.getElementById('end').addEventListener('input', function() {
+    const start = document.getElementById('start').value;
+    const end = this.value;
+
+    const start_time = new Date(`01/01/2021 ${start}`);
+    const end_time = new Date(`01/01/2021 ${end}`);
+
+    const duration = end_time - start_time;
+    const hours = Math.floor(duration / 1000 / 60 / 60);
+    const minutes = Math.floor((duration / 1000 / 60) % 60);
+    if (hours < 0 || minutes < 0) {
+        document.getElementById('duration-preview').textContent = 'Invalid Time';
+        return;
+    } if (hours === 0 ){
+        document.getElementById('duration-preview').textContent = `${minutes}m`;
+        return;
+    }
+    document.getElementById('duration-preview').textContent = `${hours}h ${minutes}m`;
+});
+
 </script>
 {% endblock %}
