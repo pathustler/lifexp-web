@@ -8,6 +8,7 @@ urlpatterns = [
     path('posts/new', views.new_post, name='new_post'),
     path('leaderboard/<str:type>', views.leaderboard, name='leaderboard'),
     path('settings/', views.settings, name='settings'),
+    path('post/<int:post_id>/comment/', views.add_comment, name='add_comment'),
 ]
 
 

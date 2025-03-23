@@ -1,19 +1,28 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.urls import path
 from . import views
 from users.models import Player
 import roman
 from .forms import PostForm
-from .models import Post, ActivityLog
+from .models import Post, ActivityLog, Comment
+from django.shortcuts import render, redirect
 
 def index(request):
     currentpage= "index"
     posts = Post.objects.select_related('user').all()
     activities = ActivityLog.objects.select_related('user').all()
+    
+    comments_map = {}
+    for post in posts:
+        top_comment = Comment.objects.filter(post=post, parent_comment=None).order_by('created_at').first()
+        comments_map[post.id] = top_comment
+
+
     return render(request, 'main/index.html',{
         "currentpage": currentpage,
         'posts': posts, 
-        'activities': activities
+        'activities': activities,
+        'comments_map': comments_map
     })
 
 
@@ -124,3 +133,22 @@ def settings(request):
     return render(request, 'main/settings.html',{
         "currentpage": currentpage
     })
+
+def add_comment(request, post_id):
+    if request.method == "POST":
+        post = get_object_or_404(Post, id=post_id)
+        user = Player.objects.get(username=request.user.username)  # since you're using Player
+        content = request.POST.get('content')
+        parent_id = request.POST.get('parent_comment_id')
+
+        parent_comment = None
+        if parent_id:
+            parent_comment = Comment.objects.get(id=parent_id)
+
+        Comment.objects.create(
+            post=post,
+            user=user,
+            content=content,
+            parent_comment=parent_comment
+        )
+        return redirect('post_detail', post_id=post_id)

@@ -61,8 +61,6 @@ CLOUDINARY_STORAGE = {
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 MEDIA_URL = '/media/'
-print("Cloudinary API Secret:", CLOUDINARY_STORAGE['API_SECRET'])
-print("Cloudinary API Key:", CLOUDINARY_STORAGE['API_KEY'])
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

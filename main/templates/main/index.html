@@ -1,5 +1,6 @@
 {% extends 'main/layout.html' %}
 {% load static %}
+{% load custom_filters %}
 
 
 {% block title %}
@@ -267,20 +268,27 @@
                   <p class="text-md font-medium text-left text-black">Comments</p>
                   <p class=" text-sm text-blue-400 font-semibold cursor-pointer hover:text-blue-500 text-black/90">View all comments</p>
                 </div>
-              <div class="flex gap-3 items-center self-stretch flex-grow-0 flex-shrink-0 h-10 relative rounded-[45px] bg-white">
-                <img class="h-12 w-12 rounded-full" src="https://avatarfiles.alphacoders.com/336/336872.png"/>
-
-                <div class="flex flex-col gap-3 items-start flex-grow-0 flex-shrink-0 w-full relative gap-[5px]">
-                  <div class="flex justify-start items-start self-stretch flex-grow-0 flex-shrink-0 relative gap-[5px]">
-                    <p class="flex-grow-0 flex-shrink-0 text-sm text-left">
-                      <span class="flex-grow-0 flex-shrink-0 text-sm font-medium text-left text-black">Dannie </span><span class="flex-grow-0 flex-shrink-0 text-xs text-left text-black/50">2 hours go</span>
-                    </p>
+                <!-- comments starts -->
+                {% with comments=comments_map|get_item:post.id %}
+                <div class="flex gap-3 items-center self-stretch flex-grow-0 flex-shrink-0 h-10 relative rounded-[45px] bg-white">
+                  <img class="h-12 w-12 rounded-full" src="https://avatarfiles.alphacoders.com/336/336872.png"/>
+                  
+                  <div class="flex flex-col gap-3 items-start flex-grow-0 flex-shrink-0 w-full relative gap-[5px]">
+                    <div class="flex justify-start items-start self-stretch flex-grow-0 flex-shrink-0 relative gap-[5px]">
+                      <p class="flex-grow-0 flex-shrink-0 text-sm text-left">
+                        <span class="flex-grow-0 flex-shrink-0 text-sm font-medium text-left text-black">{{ comments_map.post.id.user.username }} </span><span class="flex-grow-0 flex-shrink-0 text-xs text-left text-black/50">2 hours go</span>
+                      </p>
+                    </div>
+                    {% if comments_map.post.id %}
+                      <p class="text-sm text-left">
+                        {{ comments_map.post.id.content }}
+                      </p>
+                      {% else %}
+                      <p class="text-gray-500">No comments yet</p>
+                    {% endif %}
                   </div>
-                  <p class="text-sm text-left">
-                    16 If..Else? You can’t be serious bro... This ain’t chatBot. This is chat Bitch.
-                  </p>
                 </div>
-              </div>
+                {% endwith %}
               <div class="flex justify-start items-center flex-grow-0 flex-shrink-0 relative gap-1">
                 <p class="flex-grow-0 flex-shrink-0 text-xs text-left text-black/30">Liked by</p>
                 <div class="flex justify-start items-center flex-grow-0 flex-shrink-0 relative space-x-[-2px]">
