@@ -7,6 +7,7 @@ import datetime
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
+# from .models import Player
 
 cloudinary.config( 
   cloud_name = settings.CLOUDINARY_STORAGE['CLOUD_NAME'], 
@@ -57,41 +58,25 @@ class Player(AbstractBaseUser):
         ('Maverick','Maverick'),
         ('Prodigy','Prodigy')
     ]
-
-
+    
     username = models.CharField(max_length=150, unique=True)
     fullname = models.CharField(max_length=150, blank=True, null=True)
     email = models.EmailField(unique=True)
-    # profile_picture = models.ImageField(upload_to="profile_pics/", blank=True, null=True)
     profile_picture = CloudinaryField('image', blank=True, null=True) # Use cloudinary for better media management
-
     masterytitle = models.CharField( choices=masterytitle_choices, default="Rookie",max_length=150, blank=True, null=True)
-    # Gamified fields
-
     lifelevel = models.IntegerField(default=1)
     masterlevel = models.IntegerField(default=1)
     title = models.CharField(max_length=150, blank=True, null=True)
     bio = models.TextField(blank=True, null=True)
-
-
     streak_count = models.IntegerField(default=0)
-    
-    # A way to store the xp in each category like physique, creativity, social, energy, skill 
     totalxp = models.IntegerField(default=0)
-    categoryxp = models.JSONField(default=default_xp)
+    categoryxp = models.JSONField(default=default_xp) # A way to store the xp in each category like physique, creativity, social, energy, skill 
     categorylevels = models.JSONField(default=default_category_levels)
-
-    
-
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)  # Cannot log into admin
-
     objects = PlayerManager()
-
     USERNAME_FIELD = "username"
     REQUIRED_FIELDS = ["email"]
-    
-    
     primary_accent_color = models.CharField(max_length=7, default="#555555")
     secondary_accent_color = models.CharField(max_length=7, default="#aaaaaa")
 
@@ -112,3 +97,16 @@ class Player(AbstractBaseUser):
         self.totalxp = sum(self.categoryxp.values())
         self.masterlevel = max(self.categorylevels.values())
         super().save(*args, **kwargs)
+
+class SearchHistory(models.Model):
+    user = models.ForeignKey(
+        Player,
+        on_delete=models.CASCADE,
+        related_name='search_histories'
+    )
+    search_query = models.CharField(max_length=255)
+    search_type = models.CharField(max_length=50)  # Can be 'user', 'post', 'tag', etc.
+    searched_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} searched '{self.search_query}' [{self.search_type}]"

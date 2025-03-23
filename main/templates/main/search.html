@@ -14,12 +14,17 @@
 
         <!-- Search Bar -->
         <div class="flex items-center bg-gray-200 rounded-full px-4 py-2">
-            <div class="w-5 h-5 relative flex items-center justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="#888888" class="h-4 w-4">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-                </svg>
-              </div>
-            <input type="text" placeholder="Search" class="bg-transparent outline-none ml-2 w-full text-gray-600" />
+            <form method="GET" action="{% url 'search' %}">
+                <div class="flex items-center bg-gray-200 rounded-full px-4 py-2">
+                    <div class="w-5 h-5 relative flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="#888888" class="h-4 w-4">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                        </svg>
+                    </div>
+                    <input type="text" name="q" placeholder="Search" class="bg-transparent outline-none ml-2 w-full text-gray-600" />
+                </div>
+              </form>
+              
         </div>
 
         <!-- Recent Searches -->
@@ -50,10 +55,12 @@
         <div class="mb-8">
             <h2 class="text-base font-medium mb-4">Posts</h2>
             <div class="grid grid-cols-3 gap-4">
-                {% for i in dummy_range %}
+                {% for post in posts %}
                 <div class="bg-gray-300 h-48 rounded-lg">
-                    <img src="https://i.imgur.com/SkGIRtG.png" alt="Post Image" class="w-full h-full object-cover rounded-lg">
+                    <img src="{{ post.post_image.url }}" alt="{{ post.content }}" class="w-full h-full object-cover rounded-lg">
                 </div>
+                {% empty %}
+                <p>No posts found.</p>
                 {% endfor %}
             </div>
         </div>
@@ -62,14 +69,16 @@
         <div class="mb-8">
             <h2 class="text-base font-medium mb-4">Users</h2>
             <ul class="space-y-4">
-                {% for _ in dummy_range %}
+                {% for user in users %}
                 <li class="flex items-center gap-4">
-                    <img src="https://via.placeholder.com/48" class="rounded-full w-12 h-12" alt="User Avatar">
+                    <img src="{{ user.profile_picture.url }}" class="rounded-full w-12 h-12" alt="{{ user.username }}">
                     <div class="flex-1">
-                        <div class="h-4 bg-gray-300 rounded w-32 mb-2"></div>
-                        <div class="h-3 bg-gray-300 rounded w-24"></div>
+                        <p class="text-gray-700">{{ user.username }}</p>
+                        <p class="text-gray-500 text-sm">{{ user.bio }}</p>
                     </div>
                 </li>
+                {% empty %}
+                <p>No users found.</p>
                 {% endfor %}
             </ul>
         </div>

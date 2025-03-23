@@ -1,6 +1,9 @@
 from django.shortcuts import get_object_or_404, render
 from django.urls import path
+from django.db.models import Q
 from . import views
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 from users.models import Player
 import roman
 from .forms import PostForm
@@ -69,17 +72,20 @@ def profile(request, username):
         "currentpage": currentpage
         })
 
-
 def search(request):
-    currentpage = "search"
+    query = request.GET.get('q', '')
+    posts = Post.objects.filter(Q(tags__icontains=query) | Q(content__icontains=query)
+)
+    users = Player.objects.filter(username__icontains=query)
+    
     context = {
-        'recent_searches': ['Jacey', 'Dannie', 'Patty'],
-        'dummy_range': range(3),
-        'currentpage': currentpage
+        'posts': posts,
+        'users': users,
+        'recent_searches': ['Jason', 'Pat', 'ML project'],  # Fetch recent search from user model later
+        'query': query,
     }
     return render(request, 'main/search.html', context)
-
-    
+   
 def new_post(request):
     currentpage= "new_post"
     # if this is a POST request we need to process the form data
