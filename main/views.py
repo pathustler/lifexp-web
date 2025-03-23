@@ -4,13 +4,16 @@ from . import views
 from users.models import Player
 import roman
 from .forms import PostForm
-from .models import Post 
+from .models import Post, ActivityLog
 
-# Create your views here.
 def index(request):
     currentpage= "index"
+    posts = Post.objects.select_related('user').all()
+    activities = ActivityLog.objects.select_related('user').all()
     return render(request, 'main/index.html',{
-        "currentpage": currentpage
+        "currentpage": currentpage,
+        'posts': posts, 
+        'activities': activities
     })
 
 
