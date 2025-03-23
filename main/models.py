@@ -29,7 +29,7 @@ class Post(models.Model):
     end_time = models.DateTimeField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
-    tags = models.TextField(blank=True, null=True)
+    tags = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
         constraints = [

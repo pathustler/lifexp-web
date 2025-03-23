@@ -4,7 +4,7 @@ from .models import Post
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ['content', 'post_image', 'start_time', 'end_time']
+        fields = ['content', 'post_image', 'start_time', 'end_time', "tags"]
         widgets = {
            
             'content': forms.Textarea(attrs={
@@ -26,6 +26,11 @@ class PostForm(forms.ModelForm):
                 'id':"end",
                 'name':"end",
                 'class': 'w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300',
-            })
+            }),
+            'tags': forms.TextInput(attrs={
+                'type':"hidden" ,
+                'name':"tags",
+                ':value':"tags.join(',')"
+            }),
         
         }
