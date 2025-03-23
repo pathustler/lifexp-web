@@ -46,7 +46,7 @@
       <!-- <textarea id="content" name="content" rows="5" required 
                 class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"></textarea>
          -->
-         {{ form.title }}
+         {{ form.content }}
     </div>
 
     <!-- two fields in a flex, to record start and end time -->
@@ -57,7 +57,7 @@
         <!-- <input type="time" id="start" name="start" required
                class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300">
                 -->
-
+                {{ form.start_time }}
 
             
       </div>
@@ -65,8 +65,7 @@
       <!-- End Time -->
       <div class="mb-4 w-1/2">
         <label for="end" class="block text-gray-700 font-medium mb-1">End Time</label>
-        <input type="time" id="end" name="end" required
-               class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300">
+        {{ form.end_time }}
       </div>
     </div>
 

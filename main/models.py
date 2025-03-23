@@ -23,23 +23,22 @@ class Post(models.Model):
         on_delete=models.CASCADE, 
         related_name='posts'
     )
-    title = models.CharField(max_length=255)
     content = models.TextField()
     post_image = CloudinaryField('image', blank=True, null=True)  # We'll handle public_id dynamically
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
+    tags = models.TextField(blank=True, null=True)
 
     class Meta:
         constraints = [
-            models.CheckConstraint(check=~models.Q(title=''), name='title_not_empty'),
             models.CheckConstraint(check=~models.Q(content=''), name='content_not_empty')
         ]
         ordering = ['-created_at']  # Latest posts first
 
     def __str__(self):
-        return f'{self.title} by {self.user.username}'
+        return f'{self.content[:15]} by {self.user.username}'
 
     def save(self, *args, **kwargs):
         # Only re-upload if a new image is added
@@ -47,7 +46,7 @@ class Post(models.Model):
             # Dynamically generate public_id based on user and post
             upload_result = cloudinary.uploader.upload(
                 self.post_image,
-                public_id=f"posts/user_{self.user.id}/{self.title}_{timezone.now().strftime('%Y%m%d%H%M%S')}",
+                public_id=f"posts/user_{self.user.id}/{self.content[:3]}_{timezone.now().strftime('%Y%m%d%H%M%S')}",
                 overwrite=True,
                 resource_type="image"
             )

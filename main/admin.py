@@ -5,4 +5,4 @@ from .models import Post
 
 @admin.register(Post)
 class Post(admin.ModelAdmin):
-    list_display = ("title","content", "created_at")
+    list_display = ("content", "created_at")
