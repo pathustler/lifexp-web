@@ -3,6 +3,8 @@ from django.urls import path
 from . import views
 from users.models import Player
 import roman
+from .forms import PostForm
+from .models import Post 
 
 # Create your views here.
 def index(request):
@@ -64,8 +66,26 @@ def search(request):
     
 def new_post(request):
     currentpage= "new_post"
+    # if this is a POST request we need to process the form data
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = PostForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            form.save()
+            return render(request, 'main/new_post.html',{
+                "currentpage": currentpage,
+                'form': form,
+                'success': True
+            })
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = PostForm()
+        
     return render(request, 'main/new_post.html',{
-        "currentpage": currentpage
+        "currentpage": currentpage,
+        'form': form,
+        'success': False
     })
     
     

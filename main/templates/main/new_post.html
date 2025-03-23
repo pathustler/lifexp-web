@@ -8,13 +8,13 @@
 
 {% block content %}
 
-<main style="width: 100%;" class="flex overflow-y-auto w-full" style="height: 100vh;">
+<main style="width: 100%;" class="flex  w-full" style="height: 100vh;">
 
 
-<div class="w-full">
+<div class="w-full overflow-y-auto scrollbar-hide">
 <!-- a form containing all the fields for the post -->
 
-<form method="POST" action="/add-post" enctype="multipart/form-data" class="max-w-2xl mx-auto p-6">
+<form method="post" enctype="multipart/form-data" enctype="multipart/form-data" class="max-w-2xl mx-auto p-6">
     {% csrf_token %}
     
     <h2 class="text-2xl font-semibold mb-4">Add New Post</h2>
@@ -23,26 +23,30 @@
     
     <div class="mb-4">
         <label for="image" class="block text-gray-700 font-medium mb-2">Upload Image</label>
-        <div class="relative w-full h-40 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-blue-500 transition">
-            <!-- Icon Inside Box -->
-            <div class="text-center flex items-center justify-center bg-white flex-col h-full">
+        <div id="image-preview-container" style="aspect-ratio: 4 / 3;" class="relative w-full border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-blue-500 transition flex items-center justify-center overflow-hidden bg-gray-100">
+            <!-- Image Preview -->
+            <img id="image-preview" class="hidden w-full h-full object-cover rounded-lg absolute top-0 left-0" />
+            
+            <!-- Icon and Text -->
+            <div id="upload-placeholder" class="text-center flex items-center justify-center flex-col h-full">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-12 h-12 text-gray-500">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
                 </svg>
                 <p class="mt-2 text-gray-500">Upload Post Cover</p>
             </div>
+            
             <!-- File Input (Hidden) -->
-            <input type="file" id="image" name="image" accept="image/*"
-                   class="absolute inset-0 opacity-0 cursor-pointer">
+            <input type="file" id="image" name="image" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer" onchange="previewImage(event)">
         </div>
     </div>
-    
 
     <!-- Post Content -->
     <div class="mb-4">
       <label for="content" class="block text-gray-700 font-medium mb-1">Content</label>
-      <textarea id="content" name="content" rows="5" required 
+      <!-- <textarea id="content" name="content" rows="5" required 
                 class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"></textarea>
+         -->
+         {{ form.title }}
     </div>
 
     <!-- two fields in a flex, to record start and end time -->
@@ -50,8 +54,12 @@
       <!-- Start Time -->
       <div class="mb-4 w-1/2">
         <label for="start" class="block text-gray-700 font-medium mb-1">Start Time</label>
-        <input type="time" id="start" name="start" required
+        <!-- <input type="time" id="start" name="start" required
                class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300">
+                -->
+
+
+            
       </div>
       
       <!-- End Time -->
@@ -316,4 +324,23 @@ preserveAspectRatio="xMidYMid meet"
       this.newTag = ''; // Clear input field
     }
   </script>
+
+
+<script>
+    function previewImage(event) {
+        const input = event.target;
+        const preview = document.getElementById('image-preview');
+        const placeholder = document.getElementById('upload-placeholder');
+
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+                preview.classList.remove('hidden');
+                placeholder.classList.add('hidden');
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
 {% endblock %}
