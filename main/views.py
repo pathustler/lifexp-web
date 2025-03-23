@@ -86,20 +86,51 @@ def search(request):
     }
     return render(request, 'main/search.html', context)
    
+from datetime import datetime
+
+
 def new_post(request):
     currentpage= "new_post"
+    user = Player.objects.get(username="danikavaughn")
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
-        form = PostForm(request.POST)
+        form = PostForm(request.POST, request.FILES) 
+        print(form)
         # check whether it's valid:
         if form.is_valid():
-            form.save()
-            return render(request, 'main/new_post.html',{
+            # Create a new Post object
+            start_time_obj = form.cleaned_data['start_time']
+            end_time_obj = form.cleaned_data['end_time']
+
+            print(start_time_obj)
+
+            new_post = Post(
+                user=user,  # Assign data from the form
+                content=form.cleaned_data['content'],
+                post_image=form.cleaned_data['post_image'],  # if this field exists
+                start_time=start_time_obj,  # if this field exists
+                end_time=end_time_obj,  # if this field exists
+            )
+            
+            # Save the new post to the database
+            new_post.save()
+
+            # Redirect to the index view, not main/new_post
+            return redirect('index')
+            
+            
+            
+            
+        else:
+            #print the error
+            print(form.errors)
+            return render(request, 'main/new_post.html', {
                 "currentpage": currentpage,
                 'form': form,
-                'success': True
+                'success': False
             })
+            
     # if a GET (or any other method) we'll create a blank form
     else:
         form = PostForm()

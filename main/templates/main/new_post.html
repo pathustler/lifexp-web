@@ -14,7 +14,7 @@
 <div class="w-full overflow-y-auto scrollbar-hide">
 <!-- a form containing all the fields for the post -->
 
-<form method="post" enctype="multipart/form-data" enctype="multipart/form-data" class="max-w-2xl mx-auto p-6">
+<form method="post" enctype="multipart/form-data" class="max-w-2xl mx-auto p-6">
     {% csrf_token %}
     
     <h2 class="text-2xl font-semibold mb-4">Add New Post</h2>
@@ -36,7 +36,7 @@
             </div>
             
             <!-- File Input (Hidden) -->
-            <input type="file" id="image" name="image" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer" onchange="previewImage(event)">
+            {{ form.post_image }}
         </div>
     </div>
 

@@ -1,4 +1,4 @@
-from django import forms 
+from django import forms
 from .models import Post
 
 class PostForm(forms.ModelForm):
@@ -6,31 +6,33 @@ class PostForm(forms.ModelForm):
         model = Post
         fields = ['content', 'post_image', 'start_time', 'end_time', "tags"]
         widgets = {
-           
             'content': forms.Textarea(attrs={
                 'class': 'w-full  h-36 px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300',
                 'rows': 5,
-                'placeholder': 'Descibe your post...'
+                'placeholder': 'Describe your post...'
             }),
             'post_image': forms.FileInput(attrs={
-                'class': 'w-full cursor-pointer border border-gray-300 rounded-lg p-2 focus:outline-none'
+                'id': 'image',
+                'name': 'image',
+                'accept': 'image/*',
+                'class': 'absolute inset-0 opacity-0 cursor-pointer',
+                'onchange': 'previewImage(event)',
             }),
-            'start_time': forms.FileInput(attrs={
-                'type':"time",
-                'id':"start",
-                'name':"start",
+            'start_time': forms.TimeInput(attrs={  # Use TimeInput instead of FileInput
+                'type': "time",
+                'id': "start",
+                'name': "start",
                 'class': 'w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300',
             }),
-            'end_time': forms.FileInput(attrs={
-                'type':"time",
-                'id':"end",
-                'name':"end",
+            'end_time': forms.TimeInput(attrs={  # Use TimeInput instead of FileInput
+                'type': "time",
+                'id': "end",
+                'name': "end",
                 'class': 'w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300',
             }),
             'tags': forms.TextInput(attrs={
-                'type':"hidden" ,
-                'name':"tags",
-                ':value':"tags.join(',')"
+                'type': "hidden",
+                'name': "tags",
+                ':value': "tags.join(',')"
             }),
-        
         }
