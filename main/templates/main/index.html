@@ -130,7 +130,7 @@
             </div>
             <p class="text-gray-700 mb-3">{{ post.content }}</p>
             <div class="flex text-sm text-gray-500 space-x-4 mb-3">
-                <p><strong>1h 31min</strong> Duration</p>
+                <p><strong>1h 31m</strong> Duration</p>
                 <span class="border-2 border-gray-600 text-gray-600 text-xs px-2 cursor-pointer hover:bg-gray-600 hover:text-white rounded-lg">Drawing</span>
                 <span class="border-2 border-gray-600 text-gray-600 text-xs px-2 cursor-pointer hover:bg-gray-600 hover:text-white rounded-lg">Shading</span>
                 <span class="border-2 border-gray-600 text-gray-600 text-xs px-2 cursor-pointer hover:bg-gray-600 hover:text-white rounded-lg">Art</span>
@@ -268,27 +268,31 @@
                   <p class="text-md font-medium text-left text-black">Comments</p>
                   <p class=" text-sm text-blue-400 font-semibold cursor-pointer hover:text-blue-500 text-black/90">View all comments</p>
                 </div>
-                <!-- comments starts -->
+                <!-- Comments starts -->
                 {% with comments=comments_map|get_item:post.id %}
-                <div class="flex gap-3 items-center self-stretch flex-grow-0 flex-shrink-0 h-10 relative rounded-[45px] bg-white">
-                  <img class="h-12 w-12 rounded-full" src="https://avatarfiles.alphacoders.com/336/336872.png"/>
-                  
-                  <div class="flex flex-col gap-3 items-start flex-grow-0 flex-shrink-0 w-full relative gap-[5px]">
-                    <div class="flex justify-start items-start self-stretch flex-grow-0 flex-shrink-0 relative gap-[5px]">
-                      <p class="flex-grow-0 flex-shrink-0 text-sm text-left">
-                        <span class="flex-grow-0 flex-shrink-0 text-sm font-medium text-left text-black">{{ comments_map.post.id.user.username }} </span><span class="flex-grow-0 flex-shrink-0 text-xs text-left text-black/50">2 hours go</span>
-                      </p>
+                {% if comments %}
+                  {% for comment in comments %}
+                    <div class="flex gap-3 items-center self-stretch flex-grow-0 flex-shrink-0 h-10 relative rounded-[45px] bg-white">
+                      <img class="h-12 w-12 rounded-full" src="{{ comment.user.profile_picture.url }}"/>
+                      
+                      <div class="flex flex-col gap-3 items-start flex-grow-0 flex-shrink-0 w-full relative gap-[5px]">
+                        <div class="flex justify-start items-start self-stretch flex-grow-0 flex-shrink-0 relative gap-[5px]">
+                          <p class="flex-grow-0 flex-shrink-0 text-sm text-left">
+                            <span class="flex-grow-0 flex-shrink-0 text-sm font-medium text-left text-black">{{ comment.user.username }}</span>
+                            <span class="flex-grow-0 flex-shrink-0 text-xs text-left text-black/50">2 hours ago</span>
+                          </p>
+                        </div>
+                        <p class="text-sm text-left">
+                          {{ comment.content }}
+                        </p>
+                      </div>
                     </div>
-                    {% if comments_map.post.id %}
-                      <p class="text-sm text-left">
-                        {{ comments_map.post.id.content }}
-                      </p>
-                      {% else %}
-                      <p class="text-gray-500">No comments yet</p>
-                    {% endif %}
-                  </div>
-                </div>
+                  {% endfor %}
+                {% else %}
+                  <p class="text-gray-500">No comments yet</p>
+                {% endif %}
                 {% endwith %}
+
               <div class="flex justify-start items-center flex-grow-0 flex-shrink-0 relative gap-1">
                 <p class="flex-grow-0 flex-shrink-0 text-xs text-left text-black/30">Liked by</p>
                 <div class="flex justify-start items-center flex-grow-0 flex-shrink-0 relative space-x-[-2px]">
