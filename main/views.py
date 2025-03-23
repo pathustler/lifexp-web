@@ -71,10 +71,14 @@ def profile(request, username):
 
 
 def search(request):
-    currentpage= "search"
-    return render(request, 'main/search.html',{
-        "currentpage": currentpage
-    })
+    currentpage = "search"
+    context = {
+        'recent_searches': ['Jacey', 'Dannie', 'Patty'],
+        'dummy_range': range(3),
+        'currentpage': currentpage
+    }
+    return render(request, 'main/search.html', context)
+
     
 def new_post(request):
     currentpage= "new_post"
