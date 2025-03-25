@@ -1,9 +1,54 @@
-<form method="post">
-    {% csrf_token %}
-    <input type="text" name="username" placeholder="Username" required>
-    <input type="email" name="email" placeholder="Email" required>
-    <input type="password" name="password" placeholder="Password" required>
-    <input type="password" name="confirm_password" placeholder="Confirm Password" required>
-    <button type="submit">Register</button>
-</form>
-<a href="{% url 'login' %}">Login</a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-black text-white flex items-center justify-center min-h-screen">
+    
+    <div class="w-full max-w-md bg-gray-900 p-8 rounded-2xl shadow-lg">
+        <h2 class="text-3xl font-bold text-center mb-6">Create an Account</h2>
+
+        <form method="post" class="space-y-4">
+            {% csrf_token %}
+
+            <div>
+                <label class="block text-gray-400">Username</label>
+                <input type="text" name="username" required
+                    class="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-700 focus:ring-2 focus:ring-white focus:outline-none">
+            </div>
+
+            <div>
+                <label class="block text-gray-400">Email</label>
+                <input type="email" name="email" required
+                    class="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-700 focus:ring-2 focus:ring-white focus:outline-none">
+            </div>
+
+            <div>
+                <label class="block text-gray-400">Password</label>
+                <input type="password" name="password1" required
+                    class="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-700 focus:ring-2 focus:ring-white focus:outline-none">
+            </div>
+
+            <div>
+                <label class="block text-gray-400">Confirm Password</label>
+                <input type="password" name="password2" required
+                    class="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-700 focus:ring-2 focus:ring-white focus:outline-none">
+            </div>
+
+            <button type="submit"
+                class="w-full bg-white text-black font-bold py-3 rounded-lg hover:bg-gray-300 transition">
+                Register
+            </button>
+        </form>
+
+        <p class="text-center text-gray-500 mt-4">
+            Already have an account? 
+            <a href="{% url 'login' %}" class="text-white underline hover:text-gray-300">Login</a>
+        </p>
+    </div>
+
+</body>
+</html>
