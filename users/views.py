@@ -20,9 +20,11 @@ def login_view(request):
             #Redirect to index view in the main app, we are now in the users app
             return redirect('index')
         else:
+            error= "Invalid credentials"
             messages.error(request, "Invalid credentials")
     
-    return render(request, 'users/login.html')
+    return render(request, 'users/login.html',
+                  {'error': error if 'error' in locals() else None})
 
 def logout_view(request):
     logout(request)

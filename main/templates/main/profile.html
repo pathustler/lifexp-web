@@ -46,11 +46,20 @@
         
         </div>
         <p class="text-gray-800 font-semibold">
-           {{player.title}}
+            {%if player.title%}
+                {{player.title}}
+            {%else%}
+                Add a title
+            {%endif%}
         </p>
         
         <p class="text-gray-500">
+            {%if player.bio%}
             {{ player.bio|linebreaksbr }}
+            {%else%}
+                Add a bio
+            {%endif%}
+            
         </p>
 
         <span class="flex gap-4 items-center">
@@ -117,6 +126,8 @@
                         {{player.categoryxp.energy}}
                         {% elif player.masterytitle == "Warrior" %}
                         {{player.categoryxp.physique}}
+                        {% elif player.masterytitle == "Rookie" %}
+                        {{player.totalxp}} XP
                         {%endif%}
                         
                     </p>
@@ -145,7 +156,13 @@
 
                 </span>
                 <span class="flex items-center justify-center gap-1">
+
+                    {% if player.masterytitle == "Rookie" %}
+                    <p style="font-size: 11px;" class=" text-gray-500">Mastery unlocks at 1000XP</p> 
+                    {%else%}
                     <p style="font-size: 11px;" class=" text-gray-500">Overall {{player.totalxp}} XP</p> 
+                    {%endif%}
+                    
                     
                 </span>
                

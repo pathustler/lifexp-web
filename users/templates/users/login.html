@@ -10,7 +10,19 @@
 
     <div class="w-full max-w-md bg-gray-900 p-8 rounded-2xl shadow-lg">
         <h2 class="text-3xl font-bold text-center mb-6">Welcome Back</h2>
-
+        {% if messages %}
+        {% for message in messages %}
+            <div class="p-4 mb-4 flex gap-4 rounded-lg text-white {% if message.tags == 'error' %}bg-red-600{% elif message.tags == 'success' %}bg-green-600{% endif %}">
+                
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                    <path fill-rule="evenodd" d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003ZM12 8.25a.75.75 0 0 1 .75.75v3.75a.75.75 0 0 1-1.5 0V9a.75.75 0 0 1 .75-.75Zm0 8.25a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" clip-rule="evenodd" />
+                  </svg>
+                  
+                  
+                  {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
         <form method="post" class="space-y-4">
             {% csrf_token %}
 
