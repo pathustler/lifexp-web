@@ -60,7 +60,6 @@ class Player(AbstractBaseUser):
         ('Prodigy','Prodigy')
     ]
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True, related_name='player')
-    
     username = models.CharField(max_length=150, unique=True)
     fullname = models.CharField(max_length=150, blank=True, null=True)
     email = models.EmailField(unique=True)

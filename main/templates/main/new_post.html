@@ -113,10 +113,10 @@
 <div class="border-l border-gray-200 bg-gray-50 p-6 flex items-center justify-center" style="width: 800px;">
     <div class="bg-white mb-6 w-full p-6 rounded-xl border-2 border-gray-200">
         <div class="flex items-center mb-4">
-            <img src="https://avatarfiles.alphacoders.com/336/336872.png" class="rounded-full w-10 h-10" alt="User">
+            <img src="{{player.profile_picture.url}}" class="rounded-full w-10 h-10" alt="User">
             <div class="ml-3">
-                <p class="font-semibold">Dannie</p>
-                <p class="text-sm text-gray-500">Just now</p>
+              <p class="font-semibold">{{ player.fullname|default:request.user.username }}</p>
+              <p class="text-sm text-gray-500">Just now</p>
             </div>
         </div>
         <div class="w-full mb-4">

@@ -92,7 +92,11 @@ def search(request):
 
 def new_post(request):
     currentpage= "new_post"
-    user = Player.objects.get(username="danikavaughn")
+    player = Player.objects.get(username=request.user.username)
+    print(player.fullname)
+    
+    # user = request.user.player
+
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
@@ -107,7 +111,7 @@ def new_post(request):
             print(start_time_obj)
 
             new_post = Post(
-                user=user,  # Assign data from the form
+                user=player,  # Assign data from the form
                 content=form.cleaned_data['content'],
                 post_image=form.cleaned_data['post_image'],  # if this field exists
                 start_time=start_time_obj,  # if this field exists
@@ -126,7 +130,8 @@ def new_post(request):
             return render(request, 'main/new_post.html', {
                 "currentpage": currentpage,
                 'form': form,
-                'success': False
+                'success': False,
+                'player':player
             })
             
     # if a GET (or any other method) we'll create a blank form
@@ -136,7 +141,8 @@ def new_post(request):
     return render(request, 'main/new_post.html',{
         "currentpage": currentpage,
         'form': form,
-        'success': False
+        'success': True,
+        'player':player
     })
     
     
