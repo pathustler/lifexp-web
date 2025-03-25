@@ -52,8 +52,6 @@ def profile(request, username):
     if player.masterytitle == "Rookie":
         pass
     
-    
-    
     xp_data = [
         {"day": "Monday", "xp": 200},
         {"day": "Tuesday", "xp": 20},
@@ -65,8 +63,6 @@ def profile(request, username):
     
     total_xp_week = sum(item["xp"] for item in xp_data)
     total_xp_all_time = 2312320  # Replace with actual database value
-    
-    
     
     return render(request, 'main/profile.html', {
         'player': player,
@@ -124,9 +120,6 @@ def new_post(request):
             # Redirect to the index view, not main/new_post
             return redirect('index')
             
-            
-            
-            
         else:
             #print the error
             print(form.errors)
@@ -159,10 +152,6 @@ def leaderboard(request, type):
         }
     
     label = type.capitalize()
-    
-    
-    
-    
     
     return render(request, 'main/leaderboard.html',{
         "currentpage": currentpage,
