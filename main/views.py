@@ -10,15 +10,20 @@ from .forms import PostForm
 from .models import Post, ActivityLog, Comment
 from django.contrib.auth.decorators import login_required
 
-# wenv\Scripts\activate my ref
-
+# wenv\Scripts\activate my ref. ok
+ 
 
 
 @login_required
 def index(request):
     currentpage= "index"
+    player = Player.objects.get(username=request.user.username)
     posts = Post.objects.select_related('user').all()
     activities = ActivityLog.objects.select_related('user').all()
+    rom = roman.toRoman(player.masterlevel)
+    nextrom = roman.toRoman(player.masterlevel+1)
+    title = f"{player.masterytitle} {rom}"
+    
     
     comments_map = {}
     for post in posts:
@@ -32,7 +37,10 @@ def index(request):
         'activities': activities,
         'comments_map': comments_map,
         'user': request.user,
-        'player': Player.objects.get(username=request.user.username)
+        'title': title,
+        'player': player,
+        'nextrom': nextrom,
+
     })
 
 

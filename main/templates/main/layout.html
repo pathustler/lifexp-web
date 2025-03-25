@@ -101,9 +101,9 @@
                         Leaderboard</span>
                 </a>
                 {% if currentpage == "profile" %}
-                <a href="/user/jazlee" class="flex items-center p-2 rounded bg-blue-100 text-blue-600">
+                <a href="{% url 'profile' user.username %}" class="flex items-center p-2 rounded bg-blue-100 text-blue-600">
                 {% else %}
-                <a href="/user/jazlee" class="flex items-center p-2 rounded text-gray-700 hover:bg-gray-200">
+                <a href="{% url 'profile' user.username %}"  class="flex items-center p-2 rounded text-gray-700 hover:bg-gray-200">
                 {% endif %}
                     <span class="ml-2 flex gap-3 items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6">

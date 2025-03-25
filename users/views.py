@@ -32,16 +32,26 @@ def logout_view(request):
 
 
 def register_view(request):
+    errors = None
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()  # Save the user, now with the email
-            Player.objects.create(user=user)  # Create a Player object for the user
-            Player.objects.filter(user=user).update(username=user.username, email=user.email)
-            
+            # displayname is a field in the form in the html page but not in the django form, i want to extract that data using request.POST
+            displayname = request.POST['displayname']  # Save the display
+            p = Player(user=user,username=user.username,fullname=displayname, email=user.email)  # Create a Player object for the user
+            p.save()
+            user.save()
+            print(p)
+            print(user)
             login(request, user)  # Log in the new user
             return redirect('index')  # Redirect after registration
+        
+        else:
+            erros = form.errors
+            print("invalid form")
+            print(form.errors)
     else:
         form = CustomUserCreationForm()
 
-    return render(request, 'users/register.html', {'form': form})
+    return render(request, 'users/register.html', {'form': form, 'errors': errors})

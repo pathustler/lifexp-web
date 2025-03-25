@@ -11,7 +11,7 @@ cloudinary.config(
   cloud_name = settings.CLOUDINARY_STORAGE['CLOUD_NAME'], 
   api_key = settings.CLOUDINARY_STORAGE['API_KEY'], 
   api_secret = settings.CLOUDINARY_STORAGE['API_SECRET'],
-  secure = True
+  secure = True 
 )
 
 # Create your models here.
@@ -51,6 +51,7 @@ class Post(models.Model):
                 resource_type="image"
             )
             self.post_image = upload_result['public_id']
+        
         super().save(*args, **kwargs)
 
 # ActivityLog model

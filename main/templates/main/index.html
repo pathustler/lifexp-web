@@ -350,10 +350,10 @@
         <div class="bg-white p-6 mb-4 rounded-xl border-2 border-gray-200">
 
             <div class="text-center flex flex-col items-center">
-
-                <img class="h-24 w-24 rounded-full" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeYJRKQh2AdhB2knnEBDBikE1ONI8tQY9Hng&s" class="rounded-full mx-auto mb-3" alt="Profile">
-                <h3 class="font-semibold">{{user.username}}</h3>
-                <p class="text-sm font-bold text-purple-700">Prodigy XXII</p>
+ 
+                <img class="h-24 w-24 rounded-full" src="{{player.profile_picture.url}}" class="rounded-full mx-auto mb-3" alt="Profile">
+                <h3 class="font-semibold">{{player.fullname}}</h3>
+                <p class="text-sm font-bold" style="color: {{player.primary_accent_color}};">{{title}}</p>
             </div>
             <div class="mt-4 flex justify-between text-sm">
                 <div class="text-center">
@@ -361,7 +361,8 @@
                     <p class="text-gray-500">Life Level</p>
                 </div>
                 <div class="text-center">
-                    <p class="font-semibold">12</p>
+                  <!-- count user.posts.all -->
+                    <p class="font-semibold">{{player.posts.all.count}}</p>
                     <p class="text-gray-500">Posts</p>
                 </div>
                 <div class="text-center">
@@ -389,7 +390,7 @@
 
                     </span>
                     <span class="flex items-center justify-center gap-1">
-                        <p style="font-size: 11px;" class=" text-gray-500">Prodigy XXIII at 300000</p> 
+                        <p style="font-size: 11px;" class=" text-gray-500">{{player.masterytitle}} {{nextrom}} at 300000</p> 
                         
                     </span>
                    
@@ -403,7 +404,7 @@
                           </svg>
                           
                         
-                        <p class="text-blue-400 text-lg font-bold " style="color: #1f1f1f">34</p>
+                        <p class="text-blue-400 text-lg font-bold " style="color: #1f1f1f">{{player.streak_count}}</p>
                     </div>
                     
                 </div>

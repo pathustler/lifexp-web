@@ -58,12 +58,12 @@ class Player(AbstractBaseUser):
         ('Diplomat','Diplomat'),
         ('Maverick','Maverick'),
         ('Prodigy','Prodigy')
-    ]
+    ] 
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True, related_name='player')
     username = models.CharField(max_length=150, unique=True)
     fullname = models.CharField(max_length=150, blank=True, null=True)
     email = models.EmailField(unique=True)
-    profile_picture = CloudinaryField('image', blank=True, null=True) # Use cloudinary for better media management
+    profile_picture = CloudinaryField('image', blank=True, null=True, default="Screenshot_2025-03-25_at_10.40.01_PM_vugdxk")
     masterytitle = models.CharField( choices=masterytitle_choices, default="Rookie",max_length=150, blank=True, null=True)
     lifelevel = models.IntegerField(default=1)
     masterlevel = models.IntegerField(default=1)
