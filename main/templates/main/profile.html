@@ -13,7 +13,7 @@
     
     <!-- Main Content -->
     <div style="width: 90%;" class="flex-1 py-6  lg:px-36 md:px-12 sm:px-12 px-6">
-        <div class="bg-white rounded-xl border-2 border-gray-200 flex justify-between w-full">
+        <div class="bg-white dark:bg-[#1f2022] rounded-xl border-2 border-gray-200 dark:border-[#2d2f32] flex justify-between w-full">
         <div class=" p-6 mb-4 flex flex-col gap-2 w-full  ">
             
             <div class="flex gap-8 mb-4">
@@ -23,29 +23,29 @@
             <div class="text-center flex flex-col items-start">
                 
                 <h3 class="font-semibold">{{player.fullname}}</h3>
-                <p class="text-sm font-bold " style="color: {{player.primary_accent_color}};">{{title}}</p>
+                <p class="text-sm font-bold secondary";">{{title}}</p>
 
             
             <div class="mt-4 flex gap-8 text-sm">
                
                 <div class="text-left">
                     <p class="font-semibold">12</p>
-                    <p class="text-gray-500">Posts</p>
+                    <p class="text-gray-500 dark:text-gray-400">Posts</p>
                 </div>
                 <div class="text-left">
                     <p class="font-semibold">3</p>
-                    <p class="text-gray-500">Followers</p>
+                    <p class="text-gray-500 dark:text-gray-400">Followers</p>
                 </div>
                 <div class="text-left">
                     <p class="font-semibold">3</p>
-                    <p class="text-gray-500">Following</p>
+                    <p class="text-gray-500 dark:text-gray-400">Following</p>
                 </div>
             </div>
         </div>
 
         
         </div>
-        <p class="text-gray-800 font-semibold">
+        <p class="text-gray-800 dark:text-gray-300 font-semibold">
             {%if player.title%}
                 {{player.title}}
             {%else%}
@@ -53,7 +53,7 @@
             {%endif%}
         </p>
         
-        <p class="text-gray-500">
+        <p class="text-gray-500 dark:text-gray-400">
             {%if player.bio%}
             {{ player.bio|linebreaksbr }}
             {%else%}
@@ -64,8 +64,8 @@
 
         <span class="flex gap-4 items-center">
             <button class="bg-blue-500 text-white px-8 py-2 rounded-md mt-4" style="background-color: {{player.primary_accent_color}};">Follow</button>
-            <button class="bg-black text-white px-8 py-2 rounded-md mt-4">Unfollow</button>
-            <button class="bg-black text-white px-8 py-2 rounded-md mt-4">Edit Profile</button>
+            <button class="bg-black text-white dark: bg-white dark:text-black px-8 py-2 rounded-md mt-4">Unfollow</button>
+            <button class="bg-black text-white dark: bg-white dark:text-black px-8 py-2 rounded-md mt-4">Edit Profile</button>
             <button class="py-2 rounded-md mt-4"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
               </svg>
@@ -85,7 +85,7 @@
         <div class="my-4 flex justify-between text-sm gap-4">
             
             <!-- Streak count -->
-            <div class="bg-white border-2 rounded-xl border-gray-200 w-full flex flex-col rounded-md items-center justify-between p-4">
+            <div class="bg-white dark:bg-[#1f2022] border-2 rounded-xl border-gray-200 dark:border-[#2d2f32] w-full flex flex-col rounded-md items-center justify-between p-4">
                 <p class="text-sm ">Streak Count</p>
                 <div class="flex gap-2 items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#ffc05b" class="size-6">
@@ -93,16 +93,16 @@
                       </svg>
                       
                     
-                    <p class="text-lg font-bold " style="color: #1f1f1f">{{player.streak_count}}</p>
+                    <p class="text-lg font-bold text-black dark:text-white">{{player.streak_count}}</p>
                 </div>
                 
             </div>
 
             <!-- life level -->
-            <div class="bg-white border-2 rounded-xl border-gray-200 w-full flex flex-col rounded-md items-center justify-between p-4">
+            <div class="bg-white dark:bg-[#1f2022] border-2 rounded-xl border-gray-200 dark:border-[#2d2f32] w-full flex flex-col rounded-md items-center justify-between p-4">
                 
                 <span class="flex items-center justify-center gap-1">
-                    <p class="text-gray-600 text-lg font-bold ">Life Level {{player.lifelevel}}</p>
+                    <p class="text-gray-600 dark:text-white text-lg font-bold ">Life Level {{player.lifelevel}}</p>
                 </span>
                 <span class="flex items-center justify-center gap-1">
                     <p style="font-size: 11px;" class=" text-gray-500">Member since 13 Jan 2027</p> 
@@ -112,10 +112,10 @@
             </div>
 
             <!-- XP -->
-            <div class="bg-white border-2 rounded-xl border-gray-200 w-full flex flex-col rounded-md items-center justify-between p-4">
+            <div class="bg-white dark:bg-[#1f2022] border-2 rounded-xl border-gray-200 dark:border-[#2d2f32] w-full flex flex-col rounded-md items-center justify-between p-4">
                 
                 <span class="flex items-center justify-center gap-1">
-                    <p style="color: {{player.primary_accent_color}};"  class=" text-lg font-bold ">
+                    <p style="color: {{player.secondary_accent_color}};"  class=" text-lg font-bold ">
                         {% if player.masterytitle == "Prodigy" %}
                         {{player.categoryxp.skill}}
                         {% elif player.masterytitle == "Maverick" %}
@@ -150,7 +150,7 @@
 
                         {%endif%}
                             
-                            fill="{{player.primary_accent_color}}"
+                            fill="{{player.secondary_accent_color}}"
                             ></path>
                         </svg>
 
@@ -167,13 +167,10 @@
                 </span>
                
             </div>
-
-            
-
-
-
         </div>
-        <div class="p-6 my-4 bg-white border-2 border-gray-200 rounded-2xl w-full">
+        
+        <!-- history graph -->
+        <div class="p-6 my-4 bg-white dark:bg-[#1f2022] dark:border-[#2d2f32] border-2 border-gray-200 rounded-2xl w-full">
             <!-- Header -->
             <div class="flex justify-between items-center mb-4">
                 <h2 class="text-xl font-semibold">{{ total_xp_week }} XP this week</h2>
@@ -187,13 +184,13 @@
     
             <!-- Filters -->
             <div class="flex justify-between mt-4">
-                <button class="flex items-center text-gray-700">
+                <button class="flex items-center text-gray-700 dark:text-gray-300">
                     <span>All</span>
                     <svg class="w-4 h-4 ml-1" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
                     </svg>
                 </button>
-                <button class="flex items-center text-gray-700">
+                <button class="flex items-center text-gray-700 dark:text-gray-300">
                     <span>All time</span>
                     <svg class="w-4 h-4 ml-1" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
@@ -201,8 +198,10 @@
                 </button>
             </div>
         </div>
+
+
         <div class="flex gap-4">
-            <div class="p-6 my-4 bg-white border-2 border-gray-200 rounded-2xl w-full">
+            <div class="p-6 my-4 bg-white border-2 border-gray-200 dark:bg-[#1f2022] dark:border-[#2d2f32] rounded-2xl w-full">
 
                 <!-- Header -->
                 <div class="flex justify-between items-center mb-8">
@@ -268,12 +267,12 @@
 
                 
             </div>
-            <div class="flex flex-col my-4 h-min bg-white border-2 border-gray-200 rounded-2xl w-full">
+            <div class="flex flex-col my-4 h-min bg-white border-2 border-gray-200 dark:bg-[#1f2022] dark:border-[#2d2f32] rounded-2xl w-full">
                 <div class=" p-4 space-y-4 cursor-pointer hover:bg-gray-100">
                    
                     <div class="flex items-center justify-between">
                         <div class="flex items-center space-x-4">
-                            <span class="text-black ">Life Analytics</span>
+                            <span class="text-black dark:text-white">Life Analytics</span>
                             
                         </div>
                         <span >
@@ -289,7 +288,7 @@
                    
                     <div class="flex items-center justify-between">
                         <div class="flex items-center space-x-4">
-                            <span class="text-black ">History</span>
+                            <span class="text-black dark:text-white">History</span>
                             
                         </div>
                         <span >
@@ -320,40 +319,68 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-      const ctx = document.getElementById("radarChart").getContext("2d");
-  
-      new Chart(ctx, {
-        type: "radar",
-        data: {
-          labels: ["Physique", "Energy", "Social", "Creativity", "Skill"],
-          datasets: [
-            {
-              label: "{{player.fullname}}",
-              data: ["{{player.categoryxp.physique}}", "{{player.categoryxp.energy}}", "{{player.categoryxp.social}}", "{{player.categoryxp.creativity}}", "{{player.categoryxp.skill}}"], // Values for each category
-              backgroundColor: "{{player.secondary_accent_color}}",
-              borderColor: "{{player.primary_accent_color}}",
-              borderWidth: 2,
-            },
-            // {
-            //   label: "Player 2",
-            //   data: [70, 90, 80, 60, 85],
-            //   backgroundColor: "rgba(255, 99, 132, 0.2)",
-            //   borderColor: "rgba(255, 99, 132, 1)",
-            //   borderWidth: 2,
-            // },
+  const ctx = document.getElementById("radarChart").getContext("2d");
+
+  new Chart(ctx, {
+    type: "radar",
+    data: {
+      labels: ["Physique", "Energy", "Social", "Creativity", "Skill"],
+      datasets: [
+        {
+          label: "{{player.fullname}}",
+          data: [
+            "{{player.categoryxp.physique}}",
+            "{{player.categoryxp.energy}}",
+            "{{player.categoryxp.social}}",
+            "{{player.categoryxp.creativity}}",
+            "{{player.categoryxp.skill}}"
           ],
+          backgroundColor: "{{player.primary_accent_color}}",  // Fill color (semi-transparent recommended)
+          borderColor: "{{player.secondary_accent_color}}",   // Line color
+          borderWidth: 2,
+          pointBackgroundColor: "{{player.secondary_accent_color}}",
+          pointBorderColor: "#fff",
+          pointHoverBackgroundColor: "#fff",
+          pointHoverBorderColor: "{{player.secondary_accent_color}}"
         },
-        options: {
-          responsive: true,
-          scales: {
-            r: {
-              beginAtZero: true,
-            },
+      ],
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          labels: {
+            color: document.body.classList.contains('dark') ? '#000' : '#fff'  // Legend text color
+          }
+        }
+      },
+      scales: {
+        r: {
+          beginAtZero: true,
+          angleLines: {
+            color: document.body.classList.contains('dark') ? '#444' : '#ccc'  // Spoke lines
           },
-        },
-      });
-    });
-  </script>
+          grid: {
+            color: document.body.classList.contains('dark') ? '#444' : '#555', // Circular grid
+            backgroundColor: document.body.classList.contains('dark') ? '#f9fafb' : '#1f2937' // bg color of radar
+          },
+          pointLabels: {
+            color: document.body.classList.contains('dark') ? '#000' : '#fff',  // Label text color
+            font: {
+              size: 14
+            }
+          },
+          ticks: {
+            color: document.body.classList.contains('dark') ? '#444' : '#ccc',  // Ticks color
+            backdropColor: 'transparent' // Removes the default tick background
+          }
+        }
+      }
+    },
+  });
+});
+
+</script>
   
   <script>
     console.log("{{player.profile_picture.url}}");

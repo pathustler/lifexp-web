@@ -13,7 +13,6 @@ from django.contrib.auth.decorators import login_required
 # wenv\Scripts\activate my ref. ok
  
 
-
 @login_required
 def index(request):
     currentpage= "index"
@@ -80,7 +79,8 @@ def profile(request, username):
          "xp_data": xp_data,
         "total_xp_week": total_xp_week,
         "total_xp_all_time": total_xp_all_time,
-        "currentpage": currentpage
+        "currentpage": currentpage,
+        "dark_mode": False,
         })
 
 def search(request):
