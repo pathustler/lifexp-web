@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from django.contrib.auth.forms import UserCreationForm
+from .forms import CustomUserCreationForm
 from .models import Player  # Import Player model
 # Create your views here.
 
@@ -33,13 +33,15 @@ def logout_view(request):
 
 def register_view(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save()  # Save the user
+            user = form.save()  # Save the user, now with the email
             Player.objects.create(user=user)  # Create a Player object for the user
+            Player.objects.filter(user=user).update(username=user.username, email=user.email)
+            
             login(request, user)  # Log in the new user
-            return redirect('main:index')  # Redirect after registration
+            return redirect('index')  # Redirect after registration
     else:
-        form = UserCreationForm()
+        form = CustomUserCreationForm()
 
     return render(request, 'users/register.html', {'form': form})

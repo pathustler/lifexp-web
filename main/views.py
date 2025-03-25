@@ -31,7 +31,8 @@ def index(request):
         'posts': posts, 
         'activities': activities,
         'comments_map': comments_map,
-        'user': request.user
+        'user': request.user,
+        'player': Player.objects.get(username=request.user.username)
     })
 
 
