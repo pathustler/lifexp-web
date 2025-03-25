@@ -7,6 +7,7 @@ import datetime
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
+from django.contrib.auth.models import User
 # from .models import Player
 
 cloudinary.config( 
@@ -58,6 +59,7 @@ class Player(AbstractBaseUser):
         ('Maverick','Maverick'),
         ('Prodigy','Prodigy')
     ]
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True, related_name='player')
     
     username = models.CharField(max_length=150, unique=True)
     fullname = models.CharField(max_length=150, blank=True, null=True)

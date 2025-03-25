@@ -9,7 +9,12 @@ import roman
 from .forms import PostForm
 from .models import Post, ActivityLog, Comment
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 
+
+
+
+@login_required
 def index(request):
     currentpage= "index"
     posts = Post.objects.select_related('user').all()
@@ -25,7 +30,8 @@ def index(request):
         "currentpage": currentpage,
         'posts': posts, 
         'activities': activities,
-        'comments_map': comments_map
+        'comments_map': comments_map,
+        'user': request.user
     })
 
 
