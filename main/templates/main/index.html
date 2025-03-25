@@ -264,7 +264,7 @@
                 <!-- Comments starts -->
                 {% with comments=comments_map|get_item:post.id %}
                 {% if comments %}
-                  {% for comment in comments %}
+                    {% for comment in comments|slice:":2" %}
                     <div class="flex gap-3 items-center self-stretch flex-grow-0 flex-shrink-0 h-10 relative rounded-[45px] bg-white">
                       <img class="h-12 w-12 rounded-full" src="{{ comment.user.profile_picture.url }}"/>
                       

@@ -11,6 +11,7 @@ from .models import Post, ActivityLog, Comment
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
+# wenv\Scripts\activate my ref
 
 
 
@@ -22,7 +23,7 @@ def index(request):
     
     comments_map = {}
     for post in posts:
-        top_comment = Comment.objects.filter(post=post, parent_comment=None).order_by('created_at').first()
+        top_comment = Comment.objects.filter(post=post, parent_comment=None).order_by('created_at').all()
         comments_map[post.id] = top_comment
 
 
