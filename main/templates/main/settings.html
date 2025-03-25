@@ -9,102 +9,112 @@
 {% block content %}
 
 <main style="width: 100%;" class="flex overflow-y-auto w-full" style="height: 100vh;">
-    <div style="width: 80%;" class="flex-1 overflow-y-auto py-8 px-12 scrollbar-hide">
-        <h2 class="text-2xl font-medium text-left text-black mb-6">
-            Settings
-        </h2>
-        <div class="flex justify-between w-full mb-4">
-            <h2 class="text-xl font-medium text-left text-black mb-2">
-                Account Type
+    
+
+        <div style="width: 80%;" class="flex-1 overflow-y-auto py-8 px-12 scrollbar-hide">
+            <form method="POST">
+            <h2 class="text-2xl font-medium text-left text-black mb-6">
+                Settings
             </h2>
-            <!-- dropdown input with private or public -->
-            <div class="relative inline-block w-32">
-                <select class="block appearance-none w-full bg-white border border-gray-800 hover:border-gray-500 px-4 py-2 pr-8 rounded leading-tight ">
-                    <option>Private</option>
-                    <option>Public</option>
-                </select>
-                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 ">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                {% csrf_token %}
+            <!-- Account type -->
+            <div class="flex justify-between w-full mb-4">
+                <h2 class="text-xl font-medium text-left text-black mb-2">
+                    Account Type
+                </h2>
+                <!-- dropdown input with private or public -->
+                <div class="relative inline-block w-32">
+                    <select name="account_type" class="block appearance-none w-full bg-white border border-gray-800 hover:border-gray-500 px-4 py-2 pr-8 rounded leading-tight ">
+                        <option value="Private" {% if settings.account_type == 'Private' %}selected{% endif %}>Private</option>
+                        <option value="Public" {% if settings.account_type == 'Public' %}selected{% endif %}>Public</option>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 ">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
 
-                    </svg>
-                </div>
-            </div>  
+                        </svg>
+                    </div>
+                </div>  
 
-        </div>
-        <div class="flex justify-between w-full mb-4">
-            <h2 class="text-xl font-medium text-left text-black mb-2">
-                Notifications 
-            </h2>
-            <!-- dropdown input with private or public -->
-            <div class="relative inline-block w-32">
-                <select class="block appearance-none w-full bg-white border border-gray-800 hover:border-gray-500 px-4 py-2 pr-8 rounded leading-tight ">
-                    <option>On</option>
-                    <option>Off</option>
-                </select>
-                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 ">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+            </div>
 
-                    </svg>
-                </div>
-            </div>  
+            <!-- Notifications -->
+            <div class="flex justify-between w-full mb-4">
+                <h2 class="text-xl font-medium text-left text-black mb-2">
+                    Notifications 
+                </h2>
+                <!-- dropdown input with private or public -->
+                <div class="relative inline-block w-32">
+                    <select name="notifications" class="block appearance-none w-full bg-white border border-gray-800 hover:border-gray-500 px-4 py-2 pr-8 rounded leading-tight ">
+                        <option value="On" {% if settings.notifications == 'On' %}selected{% endif %}>On</option>
+                        <option value="Off" {% if settings.notifications == 'Off' %}selected{% endif %}>Off</option>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 ">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
 
-        </div>
-        <div class="flex justify-between w-full">
-            <h2 class="text-xl font-medium text-left text-black mb-2">
-                Appearance 
-            </h2>
-            <!-- dropdown input with private or public -->
-            <div class="relative inline-block w-32">
-                <select class="block appearance-none w-full bg-white border border-gray-800 hover:border-gray-500 px-4 py-2 pr-8 rounded leading-tight ">
-                    <option>Light</option>
-                    <option>Dark</option>
-                </select>
-                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 ">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                        </svg>
+                    </div>
+                </div>  
 
-                    </svg>
-                </div>
-            </div>  
+            </div>
 
+            <!-- Appearance -->
+            <div class="flex justify-between w-full">
+                <h2 class="text-xl font-medium text-left text-black mb-2">
+                    Appearance 
+                </h2>
+                <!-- dropdown input with private or public -->
+                <div name="appearance" class="relative inline-block w-32">
+                    <select class="block appearance-none w-full bg-white border border-gray-800 hover:border-gray-500 px-4 py-2 pr-8 rounded leading-tight ">
+                        <option value="Light" {% if settings.appearance == 'Light' %}selected{% endif %}>Light</option>
+                        <option value="Dark" {% if settings.appearance == 'Dark' %}selected{% endif %}>Dark</option>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 ">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+
+                        </svg>
+                    </div>
+                </div>  
+
+            </div>
+            
+            <button type="submit" class="mt-4 bg-blue-500 text-white py-2 px-4 rounded">Save</button>
+        </form>
         </div>
         
+    
 
+        <aside style="width: 450px;"  class="w-80 p-6 overflow-y-auto scrollbar-hide">
 
+            <div class="bg-white p-6 mb-4 rounded-xl border-2 border-gray-200 flex flex-col gap-4">
+                <h2 class="text-xl font-medium text-left text-black mb-2">
+                    Account
+                </h2>
+                <button class="text-l font-semibold text-left text-gray-800 hover:text-gray-900">
+                    Edit Profile
+                </button>
+                <button class="text-l font-semibold text-left text-gray-800 hover:text-gray-900">
+                    Change Password
+                </button>
+                <button class="text-l font-semibold text-left text-gray-800 hover:text-gray-900">
+                    Delete Account
+                </button>
+                
+                
 
-    </div>
-
-    <aside style="width: 450px;"  class="w-80 p-6 overflow-y-auto scrollbar-hide">
-
-        <div class="bg-white p-6 mb-4 rounded-xl border-2 border-gray-200 flex flex-col gap-4">
-            <h2 class="text-xl font-medium text-left text-black mb-2">
-                Account
-            </h2>
-            <button class="text-l font-semibold text-left text-gray-800 hover:text-gray-900">
-                Edit Profile
-            </button>
-            <button class="text-l font-semibold text-left text-gray-800 hover:text-gray-900">
-                Change Password
-            </button>
-            <button class="text-l font-semibold text-left text-gray-800 hover:text-gray-900">
-                Delete Account
-            </button>
-            
-            
-
-        </div>
-        <div class="bg-white p-6 mb-4 rounded-xl border-2 border-gray-200 flex flex-col gap-4">
-            <button class="text-l font-semibold text-left text-gray-800 hover:text-gray-900">
-                Invite Friends
-            </button>
-            <a href="{% url 'logout' %}"><button class="text-l font-semibold text-left text-red-700 hover:text-red-800">
-                Log out
-            </button>
-            </a>
-        </div>
-    </aside>
+            </div>
+            <div class="bg-white p-6 mb-4 rounded-xl border-2 border-gray-200 flex flex-col gap-4">
+                <button class="text-l font-semibold text-left text-gray-800 hover:text-gray-900">
+                    Invite Friends
+                </button>
+                <a href="{% url 'logout' %}"><button class="text-l font-semibold text-left text-red-700 hover:text-red-800">
+                    Log out
+                </button>
+                </a>
+            </div>
+        </aside>
 </main>
 
 {% endblock %}

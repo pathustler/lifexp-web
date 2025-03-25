@@ -112,3 +112,12 @@ class SearchHistory(models.Model):
 
     def __str__(self):
         return f"{self.user.username} searched '{self.search_query}' [{self.search_type}]"
+
+class UserSettings(models.Model):
+    player = models.OneToOneField(Player, on_delete=models.CASCADE, related_name='settings')
+    account_type = models.CharField(max_length=10, choices=[('Private', 'Private'), ('Public', 'Public')], default='Public')
+    notifications = models.CharField(max_length=3, choices=[('On', 'On'), ('Off', 'Off')], default='On')
+    appearance = models.CharField(max_length=10, choices=[('Light', 'Light'), ('Dark', 'Dark')], default='Light')
+
+    def __str__(self):
+        return f"{self.player.username}'s Settings"

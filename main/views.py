@@ -1,14 +1,13 @@
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import path
 from django.db.models import Q
 from . import views
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from users.models import Player
+from users.models import Player, UserSettings
 import roman
 from .forms import PostForm
 from .models import Post, ActivityLog, Comment
-from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
 # wenv\Scripts\activate my ref
@@ -92,8 +91,7 @@ def search(request):
         'query': query,
     }
     return render(request, 'main/search.html', context)
-   
-from datetime import datetime
+
 
 
 def new_post(request):
@@ -177,10 +175,17 @@ def leaderboard(request, type):
     
     
 def settings(request):
-    currentpage= "settings"
-    return render(request, 'main/settings.html',{
-        "currentpage": currentpage
-    })
+    player = Player.objects.get(username=request.user.username)
+    settings, created = UserSettings.objects.get_or_create(player=player)
+
+    if request.method == 'POST':
+        settings.account_type = request.POST.get('account_type', 'Public')
+        settings.notifications = request.POST.get('notifications', 'On')
+        settings.appearance = request.POST.get('appearance', 'Light')
+        settings.save()
+        return redirect('settings')
+
+    return render(request, 'main/settings.html', {'settings': settings})
 
 def add_comment(request, post_id):
     if request.method == "POST":
