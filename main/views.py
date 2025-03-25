@@ -47,6 +47,8 @@ def profile(request, username):
     currentpage= "profile"
     player = Player.objects.get(username=username)
     
+    playerposts = Post.objects.filter(user=player)
+    
     rom = roman.toRoman(player.masterlevel)
     title = f"{player.masterytitle} {rom}"
     
@@ -80,6 +82,7 @@ def profile(request, username):
         "total_xp_week": total_xp_week,
         "total_xp_all_time": total_xp_all_time,
         "currentpage": currentpage,
+        "playerposts": playerposts,
         "dark_mode": False,
         })
 
@@ -209,3 +212,15 @@ def add_comment(request, post_id):
             parent_comment=parent_comment
         )
         return redirect('post_detail', post_id=post_id)
+    
+
+
+def post_detail(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    
+    comments_map = {}
+
+    top_comment = Comment.objects.filter(post=post, parent_comment=None).order_by('created_at').all()
+    comments_map[post.id] = top_comment
+
+    return render(request, 'main/post_detail.html', {'post': post, 'comments_map': comments_map,})
