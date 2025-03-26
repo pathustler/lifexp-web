@@ -22,17 +22,17 @@
     <!-- Image Upload -->
     
     <div class="mb-4">
-        <label for="image" class="block text-gray-700 font-medium mb-2">Upload Image</label>
-        <div id="image-preview-container" style="aspect-ratio: 4 / 3;" class="relative w-full border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-blue-500 transition flex items-center justify-center overflow-hidden bg-gray-100">
+        <label for="image" class="block text-gray-700 dark:text-[#999] mb-2">Upload Image</label>
+        <div id="image-preview-container" style="aspect-ratio: 4 / 3;" class="relative w-full border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-blue-500 transition flex items-center justify-center overflow-hidden bg-gray-100 dark:bg-[#1f2022] dark:border-[#444]">
             <!-- Image Preview -->
             <img id="image-preview" class="hidden w-full h-full object-cover rounded-lg absolute top-0 left-0" />
             
             <!-- Icon and Text -->
             <div id="upload-placeholder" class="text-center flex items-center justify-center flex-col h-full">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-12 h-12 text-gray-500">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-12 h-12 text-gray-500 dark:text-[#444]">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
                 </svg>
-                <p class="mt-2 text-gray-500">Upload Post Cover</p>
+                <p class="mt-2 text-gray-500 dark:text-[#444]">Upload Post Cover</p>
             </div>
             
             <!-- File Input (Hidden) -->
@@ -42,10 +42,7 @@
 
     <!-- Post Content -->
     <div class="mb-4">
-      <label for="content" class="block text-gray-700 font-medium mb-1">Content</label>
-      <!-- <textarea id="content" name="content" rows="5" required 
-                class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"></textarea>
-         -->
+      <label for="content" class="block text-gray-700 dark:text-[#999] mb-2">Content</label>
          {{ form.content }}
     </div>
 
@@ -53,10 +50,7 @@
     <div class="flex gap-4">
       <!-- Start Time -->
       <div class="mb-4 w-1/2">
-        <label for="start" class="block text-gray-700 font-medium mb-1">Start Time</label>
-        <!-- <input type="time" id="start" name="start" required
-               class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300">
-                -->
+        <label for="start" class="block text-gray-700 dark:text-[#999] mb-2">Start Time</label>
                 {{ form.start_time }}
 
             
@@ -64,7 +58,7 @@
       
       <!-- End Time -->
       <div class="mb-4 w-1/2">
-        <label for="end" class="block text-gray-700 font-medium mb-1">End Time</label>
+        <label for="end" class="block text-gray-700 dark:text-[#999] mb-2">End Time</label>
         {{ form.end_time }}
       </div>
     </div>
@@ -72,8 +66,8 @@
 
     <!--  field, that creates tags as you type and hit space or enter -->
     <div x-data="tagInput()" class="w-full mb-4">
-        <label class="block text-gray-700 font-medium mb-2">Tags</label>
-        <div class="flex flex-wrap items-center gap-2 border px-3 py-2 rounded-lg bg-white focus-within:ring-2 focus-within:ring-blue-300">
+        <label class="block text-gray-700 dark:text-[#999] mb-2">Tags</label>
+        <div class="flex flex-wrap items-center gap-2 border px-3 py-2 rounded-lg bg-white focus-within:ring-2 focus-within:ring-blue-300 dark:bg-[#1f2022] dark:border-[#444] dark:text-white dark:focus:ring-blue-600 dark:placeholder-[#444]">
             <!-- Display Added Tags -->
             <template x-for="(tag, index) in tags" :key="index">
                 <div class="flex items-center bg-blue-500 text-white px-2 py-1 rounded-lg">
@@ -86,7 +80,7 @@
             <input type="text"  x-model="newTag" 
                 @keydown.enter.prevent="addTag()"
                 @keydown.space.prevent="addTag()"
-                class="flex-grow outline-none  w-full" 
+                class="flex-grow outline-none  w-full bg-transparent placeholder-[#444]" placeholder="Add Tags"
                  />
         </div>
         
@@ -110,23 +104,23 @@
 
 
 
-<div class="border-l border-gray-200 bg-gray-50 p-6 flex items-center justify-center" style="width: 800px;">
-    <div class="bg-white mb-6 w-full p-6 rounded-xl border-2 border-gray-200">
+<div class="border-l border-gray-200 bg-gray-50 p-6 flex items-center justify-center dark:bg-[#191a1c] dark:border-[#444]" style="width: 800px;">
+    <div class="bg-white mb-6 w-full p-6 rounded-xl border-2 border-gray-200 dark:bg-[#1f2022] dark:border-[#444]">
         <div class="flex items-center mb-4">
             <img src="{{player.profile_picture.url}}" class="rounded-full w-10 h-10" alt="User">
             <div class="ml-3">
               <p class="font-semibold">{{ player.fullname|default:request.user.username }}</p>
-              <p class="text-sm text-gray-500">Just now</p>
+              <p class="text-sm text-gray-500 dark:text-[#929292]">Just now</p>
             </div>
         </div>
         <div class="w-full mb-4">
             <img class="w-full" style="aspect-ratio: 4 / 3; object-fit: cover;" id="image-preview-big"  src="https://www.mariposakids.co.nz/wp-content/uploads/2014/08/image-placeholder2.jpg">
         </div>
-        <p class="text-gray-700 text-sm mb-3" id="preview-content">Captions</p>
-        <div class="flex text-sm text-gray-500 space-x-4 mb-3">
+        <p class="text-gray-700 text-sm mb-3 dark:text-[#929292]" id="preview-content">Captions</p>
+        <div class="flex text-sm text-gray-500 space-x-4 mb-3 dark:text-[#fff]">
             <p class="font-bold" id="duration-preview">0m</p>
-            <span class="border-2 border-gray-600 text-gray-600 text-xs px-2 cursor-pointer hover:bg-gray-600 hover:text-white rounded-lg">Drawing</span>
-            <span class=" text-gray-600 text-xs cursor-pointer  rounded-lg">+4</span>
+            <span class="border-2 border-gray-600 text-gray-600 text-xs px-2 cursor-pointer hover:bg-gray-600 hover:text-white rounded-lg dark:bg-[#292b2f] dark:text-[#e2e2e3] dark:border-[#444] dark:hover:bg-[#444]">Drawing</span>
+            <span class=" text-gray-600 text-xs cursor-pointer rounded-lg dark:text-[#e2e2e3]">+4</span>
         </div>
         <div
 class="flex flex-col w-full justify-between items-start self-stretch flex-grow-0 flex-shrink-0 h-[50px] overflow-hidden border-t border-r-0 border-b-0 border-l-0 border-black/5"
@@ -288,12 +282,12 @@ height="36"
 viewBox="0 0 20 20"
 fill="none"
 xmlns="http://www.w3.org/2000/svg"
-class="flex-grow-0 flex-shrink-0 w-5 h-5 relative"
+class="flex-grow-0 flex-shrink-0 w-5 h-5 relative text-black dark:text-[#fff]"
 preserveAspectRatio="xMidYMid meet"
 >
 <path
   d="M3.33334 10V16.6667C3.33334 17.1087 3.50894 17.5326 3.8215 17.8452C4.13406 18.1578 4.55798 18.3334 5.00001 18.3334H15C15.442 18.3334 15.866 18.1578 16.1785 17.8452C16.4911 17.5326 16.6667 17.1087 16.6667 16.6667V10M13.3333 5.00002L10 1.66669M10 1.66669L6.66668 5.00002M10 1.66669V12.5"
-  stroke="black"
+  stroke="currentColor"
   stroke-opacity="0.6"
   stroke-width="2"
   stroke-linecap="round"
