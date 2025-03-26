@@ -10,7 +10,10 @@ from .forms import PostForm
 from .models import Post, ActivityLog, Comment
 from django.contrib.auth.decorators import login_required
 
-# wenv\Scripts\activate my ref. ok
+# wenv\Scripts\activate 
+# python manage.py runserver
+
+# my ref. ok
  
 
 @login_required
@@ -97,6 +100,7 @@ def search(request):
         'users': users,
         'recent_searches': ['Jason', 'Pat', 'ML project'],  # Fetch recent search from user model later
         'query': query,
+        'currentpage': "search",
     }
     return render(request, 'main/search.html', context)
 
@@ -192,7 +196,7 @@ def settings(request):
         settings.save()
         return redirect('settings')
 
-    return render(request, 'main/settings.html', {'settings': settings})
+    return render(request, 'main/settings.html', {'settings': settings, 'currentpage': "settings", 'player': player})
 
 def add_comment(request, post_id):
     if request.method == "POST":
