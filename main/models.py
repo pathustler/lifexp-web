@@ -56,14 +56,21 @@ class Post(models.Model):
 
 # ActivityLog model
 class ActivityLog(models.Model):
+    def default_xp():
+        return {
+            "physique": 0,
+            "creativity": 0,
+            "social": 0,
+            "energy": 0,
+            "skill": 0
+        }
     user = models.ForeignKey(
         Player, 
         on_delete=models.CASCADE, 
         related_name='activity_logs'
     )
-    activity_desc = models.CharField(max_length=255, blank=True, null=True)
-    xp_distribution = models.JSONField()
-    productivity_score = models.IntegerField()
+    name = models.CharField(max_length=255, blank=True, null=True)
+    xp_distribution = models.JSONField(default=default_xp)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     
