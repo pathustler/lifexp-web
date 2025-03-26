@@ -9,13 +9,13 @@
 
 <main class="flex h-screen overflow-hidden bg-gray-100">
     <!-- Search Sidebar -->
-    <div class="w-96 bg-white p-6 border-r border-gray-200">
+    <div class="w-96 bg-white p-6 border-r border-gray-200 dark:bg-[#191a1c] dark:border-[#333]">
         <h2 class="font-semibold text-xl mb-6">Search</h2>
 
         <!-- Search Bar -->
-        <div class="flex items-center bg-gray-200 rounded-full px-4 py-2">
+        <div class="flex items-center bg-gray-200 rounded-full px-4 py-2 dark:bg-[#292b2f]">
             <form method="GET" action="{% url 'search' %}">
-                <div class="flex items-center bg-gray-200 rounded-full px-4 py-2">
+                <div class="flex items-center rounded-full px-4 py-2">
                     <div class="w-5 h-5 relative flex items-center justify-center">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="#888888" class="h-4 w-4">
                             <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
@@ -28,18 +28,18 @@
         </div>
 
         <!-- Recent Searches -->
-        <div class="mt-8 border-t pt-4 border-gray-200">
+        <div class="mt-8 border-t pt-4 border-gray-200 dark:border-[#333] dark:bg-[#191a1c]"> 
           <h3 class="text-sm text-gray-500 mb-4">Recent</h3>
 
           <!-- Hardcoded Recent Items -->
           {% for name in recent_searches %}
-          <div class="flex justify-between items-center py-2 hover:bg-gray-100 rounded-md px-2">
+          <div class="flex justify-between items-center py-2 hover:bg-gray-100 rounded-md px-2 dark:hover:bg-[#292b2f]">
               <div class="flex items-center gap-3">
                   <img src="https://via.placeholder.com/32" class="rounded-full" alt="user" />
-                  <span class="text-gray-700 text-sm">{{ name }}</span>
+                  <span class="text-sm dark:text-gray-500">{{ name }}</span>
               </div>
               <button onclick="this.parentElement.remove()">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-500 hover:text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 dark:text-gray-500 hover:text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 18 6M6 6l12 12"/>
                   </svg>
               </button>
@@ -50,7 +50,7 @@
     </div>
 
     <!-- Content Section -->
-    <div class="flex-1 overflow-y-auto p-6">
+    <div class="flex-1 overflow-y-auto p-6 dark:border-[#00000000] dark:bg-[#191a1c]">
         <!-- Posts Section -->
         <div class="mb-8">
             <h2 class="text-base font-medium mb-4">Posts</h2>

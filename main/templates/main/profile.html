@@ -1,3 +1,4 @@
+
 {% extends 'main/layout.html' %}
 {% load static %}
 
@@ -114,6 +115,7 @@
             <!-- XP -->
             {% if player.masterytitle == "Rookie" %}
             <div class="bg-gray-300 border-2 rounded-xl border-gray-200 w-full flex flex-col rounded-md items-center justify-between p-4">
+            </div>
             {%else%}
             <div class="bg-white dark:bg-[#1f2022] border-2 rounded-xl border-gray-200 dark:border-[#2d2f32] w-full flex flex-col rounded-md items-center justify-between p-4">
             {%endif%} 
@@ -273,8 +275,8 @@
 
                 
             </div>
-            <div class="flex flex-col my-4 h-min bg-white border-2 border-gray-200 dark:bg-[#1f2022] dark:border-[#2d2f32] rounded-2xl w-full">
-                <div class=" p-4 space-y-4 cursor-pointer hover:bg-gray-100">
+            <div class="flex flex-col my-4 h-min bg-white border-2 border-gray-200 dark:bg-[#1f2022] dark:border-[#2d2f32] rounded-2xl w-full ">
+                <div class=" p-4 space-y-4 cursor-pointer hover:bg-gray-100 dark:hover:bg-[#292b2f]">
                    
                     <div class="flex items-center justify-between">
                         <div class="flex items-center space-x-4">
@@ -290,7 +292,7 @@
                     </div>
 
                 </div>
-                <div class=" p-4 space-y-4 cursor-pointer hover:bg-gray-100">
+                <div class=" p-4 space-y-4 cursor-pointer hover:bg-gray-100 dark:hover:bg-[#292b2f]">
                    
                     <div class="flex items-center justify-between">
                         <div class="flex items-center space-x-4">
@@ -309,11 +311,12 @@
             </div>
 
         </div>
+
         
-        <div class="grid grid-cols-3 my-4 border-2 border-gray-200 rounded-sm w-full">
+        <div class="grid grid-cols-3  my-4  border-2 border-gray-200 rounded-sm w-full dark:border-[rgb(0,0,0,0)]">
             {% for post in playerposts %}
                 <a href="{% url 'post_detail' post.id %}" class="col-span-1">
-                    <img class="border-2 object-cover w-full h-56 border-gray-200 cursor-pointer" src="{{ post.post_image.url }}">
+                    <img class="border-2 border-gray-200  w-full h-56 dark:border-[rgb(0,0,0,0)]" src="{{ post.post_image.url }}">
                 </a>
                 
             {% empty %}
@@ -330,8 +333,6 @@
             {% endfor %}
         </div>
         
-        
-    </div>
 </main>
 
 
