@@ -18,14 +18,14 @@ class PostForm(forms.ModelForm):
                 'class': 'absolute inset-0 opacity-0 cursor-pointer',
                 'onchange': 'previewImage(event)',
             }),
-            'start_time': forms.TimeInput(attrs={  # Use TimeInput instead of FileInput
-                'type': "time",
+            'start_time': forms.DateTimeInput(attrs={  # Use TimeInput instead of FileInput
+                'type': "datetime-local",
                 'id': "start",
                 'name': "start",
                 'class': 'w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300',
             }),
-            'end_time': forms.TimeInput(attrs={  # Use TimeInput instead of FileInput
-                'type': "time",
+            'end_time': forms.DateTimeInput(attrs={  # Use TimeInput instead of FileInput
+                'type': "datetime-local",
                 'id': "end",
                 'name': "end",
                 'class': 'w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300',

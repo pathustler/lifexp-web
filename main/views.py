@@ -72,6 +72,42 @@ def profile(request, username):
         {"day": "Saturday", "xp": 2},
     ]
     
+    activities = ActivityLog.objects.filter(user=player)
+    actlist = []
+    
+
+    for activity in activities:
+        maxxp = activity.xp_distribution[max(activity.xp_distribution, key=activity.xp_distribution.get)]
+        maxxplabel = max(activity.xp_distribution, key=activity.xp_distribution.get)
+        totalxp = sum(activity.xp_distribution.values())
+        #if the activity of that name already exists in actlist, add total xp to it and update the max xp label
+        for act in actlist:
+            if act["name"] == activity.name:
+                act["total_xp"] += totalxp
+                
+                    
+                #add both's xp_distribution
+                for key in act["xp_distribution"]:
+                    act["xp_distribution"][key] += activity.xp_distribution[key]
+                act['max_xp_label'] = max(act["xp_distribution"], key=act["xp_distribution"].get)
+                
+                print(act)
+                
+                break
+        else:
+            actlist.append({
+                "name": activity.name,
+                "total_xp": totalxp,
+                "max_xp_label": maxxplabel,
+                "max_xp": maxxp,
+                "xp_distribution": activity.xp_distribution
+            })
+            
+
+        
+
+    actlist.sort(key=lambda x: x["total_xp"], reverse=True)
+    
     total_xp_week = sum(item["xp"] for item in xp_data)
     total_xp_all_time = 2312320  # Replace with actual database value
     
@@ -85,6 +121,8 @@ def profile(request, username):
         "currentpage": currentpage,
         "playerposts": playerposts,
         "dark_mode": False,
+        "actlist": actlist,
+
         })
 
 def search(request):
@@ -129,10 +167,26 @@ def new_post(request):
                 post_image=form.cleaned_data['post_image'],  # if this field exists
                 start_time=start_time_obj,  # if this field exists
                 end_time=end_time_obj,  # if this field exists
+                tags=form.cleaned_data['tags'],  # if this field exists
             )
+            
+            for tag in form.cleaned_data['tags'].split(','):
+
+                new_activity = ActivityLog(
+                    user=player,
+                    name=tag,
+                    start_time=start_time_obj,
+                    end_time=end_time_obj,
+                )
+                
+                new_activity.save()
+                
+            
             
             # Save the new post to the database
             new_post.save()
+            
+            
 
             # Redirect to the index view, not main/new_post
             return redirect('index')

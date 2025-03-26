@@ -25,8 +25,8 @@ class Post(models.Model):
     )
     content = models.TextField()
     post_image = CloudinaryField('image', blank=True, null=True)  # We'll handle public_id dynamically
-    start_time = models.TimeField()
-    end_time = models.TimeField()
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
     tags = models.CharField(max_length=255, blank=True, null=True) 
@@ -71,22 +71,15 @@ class ActivityLog(models.Model):
     )
     name = models.CharField(max_length=255, blank=True, null=True)
     xp_distribution = models.JSONField(default=default_xp)
-    start_time = models.DateTimeField()
-    end_time = models.DateTimeField()
+
     
     # We'll auto-calculate this in minutes
-    total_time_done = models.IntegerField(editable=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ['-created_at']
 
-    def save(self, *args, **kwargs):
-        # Calculate the total time duration in minutes before saving
-        if self.start_time and self.end_time:
-            duration = self.end_time - self.start_time
-            self.total_time_done = int(duration.total_seconds() / 60)  # or /60 for minutes, /3600 for hours
-        super().save(*args, **kwargs)
+
 
     def __str__(self):
         return f'Activity by {self.user.username} on {self.created_at.strftime("%Y-%m-%d")}'
