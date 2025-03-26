@@ -116,6 +116,7 @@
       
       {% for post in posts %}
       <div class="bg-white mb-6 p-6 rounded-xl border-2 border-gray-200">
+          <a href="{% url 'profile' post.user.username %}">
             <div class="flex items-center mb-4">
                 <img src="{{ post.user.profile_picture.url }}" class="rounded-full w-10 h-10" alt="User">
                 <div class="ml-3">
@@ -123,6 +124,7 @@
                     <p class="text-sm text-gray-500">{{ post.created_at|date:"M d, Y H:i A" }}</p>
                 </div>
             </div>
+          </a>
             <div class="w-full mb-4">
                 <img class="w-full" style="aspect-ratio: 4 / 3; object-fit: cover;" src="{{ post.post_image.url }}">
             </div>
@@ -348,13 +350,14 @@
   <aside style="width: 450px;"  class="w-80 p-6 ">
 
         <div class="bg-white p-6 mb-4 rounded-xl border-2 border-gray-200">
-
+          <a href="{% url 'profile' player.username %}">
             <div class="text-center flex flex-col items-center">
  
                 <img class="h-24 w-24 rounded-full" src="{{player.profile_picture.url}}" class="rounded-full mx-auto mb-3" alt="Profile">
                 <h3 class="font-semibold">{{player.fullname}}</h3>
                 <p class="text-sm font-bold" style="color: {{player.primary_accent_color}};">{{title}}</p>
             </div>
+          </a>
             <div class="mt-4 flex justify-between text-sm">
                 <div class="text-center">
                     <p class="font-semibold">{{player.lifelevel}}</p>

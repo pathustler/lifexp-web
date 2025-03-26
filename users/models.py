@@ -8,6 +8,7 @@ import cloudinary
 import cloudinary.uploader
 import cloudinary.api
 from django.contrib.auth.models import User
+from django.utils.timezone import now
 # from .models import Player
 
 cloudinary.config( 
@@ -65,6 +66,7 @@ class Player(AbstractBaseUser):
     email = models.EmailField(unique=True)
     profile_picture = CloudinaryField('image', blank=True, null=True, default="Screenshot_2025-03-25_at_10.40.01_PM_vugdxk")
     masterytitle = models.CharField( choices=masterytitle_choices, default="Rookie",max_length=150, blank=True, null=True)
+    joined_date = models.DateTimeField(default=now)
     lifelevel = models.IntegerField(default=1)
     masterlevel = models.IntegerField(default=1)
     title = models.CharField(max_length=150, blank=True, null=True)
