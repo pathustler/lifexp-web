@@ -116,7 +116,7 @@
       
       {% for post in posts %}
       <div class="bg-white mb-6 p-6 rounded-xl border-2 border-gray-200">
-          <a href="{% url 'profile' post.user.username %}"></a>
+          <a href="{% url 'profile' post.user.username %}">
             <div class="flex items-center mb-4">
                 <img src="{{ post.user.profile_picture.url }}" class="rounded-full w-10 h-10" alt="User">
                 <div class="ml-3">
