@@ -21,24 +21,28 @@ def hex_to_rgba(hex_color, opacity=1):
     return f'rgba({r}, {g}, {b}, {opacity})'
 
 
-
 def global_variables(request):
-    player = Player.objects.get(username=request.user.username)
-    posts = Post.objects.select_related('user').all()
-    activities = ActivityLog.objects.select_related('user').all()
-    rom = roman.toRoman(player.masterlevel)
-    nextrom = roman.toRoman(player.masterlevel+1)
-    title = f"{player.masterytitle} {rom}"
+    player = Player.objects.get(username=request.user.username) if request.user.is_authenticated else None
+    posts = Post.objects.select_related('user').all() if request.user.is_authenticated else None
+    activities = ActivityLog.objects.select_related('user').all() if request.user.is_authenticated else None
     
-    secondary_color_rgba = hex_to_rgba(player.secondary_accent_color, 0.5)
+    if request.user.is_authenticated and player: 
+        rom = roman.toRoman(player.masterlevel)
+    else:
+        rom = None
+        
+    nextrom = roman.toRoman(player.masterlevel+1) if request.user.is_authenticated and player else None
+    title = f"{player.masterytitle} {rom}" if request.user.is_authenticated and player else None
     
+    secondary_color_rgba = hex_to_rgba(player.secondary_accent_color, 0.5) if request.user.is_authenticated and player else None
     
     return {
         'default_profile_picture': "https://res.cloudinary.com/dfohn9dcz/image/upload/v1742902918/default_profile.png",
         'site_name': "LifeXP",
-        'user': request.user,
+        'user': request.user ,
         'is_authenticated': request.user.is_authenticated,
         'player': request.user.player if request.user.is_authenticated else None,
+        "userplayer": request.user.player if request.user.is_authenticated else None,
         'mastery':request.user.player.masterytitle.lower() if request.user.is_authenticated else None,
         'posts': posts, 
         'activities': activities,

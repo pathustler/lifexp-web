@@ -126,6 +126,7 @@ def profile(request, username):
         })
 
 def search(request):
+    currentpage= "search"
     query = request.GET.get('q', '')
     posts = Post.objects.filter(Q(tags__icontains=query) | Q(content__icontains=query)
 )
@@ -136,6 +137,7 @@ def search(request):
         'users': users,
         'recent_searches': ['Jason', 'Pat', 'ML project'],  # Fetch recent search from user model later
         'query': query,
+        "currentpage": currentpage,
     }
     return render(request, 'main/search.html', context)
 
@@ -237,6 +239,7 @@ def leaderboard(request, type):
     
     
 def settings(request):
+    currentpage= "settings"
     player = Player.objects.get(username=request.user.username)
     settings, created = UserSettings.objects.get_or_create(player=player)
 
@@ -247,7 +250,7 @@ def settings(request):
         settings.save()
         return redirect('settings')
 
-    return render(request, 'main/settings.html', {'settings': settings})
+    return render(request, 'main/settings.html', {'settings': settings, 'currentpage': currentpage, 'player': player})
 
 def add_comment(request, post_id):
     if request.method == "POST":

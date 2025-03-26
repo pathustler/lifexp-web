@@ -66,7 +66,7 @@
                           Feed</span>
                 </a>
                 {% if currentpage == "search" %}
-                <a href="/search" class="flex items-center p-2 rounded bg-blue-100 text-blue-600">
+                <a href="/search" class="flex items-center p-2 rounded" style="background-color: {{secondary_color_rgba}}; color: var(--primary-accent);">
                 {% else %}
                 <a href="/search" class="flex items-center p-2 rounded text-gray-700 hover:bg-gray-200">
                 {% endif %}
@@ -77,10 +77,10 @@
                           Search</span>
                 </a>
                 {% if currentpage == "new_post" %}
-                <a href="/posts/new" class="flex items-center p-2 rounded bg-blue-100 text-blue-600">
+                <a href="/posts/new" class="flex items-center p-2 rounded" style="background-color: {{secondary_color_rgba}}; color: var(--primary-accent);">
                 {% else %}
                 <a href="/posts/new" class="flex items-center p-2 rounded text-gray-700 hover:bg-gray-200">
-                {% endif %}
+                {% endif %} 
                     <span class="ml-2 flex gap-3 items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"  class="h-6 w-6">
                             <path fill-rule="evenodd" d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd" />
@@ -89,9 +89,9 @@
                           New Post</span>
                 </a>
                 {% if currentpage == "leaderboard" %}
-                <a href="{% url 'leaderboard' mastery %}" class="flex items-center p-2 rounded bg-blue-100 text-blue-600">
+                <a href="{% url 'leaderboard' mastery %}" class="flex items-center p-2 rounded" style="background-color: {{secondary_color_rgba}}; color: var(--primary-accent);">
                 {% else %}
-                <a href="{% url 'leaderboard' mastery %}"  class="flex items-center p-2 rounded text-gray-700 hover:bg-gray-200">
+                <a href="{% url 'leaderboard' mastery %}" class="flex items-center p-2 rounded text-gray-700 hover:bg-gray-200">
                 {% endif %}
                     <span class="ml-2 flex gap-3 items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"  class="h-6 w-6">
@@ -101,9 +101,9 @@
                         Leaderboard</span>
                 </a>
                 {% if currentpage == "profile" %}
-                <a href="{% url 'profile' user.username %}" class="flex items-center p-2 rounded bg-blue-100 text-blue-600">
+                <a href="{% url 'profile' user.username %}" class="flex items-center p-2 rounded" style="background-color: {{secondary_color_rgba}}; color: var(--primary-accent);">
                 {% else %}
-                <a href="{% url 'profile' user.username %}"  class="flex items-center p-2 rounded text-gray-700 hover:bg-gray-200">
+                <a href="{% url 'profile' user.username %}"   class="flex items-center p-2 rounded text-gray-700 hover:bg-gray-200">
                 {% endif %}
                     <span class="ml-2 flex gap-3 items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6">
@@ -113,7 +113,7 @@
                         Profile</span>
                 </a>
                 {% if currentpage == "settings" %}
-                <a href="/settings" class="flex items-center p-2 rounded bg-blue-100 text-blue-600">
+                <a href="/settings" class="flex items-center p-2 rounded" style="background-color: {{secondary_color_rgba}}; color: var(--primary-accent);">
                 {% else %}
                 <a href="/settings" class="flex items-center p-2 rounded text-gray-700 hover:bg-gray-200">
                 {% endif %}
@@ -135,8 +135,8 @@
 
     <style>
         :root {
-          --primary-accent: {{ player.primary_accent_color }};
-          --secondary-accent: {{ player.secondary_accent_color }};
+          --primary-accent: {{ userplayer.primary_accent_color }};
+          --secondary-accent: {{ userplayer.secondary_accent_color }};
         }
         .primary {
           color: var(--primary-accent);

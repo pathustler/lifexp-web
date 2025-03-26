@@ -214,7 +214,7 @@
                 <!-- Header -->
                 <div class="flex justify-between items-center mb-8">
                     <h2 class="text-lg font-bold">Top Experiences</h2>
-                    <span class="text-gray-500 text-sm">{{totaltime}} Hours</span>
+                    <span class="text-gray-500 text-sm"></span>
                 </div>
         
                 <!-- Experience List -->
@@ -260,6 +260,8 @@
                         </div>
 
                 </div>
+                {%empty%}
+                <p class="text-gray-400">No activity recorded</p>
                 {%endfor%}
                 
             
