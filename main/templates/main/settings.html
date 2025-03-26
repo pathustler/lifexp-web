@@ -11,20 +11,20 @@
 <main style="width: 100%;" class="flex overflow-y-auto w-full" style="height: 100vh;">
     
 
-        <div style="width: 80%;" class="flex-1 overflow-y-auto py-8 px-12 scrollbar-hide dark:text-">
+        <div style="width: 80%;" class="flex-1 overflow-y-auto py-8 px-12 scrollbar-hide dark:text-[#fff]">
             <form method="POST">
-            <h2 class="text-2xl font-medium text-left text-black mb-6">
+            <h2 class="text-2xl font-medium text-left text-black mb-6 dark:text-[#fff]">
                 Settings
             </h2>
                 {% csrf_token %}
             <!-- Account type -->
             <div class="flex justify-between w-full mb-4">
-                <h2 class="text-xl font-medium text-left text-black mb-2">
+                <h2 class="text-xl font-medium text-left text-black mb-2 dark:text-[#b8b8b8]">
                     Account Type
                 </h2>
                 <!-- dropdown input with private or public -->
                 <div class="relative inline-block w-32">
-                    <select name="account_type" class="block appearance-none w-full bg-white border border-gray-800 hover:border-gray-500 px-4 py-2 pr-8 rounded leading-tight ">
+                    <select name="account_type" class="block appearance-none w-full bg-white border border-gray-800 hover:border-gray-500 px-4 py-2 pr-8 rounded leading-tight dark:bg-[#1f2022] dark:border-[#333] dark:text-[#a8a8a8]">
                         <option value="Private" {% if settings.account_type == 'Private' %}selected{% endif %}>Private</option>
                         <option value="Public" {% if settings.account_type == 'Public' %}selected{% endif %}>Public</option>
                     </select>
@@ -40,12 +40,12 @@
 
             <!-- Notifications -->
             <div class="flex justify-between w-full mb-4">
-                <h2 class="text-xl font-medium text-left text-black mb-2">
+                <h2 class="text-xl font-medium text-left text-black mb-2 dark:border-[#333] dark:text-[#a8a8a8]">
                     Notifications 
                 </h2>
                 <!-- dropdown input with private or public -->
                 <div class="relative inline-block w-32">
-                    <select name="notifications" class="block appearance-none w-full bg-white border border-gray-800 hover:border-gray-500 px-4 py-2 pr-8 rounded leading-tight ">
+                    <select name="notifications" class="block appearance-none w-full bg-white border border-gray-800 hover:border-gray-500 px-4 py-2 pr-8 rounded leading-tight dark:bg-[#1f2022] dark:border-[#333] dark:text-[#a8a8a8]">
                         <option value="On" {% if settings.notifications == 'On' %}selected{% endif %}>On</option>
                         <option value="Off" {% if settings.notifications == 'Off' %}selected{% endif %}>Off</option>
                     </select>
@@ -61,12 +61,12 @@
 
             <!-- Appearance -->
             <div class="flex justify-between w-full">
-                <h2 class="text-xl font-medium text-left text-black mb-2">
+                <h2 class="text-xl font-medium text-left text-black mb-2 dark:border-[#333] dark:text-[#a8a8a8]">
                     Appearance 
                 </h2>
                 <!-- dropdown input with private or public -->
                 <div name="appearance" class="relative inline-block w-32">
-                    <select class="block appearance-none w-full bg-white border border-gray-800 hover:border-gray-500 px-4 py-2 pr-8 rounded leading-tight ">
+                    <select class="block appearance-none w-full bg-white border border-gray-800 hover:border-gray-500 px-4 py-2 pr-8 rounded leading-tight dark:bg-[#1f2022] dark:border-[#333] dark:text-[#a8a8a8]">
                         <option value="Light" {% if settings.appearance == 'Light' %}selected{% endif %}>Light</option>
                         <option value="Dark" {% if settings.appearance == 'Dark' %}selected{% endif %}>Dark</option>
                     </select>
@@ -88,25 +88,25 @@
 
         <aside style="width: 450px;"  class="w-80 p-6 overflow-y-auto scrollbar-hide">
 
-            <div class="bg-white p-6 mb-4 rounded-xl border-2 border-gray-200 flex flex-col gap-4">
-                <h2 class="text-xl font-medium text-left text-black mb-2">
+            <div class="bg-white p-6 mb-4 rounded-xl border-2 border-gray-200 flex flex-col gap-4 dark:bg-[#1f2022] dark:border-[#333]">
+                <h2 class="text-xl font-medium text-left text-black mb-2 dark:text-[#fff]">
                     Account
                 </h2>
-                <button class="text-l font-semibold text-left text-gray-800 hover:text-gray-900">
+                <button class="text-l font-semibold text-left text-gray-800 hover:text-gray-900 dark:text-[#b8b8b8]">
                     Edit Profile
                 </button>
-                <button class="text-l font-semibold text-left text-gray-800 hover:text-gray-900">
+                <button class="text-l font-semibold text-left text-gray-800 hover:text-gray-900 dark:text-[#b8b8b8]">
                     Change Password
                 </button>
-                <button class="text-l font-semibold text-left text-gray-800 hover:text-gray-900">
+                <button class="text-l font-semibold text-left text-gray-800 hover:text-gray-900 dark:text-[#b8b8b8]">
                     Delete Account
                 </button>
                 
                 
 
             </div>
-            <div class="bg-white p-6 mb-4 rounded-xl border-2 border-gray-200 flex flex-col gap-4">
-                <button class="text-l font-semibold text-left text-gray-800 hover:text-gray-900">
+            <div class="bg-white p-6 mb-4 rounded-xl border-2 border-gray-200 flex flex-col gap-4 dark:bg-[#1f2022] dark:border-[#333]">
+                <button class="text-l font-semibold text-left text-gray-800 hover:text-gray-900 dark:text-[#b8b8b8]">
                     Invite Friends
                 </button>
                 <a href="{% url 'logout' %}"><button class="text-l font-semibold text-left text-red-700 hover:text-red-800">
