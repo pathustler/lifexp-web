@@ -8,6 +8,7 @@ from users.models import Player, UserSettings
 import roman
 from .forms import PostForm
 from .models import Post, ActivityLog, Comment
+from .models import Comment, Post
 from django.contrib.auth.decorators import login_required
 
 # wenv\Scripts\activate my ref. ok
@@ -224,3 +225,24 @@ def post_detail(request, post_id):
     comments_map[post.id] = top_comment
 
     return render(request, 'main/post_detail.html', {'post': post, 'comments_map': comments_map,})
+
+
+
+@login_required
+def add_comment(request, post_id):
+    if request.method == "POST":
+        post = Post.objects.get(id=post_id)
+        user = request.user
+        content = request.POST['content']
+        Comment.objects.create(post=post, user=user, content=content)
+    return redirect('index')
+
+@login_required
+def add_reply(request, comment_id):
+    if request.method == "POST":
+        parent_comment = Comment.objects.get(id=comment_id)
+        post = parent_comment.post
+        user = request.user
+        content = request.POST['content']
+        Comment.objects.create(post=post, user=user, content=content, parent_comment=parent_comment)
+    return redirect('index')

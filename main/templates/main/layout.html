@@ -52,7 +52,7 @@
             
             <nav class="space-y-4">
                 {% if currentpage == "index" %}
-                <a href="/" class="flex items-center p-2 rounded bg-blue-100 text-blue-600">
+                <a href="/" class="flex items-center p-2 rounded" style="background-color: {{secondary_color_rgba}}; color: var(--primary-accent);">
                 {% else %}
                 <a href="/" class="flex items-center p-2 rounded text-gray-700 hover:bg-gray-200">
                 {% endif %}
@@ -89,9 +89,9 @@
                           New Post</span>
                 </a>
                 {% if currentpage == "leaderboard" %}
-                <a href="/leaderboard" class="flex items-center p-2 rounded bg-blue-100 text-blue-600">
+                <a href="{% url 'leaderboard' mastery %}" class="flex items-center p-2 rounded bg-blue-100 text-blue-600">
                 {% else %}
-                <a href="/leaderboard" class="flex items-center p-2 rounded text-gray-700 hover:bg-gray-200">
+                <a href="{% url 'leaderboard' mastery %}"  class="flex items-center p-2 rounded text-gray-700 hover:bg-gray-200">
                 {% endif %}
                     <span class="ml-2 flex gap-3 items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"  class="h-6 w-6">

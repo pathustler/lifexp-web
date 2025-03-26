@@ -10,6 +10,8 @@ urlpatterns = [
     path('settings/', views.settings, name='settings'),
     path('post/<int:post_id>/comment/', views.add_comment, name='add_comment'),
     path('post/<int:post_id>', views.post_detail, name='post_detail'),
+    path('add_comment/<int:post_id>/', views.add_comment, name='add_comment'),
+    path('add_reply/<int:comment_id>/', views.add_reply, name='add_reply'),
 ]
 
 
