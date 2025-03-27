@@ -9,6 +9,8 @@ import cloudinary.uploader
 import cloudinary.api
 from django.contrib.auth.models import User
 from django.utils.timezone import now
+from datetime import timedelta
+
 # from .models import Player
 
 cloudinary.config( 
@@ -72,6 +74,7 @@ class Player(AbstractBaseUser):
     title = models.CharField(max_length=150, blank=True, null=True)
     bio = models.TextField(blank=True, null=True)
     streak_count = models.IntegerField(default=0)
+    last_visit = models.DateField(null=True, blank=True)
     totalxp = models.IntegerField(default=0)
     categoryxp = models.JSONField(default=default_xp) # A way to store the xp in each category like physique, creativity, social, energy, skill 
     categorylevels = models.JSONField(default=default_category_levels)
@@ -82,9 +85,51 @@ class Player(AbstractBaseUser):
     REQUIRED_FIELDS = ["email"]
     primary_accent_color = models.CharField(max_length=7, default="#555555")
     secondary_accent_color = models.CharField(max_length=7, default="#aaaaaa")
+    
+    following = models.ManyToManyField(
+        "self",  # Self-referential relationship
+        symmetrical=False,  # One-way relationship (A follows B, but B doesn't necessarily follow A)
+        related_name="followers",
+        blank=True
+    )
+
+    def follow(self, other_player):
+        """Follow another player"""
+        if other_player != self:
+            self.following.add(other_player)
+
+    def unfollow(self, other_player):
+        """Unfollow a player"""
+        self.following.remove(other_player)
+
+    def is_following(self, other_player):
+        """Check if the player is following another player"""
+        return self.following.filter(username=other_player.username).exists()
+
+    def get_followers_count(self):
+        """Get the number of followers"""
+        return self.followers.count()
+
+    def get_following_count(self):
+        """Get the number of players this player is following"""
+        return self.following.count()
 
     def __str__(self):
         return self.username
+
+    def update_streak(self):
+        today = now().date()
+        
+        if self.last_visit == today:
+            return  # Already updated today, no change needed
+        
+        if self.last_visit == today - timedelta(days=1):
+            self.streak_count += 1  # Continue streak
+        else:
+            self.streak_count = 1  # Reset streak to 1 (new start)
+        
+        self.last_visit = today
+        self.save()
     
     def save(self, *args, **kwargs):
         primseckey = {

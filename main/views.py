@@ -10,8 +10,25 @@ from .forms import PostForm
 from .models import Post, ActivityLog, Comment
 from .models import Comment, Post
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 
 # wenv\Scripts\activate my ref. ok
+
+
+@login_required
+def toggle_follow(request, username):
+    """Follow or unfollow a player"""
+    player_to_follow = get_object_or_404(Player, username=username)
+    user_player = request.user.player
+
+    if user_player.is_following(player_to_follow):
+        user_player.unfollow(player_to_follow)
+        following = False
+    else:
+        user_player.follow(player_to_follow)
+        following = True
+
+    return JsonResponse({"status": "success", "following": following})
  
 
 @login_required
@@ -75,6 +92,11 @@ def profile(request, username):
     activities = ActivityLog.objects.filter(user=player)
     actlist = []
     
+    is_following = request.user.player.following.filter(id=player.id).exists() if request.user.is_authenticated else False
+
+    
+    ownprofile = request.user.username == username
+    
 
     for activity in activities:
         maxxp = activity.xp_distribution[max(activity.xp_distribution, key=activity.xp_distribution.get)]
@@ -113,6 +135,7 @@ def profile(request, username):
     
     return render(request, 'main/profile.html', {
         'player': player,
+        "is_following": is_following,
         'username': username,
         'title': title,
          "xp_data": xp_data,
@@ -122,7 +145,7 @@ def profile(request, username):
         "playerposts": playerposts,
         "dark_mode": False,
         "actlist": actlist,
-
+        "ownprofile": ownprofile
         })
 
 def search(request):

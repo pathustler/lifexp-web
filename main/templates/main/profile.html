@@ -8,6 +8,53 @@
 
 {% block content %}
 
+<div id="followers-popup" class="z-50 hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+    <div class="bg-white p-6 h-96 overflow-y-auto rounded-lg shadow-lg w-96 relative">
+        <!-- Close Button -->
+        <div class="w-full flex justify-between pb-3 border-b">
+            <p></p>
+            <h2 class="text-lg font-semibold">Followers</h2>
+            <button onclick="toggleFollowersPopup()" class="text-xl text-gray-600">&times;</button>
+        
+        </div>
+
+        
+        
+
+        <ul class="max-h-60 overflow-y-auto">
+            {% for follower in player.followers.all %}
+                <li class=" py-2 ">
+                    <a href="{% url 'profile' follower.username %}" class="w-full text-blue-500">
+                        <div class="flex w-full flex-col justify-start w-full items-center  overflow-hidden gap-2.5">
+                            <div
+                              class="flex hover:bg-gray-100 cursor-pointer justify-start items-center  w-full relative overflow-hidden gap-0.5 p-[7px] rounded-[10px] bg-white"
+                            >
+                            <img src="{{follower.profile_picture.url}}" class="h-12 w-12 rounded-full" alt="User">
+                            <div class="flex flex-col w-full ml-2">
+                                <p class="text-sm text-black">
+                                    {{follower.fullname}}
+                                  </p>
+                                  
+                                  <p class="text-xs font-semibold text-left" style="color:{{follower.primary_accent_color}};">
+                                    {{follower.masterytitle}} XII
+                                  </p>
+                                  <p
+                                    class=" text-xs font-medium text-left text-black/40"
+                                  >
+                                    Life Level {{follower.lifelevel}}
+                                  </p>
+                            </div>
+                        
+                        </div>
+                        </div>
+                    </a>
+                </li>
+            
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
 <main style="width: 100%;" class="flex overflow-y-auto w-full" style="height: 100vh;">
 
     
@@ -32,12 +79,12 @@
                     <p class="font-semibold">{{player.posts.all.count}}</p>
                     <p class="text-gray-500">Posts</p>
                 </div>
-                <div class="text-left">
-                    <p class="font-semibold">3</p>
+                <div class="text-left cursor-pointer" onclick="toggleFollowersPopup()">
+                    <p class="font-semibold">{{player.get_followers_count}}</p>
                     <p class="text-gray-500">Followers</p>
                 </div>
                 <div class="text-left">
-                    <p class="font-semibold">3</p>
+                    <p class="font-semibold">{{player.get_following_count}}</p>
                     <p class="text-gray-500">Following</p>
                 </div>
             </div>
@@ -63,18 +110,31 @@
         </p>
 
         <span class="flex gap-4 items-center">
-            <button class="bg-blue-500 text-white px-8 py-2 rounded-md mt-4" style="background-color: {{player.primary_accent_color}};">Follow</button>
-            <button class="bg-black text-white px-8 py-2 rounded-md mt-4">Unfollow</button>
-            <button class="bg-black text-white px-8 py-2 rounded-md mt-4">Edit Profile</button>
-            <button class="py-2 rounded-md mt-4"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
-              </svg>
-              </button>
+            
+           
+            {% if ownprofile %}
+                <button class="bg-black  w-48  text-white px-8 py-2 rounded-md mt-4">Edit Profile</button>
+            {% else %}
+                
+                <button  id="unfollow-btn" onclick="toggleFollow('{{ player.username }}')" 
+                {% if is_following %} class="bg-black  w-48  text-white px-8 py-2 rounded-md mt-4"
+                {% else %} class="bg-black  w-48 hidden  text-white px-8 py-2 rounded-md mt-4"  {% endif %}>Unfollow</button>
+                    
+
+                <button  id="follow-btn"  onclick="toggleFollow('{{ player.username }}')" 
+                {% if is_following %} class="bg-blue-500 hidden  w-48  text-white px-8 py-2 rounded-md mt-4"
+                {% else %} class="bg-blue-500   w-48  text-white px-8 py-2 rounded-md mt-4"{% endif %}  style="background-color: {{player.primary_accent_color}};">Follow</button>
+
+            {%endif%}
+            <button id="shareBtn" onclick="copyToClipboard()"  class=" w-48 bg-gray-700 hover:bg-black text-white px-8 py-2 rounded-md mt-4">Share Profile</button>
+            <button class="py-2 rounded-md mt-4">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="black"><path d="M720-400v-120H600v-80h120v-120h80v120h120v80H800v120h-80Zm-360-80q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM40-160v-112q0-34 17.5-62.5T104-378q62-31 126-46.5T360-440q66 0 130 15.5T616-378q29 15 46.5 43.5T680-272v112H40Zm80-80h480v-32q0-11-5.5-20T580-306q-54-27-109-40.5T360-360q-56 0-111 13.5T140-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T440-640q0-33-23.5-56.5T360-720q-33 0-56.5 23.5T280-640q0 33 23.5 56.5T360-560Zm0-80Zm0 400Z"/></svg>
+            </button>
 
         </span>
         
         </div>
-        <div class="w-1/2 p-4 flex flex-col items-end justify-end gap-4 p-6">
+        <div class="w-1/2 p-4 xl:flex lg:hidden md:hidden sm:hidden xs:hidden flex-col items-end justify-end gap-4 p-6">
             <div   class="w-72 h-72">
                 <canvas id="radarChart"></canvas>
 
@@ -396,6 +456,61 @@
             }
         });
     });
+
+
+    function copyToClipboard() {
+    const url = window.location.href; // Get current page URL
+    const button = document.getElementById("shareBtn"); // Get the button
+    
+    navigator.clipboard.writeText(url).then(() => {
+        button.textContent = "Link copied!"; // Change button text
+        button.classList.add("hover:bg-gray-700"); // Change button color
+        button.classList.remove("hover:bg-black");
+        button.disabled = true; // Temporarily disable button
+
+        setTimeout(() => {
+            button.textContent = "Share Profile"; // Revert text after 3 seconds
+            button.disabled = false; // Enable button again
+            button.classList.remove("hover:bg-gray-700"); // Change button color
+            button.classList.add("hover:bg-black");
+        }, 6000);
+    }).catch(err => {
+        console.error("Failed to copy: ", err);
+    });
+}
+
+
+function toggleFollow(username) {
+    fetch(`/toggle-follow/${username}/`, {
+        method: "POST",
+        headers: {
+            "X-CSRFToken": "{{ csrf_token }}",
+            "Content-Type": "application/json"
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === "success") {
+            const followBtn = document.querySelector("#follow-btn");
+            const unfollowBtn = document.querySelector("#unfollow-btn");
+
+            if (data.following) {
+                followBtn.classList.add("hidden");
+                unfollowBtn.classList.remove("hidden");
+            } else {
+                followBtn.classList.remove("hidden");
+                unfollowBtn.classList.add("hidden");
+            }
+
+            console.log("success")
+        }
+    })
+    .catch(error => console.error("Error:", error));
+}
+function toggleFollowersPopup() {
+        let popup = document.getElementById("followers-popup");
+        popup.classList.toggle("hidden");
+    }
 </script>
 
 {% endblock %}
