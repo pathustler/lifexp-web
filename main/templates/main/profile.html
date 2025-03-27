@@ -419,7 +419,7 @@
         <div class="grid grid-cols-3  my-4  border-2 border-gray-200 rounded-sm w-full dark:border-[rgb(0,0,0,0)]">
             {% for post in playerposts %}
                 <a href="{% url 'post_detail' post.id %}" class="col-span-1">
-                    <img class="border-2 border-gray-200  w-full h-56 dark:border-[rgb(0,0,0,0)]" src="{{ post.post_image.url }}">
+                    <img class="border-2 border-gray-200 object-cover  w-full h-56 dark:border-[rgb(0,0,0,0)]" src="{{ post.post_image.url }}">
                 </a>
                 
             {% empty %}
@@ -531,6 +531,8 @@
 
 
 function toggleFollow(username) {
+     togglefollowbutton()
+
     fetch(`/toggle-follow/${username}/`, {
         method: "POST",
         headers: {
@@ -556,6 +558,17 @@ function toggleFollow(username) {
         }
     })
     .catch(error => console.error("Error:", error));
+}
+
+function togglefollowbutton(){
+    const followBtn = document.querySelector("#follow-btn");
+    const unfollowBtn = document.querySelector("#unfollow-btn");
+
+        followBtn.classList.toggle("hidden");
+        unfollowBtn.classList.toggle("hidden");
+    
+
+
 }
 function toggleFollowersPopup() {
         let popup = document.getElementById("followers-popup");
