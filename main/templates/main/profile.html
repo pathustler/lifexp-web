@@ -55,6 +55,56 @@
     </div>
 </div>
 
+
+
+
+<div id="following-popup" class="z-50 hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+    <div class="bg-white p-6 h-96 overflow-y-auto rounded-lg shadow-lg w-96 relative">
+        <!-- Close Button -->
+        <div class="w-full flex justify-between pb-3 border-b">
+            <p></p>
+            <h2 class="text-lg font-semibold">Following</h2>
+            <button onclick="toggleFollowingPopup()" class="text-xl text-gray-600">&times;</button>
+        
+        </div>
+
+        
+        
+
+        <ul class="max-h-60 overflow-y-auto">
+            {% for follower in player.following.all %}
+                <li class=" py-2 ">
+                    <a href="{% url 'profile' follower.username %}" class="w-full text-blue-500">
+                        <div class="flex w-full flex-col justify-start w-full items-center  overflow-hidden gap-2.5">
+                            <div
+                              class="flex hover:bg-gray-100 cursor-pointer justify-start items-center  w-full relative overflow-hidden gap-0.5 p-[7px] rounded-[10px] bg-white"
+                            >
+                            <img src="{{follower.profile_picture.url}}" class="h-12 w-12 rounded-full" alt="User">
+                            <div class="flex flex-col w-full ml-2">
+                                <p class="text-sm text-black">
+                                    {{follower.fullname}}
+                                  </p>
+                                  
+                                  <p class="text-xs font-semibold text-left" style="color:{{follower.primary_accent_color}};">
+                                    {{follower.masterytitle}} XII
+                                  </p>
+                                  <p
+                                    class=" text-xs font-medium text-left text-black/40"
+                                  >
+                                    Life Level {{follower.lifelevel}}
+                                  </p>
+                            </div>
+                        
+                        </div>
+                        </div>
+                    </a>
+                </li>
+            
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
 <main style="width: 100%;" class="flex overflow-y-auto w-full" style="height: 100vh;">
 
     
@@ -83,7 +133,7 @@
                     <p class="font-semibold">{{player.get_followers_count}}</p>
                     <p class="text-gray-500">Followers</p>
                 </div>
-                <div class="text-left">
+                <div class="text-left cursor-pointer" onclick="toggleFollowingPopup()">
                     <p class="font-semibold">{{player.get_following_count}}</p>
                     <p class="text-gray-500">Following</p>
                 </div>
@@ -509,6 +559,11 @@ function toggleFollow(username) {
 }
 function toggleFollowersPopup() {
         let popup = document.getElementById("followers-popup");
+        popup.classList.toggle("hidden");
+    }
+
+    function toggleFollowingPopup() {
+        let popup = document.getElementById("following-popup");
         popup.classList.toggle("hidden");
     }
 </script>
