@@ -64,6 +64,7 @@ class ActivityLog(models.Model):
             "energy": 0,
             "skill": 0
         }
+    
     user = models.ForeignKey(
         Player, 
         on_delete=models.CASCADE, 
@@ -71,7 +72,6 @@ class ActivityLog(models.Model):
     )
     name = models.CharField(max_length=255, blank=True, null=True)
     xp_distribution = models.JSONField(default=default_xp)
-
     
     # We'll auto-calculate this in minutes
     created_at = models.DateTimeField(auto_now_add=True)
