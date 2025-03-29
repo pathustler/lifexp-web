@@ -8,10 +8,10 @@
 
 {% block content %}
 <!-- popup with all leaderboard names -->
-<div id="leaderboard-popup" class="bg-white hidden z-40 overflow-hidden  rounded-lg shadow-lg absolute top-24 right-8">
+<div id="leaderboard-popup" class="bg-white hidden z-40 overflow-hidden  rounded-lg shadow-lg absolute top-24 right-8 dark:bg-[#1f2022] dark:border-[#2f2f30] border-2 border-gray-200 w-[300px] h-[400px]">
     <ul >
         <a href="{% url 'leaderboard' 'warrior' %}">
-        <li {% if type == "warrior" %} class="bg-gray-100 cursor-pointer" {% else %} class="hover:bg-gray-100 cursor-pointer" {% endif %}>
+        <li {% if type == "warrior" %} class="bg-gray-100 cursor-pointer dark:bg-[#292b2f]" {% else %} class="hover:bg-gray-100 cursor-pointer dark:hover:bg-[#292b2f]" {% endif %}>
             <div class="flex justify-between items-center px-5 py-2">
                 <div
                   class="flex justify-start items-center flex-grow-0 flex-shrink-0  relative gap-[15px]"
@@ -20,7 +20,7 @@
                   src="{% static 'images/leaderboard/Warrior.png' %}"
                     class=" w-[42px] h-[50px] object-cover"
                   />
-                  <p class="text-l font-medium text-left text-black">
+                  <p class="text-l font-medium text-left">
                     Warrior XXII Leaderboard
                   </p>
                 </div>
@@ -30,7 +30,7 @@
         </li>
     </a>
     <a href="{% url 'leaderboard' 'protagonist' %}">
-        <li {% if type == "protagonist" %} class="bg-gray-100 cursor-pointer" {% else %} class="hover:bg-gray-100 cursor-pointer" {% endif %}>
+        <li {% if type == "protagonist" %} class="bg-gray-100 cursor-pointer dark:bg-[#292b2f]" {% else %} class="hover:bg-gray-100 cursor-pointer dark:hover:bg-[#292b2f]" {% endif %}>
             <div class="flex justify-between items-center px-5 py-2">
                 <div
                   class="flex justify-start items-center flex-grow-0 flex-shrink-0  relative gap-[15px]"
@@ -39,7 +39,7 @@
                   src="{% static 'images/leaderboard/Protagonist.png' %}"
                     class=" w-[42px] h-[50px] object-cover"
                   />
-                  <p class="text-l font-medium text-left text-black">
+                  <p class="text-l font-medium text-left">
                     Protagonist XXII Leaderboard
                   </p>
                 </div>
@@ -49,7 +49,7 @@
         </li>
     </a>
     <a href="{% url 'leaderboard' 'diplomat' %}">
-        <li {% if type == "diplomat" %} class="bg-gray-100 cursor-pointer" {% else %} class="hover:bg-gray-100 cursor-pointer" {% endif %}>
+        <li {% if type == "diplomat" %} class="bg-gray-100 cursor-pointer dark:bg-[#292b2f]" {% else %} class="hover:bg-gray-100 cursor-pointer dark:hover:bg-[#292b2f]" {% endif %}>
             <div class="flex justify-between items-center px-5 py-2">
                 <div
                   class="flex justify-start items-center flex-grow-0 flex-shrink-0  relative gap-[15px]"
@@ -58,7 +58,7 @@
                   src="{% static 'images/leaderboard/Diplomat.png' %}"
                     class=" w-[42px] h-[50px] object-cover"
                   />
-                  <p class="text-l font-medium text-left text-black">
+                  <p class="text-l font-medium text-left">
                     Diplomat XXII Leaderboard
                   </p>
                 </div>
@@ -68,7 +68,7 @@
         </li>
     </a>
     <a href="{% url 'leaderboard' 'maverick' %}">
-        <li {% if type == "maverick" %} class="bg-gray-100 cursor-pointer" {% else %} class="hover:bg-gray-100 cursor-pointer" {% endif %}>
+        <li {% if type == "maverick" %} class="bg-gray-100 cursor-pointer dark:bg-[#292b2f]" {% else %} class="hover:bg-gray-100 cursor-pointer dark:hover:bg-[#292b2f]" {% endif %}>
             <div class="flex justify-between items-center px-5 py-2">
                 <div
                   class="flex justify-start items-center flex-grow-0 flex-shrink-0  relative gap-[15px]"
@@ -77,7 +77,7 @@
                   src="{% static 'images/leaderboard/maverick.png' %}"
                     class=" w-[42px] h-[50px] object-cover"
                   />
-                  <p class="text-l font-medium text-left text-black">
+                  <p class="text-l font-medium text-left">
                     Maverick XXII Leaderboard
                   </p>
                 </div>
@@ -87,7 +87,7 @@
         </li>
     </a>
     <a href="{% url 'leaderboard' 'prodigy' %}">
-        <li {% if type == "prodigy" %} class="bg-gray-100 cursor-pointer" {% else %} class="hover:bg-gray-100 cursor-pointer" {% endif %}>
+        <li {% if type == "prodigy" %} class="bg-gray-100 cursor-pointer dark:bg-[#292b2f]" {% else %} class="hover:bg-gray-100 cursor-pointer dark:hover:bg-[#292b2f]" {% endif %}>
         
 
             <div class="flex justify-between items-center px-5 py-2">
@@ -98,7 +98,7 @@
                   src="{% static 'images/leaderboard/prodigy.png' %}"
                     class=" w-[42px] h-[50px] object-cover"
                   />
-                  <p class="text-l font-medium text-left text-black">
+                  <p class="text-l font-medium text-left">
                     Prodigy XXII Leaderboard
                   </p>
                 </div>
@@ -341,7 +341,7 @@
                             </svg>
                             
                           
-                          <p class="text-blue-400 text-lg font-bold " style="color: #1f1f1f">{{player.streak_count}}</p>
+                          <p class="text-black text-lg font-bold dark:text-white">{{player.streak_count}}</p>
                       </div>
                       
                   </div>

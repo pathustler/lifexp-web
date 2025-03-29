@@ -14,7 +14,7 @@
         <div class="flex items-center mb-4">
             <img src="{{ post.user.profile_picture.url }}" class="rounded-full w-10 h-10" alt="User">
             <div class="ml-3">
-                <p class="font-semibold">{{ post.user.fullname }}</p>
+                <p class="font-semibold text-white dark:text-black">{{ post.user.fullname }}</p>
                 <p class="text-sm text-gray-500">{{ post.created_at|date:"M d, Y H:i A" }}</p>
             </div>
         </div>

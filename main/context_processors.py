@@ -1,6 +1,6 @@
 from .models import Post, ActivityLog, Comment
 from .models import Comment, Post
-from users.models import Player
+from users.models import Player, UserSettings
 import roman
 
 
@@ -51,3 +51,11 @@ def global_variables(request):
         'secondary_color_rgba': secondary_color_rgba,
         "dark_mode": True,
     }
+
+def get_user_settings(request):
+    if request.user.is_authenticated:
+        user_settings = UserSettings.objects.filter(user=request.user).first()
+        return {
+            'user_settings': user_settings,
+        }
+    return {}
