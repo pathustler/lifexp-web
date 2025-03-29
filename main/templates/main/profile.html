@@ -166,7 +166,7 @@
            
             {% if ownprofile %}
             <a href="{% url 'edit_profile' %}">
-            <button class="bg-black text-white dark:bg-white dark:text-black px-8 py-2 rounded-md mt-4">Edit Profile</button>
+            <button class="bg-[{{ player.primary_accent_color }}]/85 text-white px-8 py-2 rounded-md mt-4">Edit Profile</button>
             </a>
 
             {% else %}
