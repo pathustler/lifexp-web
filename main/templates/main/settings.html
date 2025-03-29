@@ -92,13 +92,15 @@
                 <h2 class="text-xl font-medium text-left text-black mb-2 dark:text-[#fff]">
                     Account
                 </h2>
-                <button class="text-l font-semibold text-left text-gray-800 hover:text-gray-900 dark:text-[#b8b8b8]">
-                    Edit Profile
-                </button>
-                <button class="text-l font-semibold text-left text-gray-800 hover:text-gray-900 dark:text-[#b8b8b8]">
+                <a href="{% url 'edit_profile' %}">
+                    <button class="text-l font-semibold text-left text-gray-800  dark:text-[#b8b8b8]">
+                        Edit Profile
+                    </button>
+                </a>
+                <button class="text-l font-semibold text-left text-gray-800  dark:text-[#b8b8b8]">
                     Change Password
                 </button>
-                <button class="text-l font-semibold text-left text-gray-800 hover:text-gray-900 dark:text-[#b8b8b8]">
+                <button class="text-l font-semibold text-left text-gray-800 dark:text-[#b8b8b8]">
                     Delete Account
                 </button>
                 
@@ -106,7 +108,7 @@
 
             </div>
             <div class="bg-white p-6 mb-4 rounded-xl border-2 border-gray-200 flex flex-col gap-4 dark:bg-[#1f2022] dark:border-[#333]">
-                <button class="text-l font-semibold text-left text-gray-800 hover:text-gray-900 dark:text-[#b8b8b8]">
+                <button class="text-l font-semibold text-left text-gray-800  dark:text-[#b8b8b8]">
                     Invite Friends
                 </button>
                 <a href="{% url 'logout' %}"><button class="text-l font-semibold text-left text-red-700 hover:text-red-800">

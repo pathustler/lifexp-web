@@ -323,3 +323,23 @@ def add_reply(request, comment_id):
         content = request.POST['content']
         Comment.objects.create(post=post, user=user, content=content, parent_comment=parent_comment)
     return redirect('index')
+
+
+@login_required
+def edit_profile(request):
+    currentpage= "profile"
+    player = Player.objects.get(username=request.user.username)
+    
+    if request.method == 'POST':
+        player.fullname = request.POST.get('fullname')
+        player.bio = request.POST.get('bio')
+        player.title = request.POST.get('title')
+        #Save the profile picture if it exists
+        if request.FILES.get('profile_picture'):
+            player.profile_picture = request.FILES.get('profile_picture')
+        player.save()
+        return redirect('profile', username=player.username)
+
+    return render(request, 'main/edit_profile.html', {
+        'player': player, 
+        'currentpage': currentpage})
