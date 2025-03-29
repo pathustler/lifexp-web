@@ -36,6 +36,8 @@ def global_variables(request):
     
     secondary_color_rgba = hex_to_rgba(player.secondary_accent_color, 0.5) if request.user.is_authenticated and player else None
     
+    dark_mode = dark_mode_context(request)
+    
     return {
         'default_profile_picture': "https://res.cloudinary.com/dfohn9dcz/image/upload/v1742902918/default_profile.png",
         'site_name': "LifeXP",
@@ -49,13 +51,18 @@ def global_variables(request):
         'title': title,
         'nextrom': nextrom,
         'secondary_color_rgba': secondary_color_rgba,
-        "dark_mode": True,
+        'dark_mode': dark_mode,  # Default: Light mode
     }
 
-def get_user_settings(request):
+def dark_mode_context(request):
+    dark_mode = True  # Default: Light mode
+
     if request.user.is_authenticated:
-        user_settings = UserSettings.objects.filter(user=request.user).first()
-        return {
-            'user_settings': user_settings,
-        }
-    return {}
+        try:
+            user_settings = UserSettings.objects.get(player=request.user.player)
+            dark_mode = (user_settings.appearance == "Dark")
+            print(dark_mode)
+        except UserSettings.DoesNotExist:
+            pass  # Fallback to default
+
+    return {"dark_mode": dark_mode}

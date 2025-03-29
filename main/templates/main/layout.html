@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="{% if dark_mode %}dark{% endif %}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,8 +26,21 @@
             }
         }
     </script>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
+
+    {% comment %} Used for dark mode toggle {% endcomment %}
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'dark': '#1a202c',
+                        'light': '#f7fafc',
+                    }
+                }
+            }
+        }
+    </script>
 
     <title>{% block title %}Home{% endblock %} - LifeXP</title>
     <style>
@@ -56,9 +69,9 @@
                 <h1 class="text-xl font-bold dark:text-white">LifeXP</h1>
             </div>
             
-            <nav class="space-y-4">
+            <nav class="space-y-4"> 
                 {% if currentpage == "index" %}
-                <a href="/" class="flex items-center p-2 rounded-lg bg-[#203b56] hover:bg-gray-200 dark:text-[{{ userplayer.secondary_accent_color }}] dark:bg-[{{ userplayer.primary_accent_color }}30] dark:hover:bg-[#292b2f]">
+                <a href="/" class="flex items-center p-2 rounded-lg bg-[{{ userplayer.secondary_accent_color }}]/80 text-[{{ userplayer.primary_accent_color }}] hover:bg-gray-200 dark:text-[{{ userplayer.secondary_accent_color }}] dark:bg-[{{ userplayer.primary_accent_color }}30] dark:hover:bg-[#292b2f]">
                 {% else %}
                 <a href="/" class="flex items-center p-2 rounded-lg text-gray-700 hover:bg-gray-200 dark:text-[#838992] dark:hover:bg-[#292b2f]">
                 {% endif %}
@@ -72,7 +85,7 @@
                 </a>
 
                 {% if currentpage == "search" %}
-                <a href="/search" class="flex items-center p-2 rounded-lg bg-[#203b56] hover:bg-gray-200 dark:text-[{{ userplayer.secondary_accent_color }}] dark:bg-[{{ userplayer.primary_accent_color }}30] dark:hover:bg-[#292b2f]">
+                <a href="/search" class="flex items-center p-2 rounded-lg bg-[{{ userplayer.secondary_accent_color }}]/80 text-[{{ userplayer.primary_accent_color }}] hover:bg-gray-200 dark:text-[{{ userplayer.secondary_accent_color }}] dark:bg-[{{ userplayer.primary_accent_color }}30] dark:hover:bg-[#292b2f]">
                 {% else %}
                 <a href="/search" class="flex items-center p-2 rounded-lg text-gray-700 hover:bg-gray-200 dark:text-[#838992] dark:hover:bg-[#292b2f]">
                 {% endif %}
@@ -84,7 +97,7 @@
                 </a>
 
                 {% if currentpage == "new_post" %}
-                <a href="/posts/new" class="flex items-center p-2 rounded-lg bg-[#203b56] hover:bg-gray-200 dark:text-[{{ userplayer.secondary_accent_color }}] dark:bg-[{{ userplayer.primary_accent_color }}30] dark:hover:bg-[#292b2f]">
+                <a href="/posts/new" class="flex items-center p-2 rounded-lg bg-[{{ userplayer.secondary_accent_color }}]/80 text-[{{ userplayer.primary_accent_color }}] hover:bg-gray-200 dark:text-[{{ userplayer.secondary_accent_color }}] dark:bg-[{{ userplayer.primary_accent_color }}30] dark:hover:bg-[#292b2f]">
                 {% else %}
                 <a href="/posts/new" class="flex items-center p-2 rounded-lg text-gray-700 hover:bg-gray-200 dark:text-[#838992] dark:hover:bg-[#292b2f]">
                 {% endif %}
@@ -97,7 +110,7 @@
                 </a>
 
                 {% if currentpage == "leaderboard" %}
-                <a href="{% url 'leaderboard' mastery %}" class="flex items-center p-2 rounded-lg bg-[#203b56] hover:bg-gray-200 dark:text-[{{ userplayer.secondary_accent_color }}] dark:bg-[{{ userplayer.primary_accent_color }}30] dark:hover:bg-[#292b2f]">
+                <a href="{% url 'leaderboard' mastery %}" class="flex items-center p-2 rounded-lg bg-[{{ userplayer.secondary_accent_color }}]/80 text-[{{ userplayer.primary_accent_color }}] hover:bg-gray-200 dark:text-[{{ userplayer.secondary_accent_color }}] dark:bg-[{{ userplayer.primary_accent_color }}30] dark:hover:bg-[#292b2f]">
                 {% else %}
                 <a href="{% url 'leaderboard' mastery %}" class="flex items-center p-2 rounded-lg text-gray-700 hover:bg-gray-200 dark:text-[#838992] dark:hover:bg-[#292b2f]">
                 {% endif %}
@@ -110,7 +123,7 @@
                 </a>
 
                 {% if currentpage == "profile" %}
-                <a href="{% url 'profile' user.username %}" class="flex items-center p-2 rounded-lg bg-[#203b56] hover:bg-gray-200 dark:text-[{{ userplayer.secondary_accent_color }}] dark:bg-[{{ userplayer.primary_accent_color }}30] dark:hover:bg-[#292b2f]">
+                <a href="{% url 'profile' user.username %}" class="flex items-center p-2 rounded-lg bg-[{{ userplayer.secondary_accent_color }}]/80 text-[{{ userplayer.primary_accent_color }}] hover:bg-gray-200 dark:text-[{{ userplayer.secondary_accent_color }}] dark:bg-[{{ userplayer.primary_accent_color }}30] dark:hover:bg-[#292b2f]">
                 {% else %}
                 <a href="{% url 'profile' user.username %}"  class="flex items-center p-2 rounded-lg text-gray-700 hover:bg-gray-200 dark:text-[#838992] dark:hover:bg-[#292b2f]">
                 {% endif %}
@@ -123,7 +136,7 @@
                 </a>
 
                 {% if currentpage == "settings" %}
-                <a href="/settings" class="flex items-center p-2 rounded-lg bg-[#203b56] hover:bg-gray-200 dark:text-[{{ userplayer.secondary_accent_color }}] dark:bg-[{{ userplayer.primary_accent_color }}30] dark:hover:bg-[#292b2f]">
+                <a href="/settings" class="flex items-center p-2 rounded-lg bg-[{{ userplayer.secondary_accent_color }}]/80 text-[{{ userplayer.primary_accent_color }}] hover:bg-gray-200 dark:text-[{{ userplayer.secondary_accent_color }}] dark:bg-[{{ userplayer.primary_accent_color }}30] dark:hover:bg-[#292b2f]">
                 {% else %}
                 <a href="/settings" class="flex items-center p-2 rounded-lg text-gray-700 hover:bg-gray-200 dark:text-[#838992] dark:hover:bg-[#292b2f]">
                 {% endif %}

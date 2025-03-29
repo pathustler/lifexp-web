@@ -29,11 +29,6 @@ def toggle_follow(request, username):
         following = True
 
     return JsonResponse({"status": "success", "following": following})
-# wenv\Scripts\activate 
-# python manage.py runserver
-
-# my ref. ok
- 
 
 @login_required
 def index(request):
