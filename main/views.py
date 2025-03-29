@@ -11,6 +11,8 @@ from .models import Post, ActivityLog, Comment
 from .models import Comment, Post
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
+from django.core.paginator import Paginator
+
 
 # wenv\Scripts\activate my ref. ok
 
@@ -31,6 +33,43 @@ def toggle_follow(request, username):
     return JsonResponse({"status": "success", "following": following})
 
 @login_required
+def fetch_posts(request):
+    page = int(request.GET.get('page', 1))  # Get the requested page number
+    per_page = 5  # Number of posts to load per request
+
+    posts = Post.objects.select_related('user').order_by('-created_at')  # Adjust order as needed
+    paginator = Paginator(posts, per_page)
+    
+    page_obj = paginator.get_page(page)
+    post_list = []
+
+    for post in page_obj:
+        comments = Comment.objects.filter(post=post, parent_comment=None).order_by('created_at')[:3]  # Load top 3 comments
+        comments_data = [{"id": c.id, "content": c.content, "user": c.user.username, "pfp":c.user.profile_picture.url} for c in comments]
+
+        post_list.append({
+            "id": post.id,
+            "content": post.content,  # Adjust fields as per your model
+            "profile_picture": post.user.profile_picture.url if post.user.profile_picture else None,
+            "fullname": post.user.fullname,
+            "username": post.user.username,
+            "created_at": post.created_at.strftime('%Y-%m-%d %H:%M:%S'),
+            "post_image": post.post_image.url if post.post_image else None,
+            "tags": post.tags if post.tags else None,  # Assuming tags are stored as a comma-separated string
+            "start_time": post.start_time.strftime('%Y-%m-%d %H:%M:%S') if post.start_time else None,
+            "end_time": post.end_time.strftime('%Y-%m-%d %H:%M:%S') if post.end_time else None,
+            "user_id": post.user.id,
+            "comments": comments_data,
+            "likes":23,  # Placeholder for likes count
+        })
+
+    return JsonResponse({
+        'posts': post_list,
+        'has_next': page_obj.has_next()
+    })
+
+
+@login_required
 def index(request):
     currentpage= "index"
     player = Player.objects.get(username=request.user.username)
@@ -40,16 +79,13 @@ def index(request):
     nextrom = roman.toRoman(player.masterlevel+1)
     title = f"{player.masterytitle} {rom}"
     
-    
     comments_map = {}
     for post in posts:
         top_comment = Comment.objects.filter(post=post, parent_comment=None).order_by('created_at').all()
         comments_map[post.id] = top_comment
 
-
     return render(request, 'main/index.html',{
         "currentpage": currentpage,
-        'posts': posts, 
         'activities': activities,
         'comments_map': comments_map,
         'user': request.user,

@@ -61,7 +61,6 @@ def dark_mode_context(request):
         try:
             user_settings = UserSettings.objects.get(player=request.user.player)
             dark_mode = (user_settings.appearance == "Dark")
-            print(dark_mode)
         except UserSettings.DoesNotExist:
             pass  # Fallback to default
 
