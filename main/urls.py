@@ -13,6 +13,7 @@ urlpatterns = [
     path('add_comment/<int:post_id>/', views.add_comment, name='add_comment'),
     path('add_reply/<int:comment_id>/', views.add_reply, name='add_reply'),
     path('toggle-follow/<str:username>/', views.toggle_follow, name='toggle_follow'),
+    path('edit_profile/', views.edit_profile, name='edit_profile'),
 ]
 
 

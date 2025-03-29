@@ -65,7 +65,7 @@
         <div class="w-full flex justify-between pb-3 border-b">
             <p></p>
             <h2 class="text-lg font-semibold">Following</h2>
-            <button onclick="toggleFollowersPopup()" class="text-xl text-gray-600">&times;</button>
+            <button onclick="toggleFollowingPopup()" class="text-xl text-gray-600">&times;</button>
         
         </div>
 
@@ -165,7 +165,10 @@
             
            
             {% if ownprofile %}
-            <button class="bg-[{{ player.primary_accent_color }}]/85 text-white px-8 py-2 rounded-md mt-4">Edit Profile</button>
+            <a href="{% url 'edit_profile' %}">
+            <button class="bg-black text-white dark:bg-white dark:text-black px-8 py-2 rounded-md mt-4">Edit Profile</button>
+            </a>
+
             {% else %}
                 
                 <button  id="unfollow-btn" onclick="toggleFollow('{{ player.username }}')" 
