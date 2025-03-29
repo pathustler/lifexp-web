@@ -49,4 +49,5 @@ def global_variables(request):
         'title': title,
         'nextrom': nextrom,
         'secondary_color_rgba': secondary_color_rgba,
+        "dark_mode": True,
     }

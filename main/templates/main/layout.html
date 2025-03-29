@@ -41,34 +41,40 @@
     }
     </style>
 </head>
-<body class="bg-gray-100">
+<body class="{% if dark_mode %}dark{% endif %} bg-white dark:bg-[rgb(25,26,28)] text-black dark:text-white">
     <div class="flex h-screen">
         <!-- Sidebar -->
-        <aside style="width: 300px;"  class="w-64 bg-white p-6  border-r">
+        <aside style="width: 300px;" class="w-64 bg-white dark:bg-[#1f2022] p-6 border-r dark:border-[#2d2f32]">
             <div class="flex w-full items-center mb-6">
+                {% if dark_mode %}
+                <img class="h-16 w-16" src="{% static 'images/logodark.png' %}" alt="Profile">
+                
+                {% else %}
                 <img class="h-16 w-16" src="{% static 'images/logolight.png' %}" alt="Profile">
-                <h1 class="text-xl font-bold ">LifeXP</h1>
+                
+                {% endif %}
+                <h1 class="text-xl font-bold dark:text-white">LifeXP</h1>
             </div>
             
             <nav class="space-y-4">
                 {% if currentpage == "index" %}
-                <a href="/" class="flex items-center p-2 rounded" style="background-color: {{secondary_color_rgba}}; color: var(--primary-accent);">
+                <a href="/" class="flex items-center p-2 rounded-lg bg-[#203b56] hover:bg-gray-200 dark:text-[{{ userplayer.secondary_accent_color }}] dark:bg-[{{ userplayer.primary_accent_color }}30] dark:hover:bg-[#292b2f]">
                 {% else %}
-                <a href="/" class="flex items-center p-2 rounded text-gray-700 hover:bg-gray-200">
+                <a href="/" class="flex items-center p-2 rounded-lg text-gray-700 hover:bg-gray-200 dark:text-[#838992] dark:hover:bg-[#292b2f]">
                 {% endif %}
                     <span class="ml-2 flex gap-3 items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-6 w-6">
                             <path d="M11.47 3.841a.75.75 0 0 1 1.06 0l8.69 8.69a.75.75 0 1 0 1.06-1.061l-8.689-8.69a2.25 2.25 0 0 0-3.182 0l-8.69 8.69a.75.75 0 1 0 1.061 1.06l8.69-8.689Z" />
                             <path d="m12 5.432 8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 0 1-.75-.75v-4.5a.75.75 0 0 0-.75-.75h-3a.75.75 0 0 0-.75.75V21a.75.75 0 0 1-.75.75H5.625a1.875 1.875 0 0 1-1.875-1.875v-6.198a2.29 2.29 0 0 0 .091-.086L12 5.432Z" />
                           </svg>
-                          
-                          
-                          Feed</span>
+                          Feed
+                        </span>
                 </a>
+
                 {% if currentpage == "search" %}
-                <a href="/search" class="flex items-center p-2 rounded" style="background-color: {{secondary_color_rgba}}; color: var(--primary-accent);">
+                <a href="/search" class="flex items-center p-2 rounded-lg bg-[#203b56] hover:bg-gray-200 dark:text-[{{ userplayer.secondary_accent_color }}] dark:bg-[{{ userplayer.primary_accent_color }}30] dark:hover:bg-[#292b2f]">
                 {% else %}
-                <a href="/search" class="flex items-center p-2 rounded text-gray-700 hover:bg-gray-200">
+                <a href="/search" class="flex items-center p-2 rounded-lg text-gray-700 hover:bg-gray-200 dark:text-[#838992] dark:hover:bg-[#292b2f]">
                 {% endif %}
                     <span class="ml-2 flex gap-3 items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"  class="h-6 w-6">
@@ -76,11 +82,12 @@
                           </svg>
                           Search</span>
                 </a>
+
                 {% if currentpage == "new_post" %}
-                <a href="/posts/new" class="flex items-center p-2 rounded" style="background-color: {{secondary_color_rgba}}; color: var(--primary-accent);">
+                <a href="/posts/new" class="flex items-center p-2 rounded-lg bg-[#203b56] hover:bg-gray-200 dark:text-[{{ userplayer.secondary_accent_color }}] dark:bg-[{{ userplayer.primary_accent_color }}30] dark:hover:bg-[#292b2f]">
                 {% else %}
-                <a href="/posts/new" class="flex items-center p-2 rounded text-gray-700 hover:bg-gray-200">
-                {% endif %} 
+                <a href="/posts/new" class="flex items-center p-2 rounded-lg text-gray-700 hover:bg-gray-200 dark:text-[#838992] dark:hover:bg-[#292b2f]">
+                {% endif %}
                     <span class="ml-2 flex gap-3 items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"  class="h-6 w-6">
                             <path fill-rule="evenodd" d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd" />
@@ -88,10 +95,11 @@
                           
                           New Post</span>
                 </a>
+
                 {% if currentpage == "leaderboard" %}
-                <a href="{% url 'leaderboard' mastery %}" class="flex items-center p-2 rounded" style="background-color: {{secondary_color_rgba}}; color: var(--primary-accent);">
+                <a href="{% url 'leaderboard' mastery %}" class="flex items-center p-2 rounded-lg bg-[#203b56] hover:bg-gray-200 dark:text-[{{ userplayer.secondary_accent_color }}] dark:bg-[{{ userplayer.primary_accent_color }}30] dark:hover:bg-[#292b2f]">
                 {% else %}
-                <a href="{% url 'leaderboard' mastery %}" class="flex items-center p-2 rounded text-gray-700 hover:bg-gray-200">
+                <a href="{% url 'leaderboard' mastery %}" class="flex items-center p-2 rounded-lg text-gray-700 hover:bg-gray-200 dark:text-[#838992] dark:hover:bg-[#292b2f]">
                 {% endif %}
                     <span class="ml-2 flex gap-3 items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"  class="h-6 w-6">
@@ -100,10 +108,11 @@
                           
                         Leaderboard</span>
                 </a>
+
                 {% if currentpage == "profile" %}
-                <a href="{% url 'profile' user.username %}" class="flex items-center p-2 rounded" style="background-color: {{secondary_color_rgba}}; color: var(--primary-accent);">
+                <a href="{% url 'profile' user.username %}" class="flex items-center p-2 rounded-lg bg-[#203b56] hover:bg-gray-200 dark:text-[{{ userplayer.secondary_accent_color }}] dark:bg-[{{ userplayer.primary_accent_color }}30] dark:hover:bg-[#292b2f]">
                 {% else %}
-                <a href="{% url 'profile' user.username %}"   class="flex items-center p-2 rounded text-gray-700 hover:bg-gray-200">
+                <a href="{% url 'profile' user.username %}"  class="flex items-center p-2 rounded-lg text-gray-700 hover:bg-gray-200 dark:text-[#838992] dark:hover:bg-[#292b2f]">
                 {% endif %}
                     <span class="ml-2 flex gap-3 items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6">
@@ -112,10 +121,11 @@
                           
                         Profile</span>
                 </a>
+
                 {% if currentpage == "settings" %}
-                <a href="/settings" class="flex items-center p-2 rounded" style="background-color: {{secondary_color_rgba}}; color: var(--primary-accent);">
+                <a href="/settings" class="flex items-center p-2 rounded-lg bg-[#203b56] hover:bg-gray-200 dark:text-[{{ userplayer.secondary_accent_color }}] dark:bg-[{{ userplayer.primary_accent_color }}30] dark:hover:bg-[#292b2f]">
                 {% else %}
-                <a href="/settings" class="flex items-center p-2 rounded text-gray-700 hover:bg-gray-200">
+                <a href="/settings" class="flex items-center p-2 rounded-lg text-gray-700 hover:bg-gray-200 dark:text-[#838992] dark:hover:bg-[#292b2f]">
                 {% endif %}
                     <span class="ml-2 flex gap-3">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6">
@@ -126,6 +136,7 @@
                           
                           Settings</span>
                 </a>
+
             </nav>
         </aside>
     {% block content %}
@@ -139,11 +150,17 @@
           --secondary-accent: {{ userplayer.secondary_accent_color }};
         }
         .primary {
-          color: var(--primary-accent);
+           color: var(--primary-accent);
         }
 
         .secondary{
             color: var(--secondary-accent);
+        }
+
+        .dark_nav{
+            background-color: var(--secondary-accent);
+            color: var(--primary-accent);
+
         }
       </style>
       

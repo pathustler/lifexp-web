@@ -29,6 +29,10 @@ def toggle_follow(request, username):
         following = True
 
     return JsonResponse({"status": "success", "following": following})
+# wenv\Scripts\activate 
+# python manage.py runserver
+
+# my ref. ok
  
 
 @login_required
@@ -143,7 +147,6 @@ def profile(request, username):
         "total_xp_all_time": total_xp_all_time,
         "currentpage": currentpage,
         "playerposts": playerposts,
-        "dark_mode": False,
         "actlist": actlist,
         "ownprofile": ownprofile
         })
@@ -223,13 +226,12 @@ def new_post(request):
                 "currentpage": currentpage,
                 'form': form,
                 'success': False,
-                'player':player
             })
             
     # if a GET (or any other method) we'll create a blank form
     else:
-        form = PostForm()
-        
+        form = PostForm()  # Also pass player here for the GET request
+    
     return render(request, 'main/new_post.html',{
         "currentpage": currentpage,
         'form': form,

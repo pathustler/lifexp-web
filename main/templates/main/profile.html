@@ -1,3 +1,4 @@
+
 {% extends 'main/layout.html' %}
 {% load static %}
 
@@ -9,7 +10,7 @@
 {% block content %}
 
 <div id="followers-popup" class="z-50 hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-    <div class="bg-white p-6 h-96 overflow-y-auto rounded-lg shadow-lg w-96 relative">
+    <div class="bg-white dark:bg-[#1f2022] p-6 h-96 overflow-y-auto rounded-lg shadow-lg w-96 relative">
         <!-- Close Button -->
         <div class="w-full flex justify-between pb-3 border-b">
             <p></p>
@@ -27,11 +28,11 @@
                     <a href="{% url 'profile' follower.username %}" class="w-full text-blue-500">
                         <div class="flex w-full flex-col justify-start w-full items-center  overflow-hidden gap-2.5">
                             <div
-                              class="flex hover:bg-gray-100 cursor-pointer justify-start items-center  w-full relative overflow-hidden gap-0.5 p-[7px] rounded-[10px] bg-white"
+                              class="flex hover:bg-gray-100 dark:hover:bg-[#1f2022] cursor-pointer justify-start items-center  w-full relative overflow-hidden gap-0.5 p-[7px] rounded-[10px] "
                             >
                             <img src="{{follower.profile_picture.url}}" class="h-12 w-12 rounded-full" alt="User">
                             <div class="flex flex-col w-full ml-2">
-                                <p class="text-sm text-black">
+                                <p class="text-sm text-black dark:text-white">
                                     {{follower.fullname}}
                                   </p>
                                   
@@ -39,7 +40,7 @@
                                     {{follower.masterytitle}} XII
                                   </p>
                                   <p
-                                    class=" text-xs font-medium text-left text-black/40"
+                                    class=" text-xs font-medium text-left text-black/40 dark:text-white/40"
                                   >
                                     Life Level {{follower.lifelevel}}
                                   </p>
@@ -59,12 +60,12 @@
 
 
 <div id="following-popup" class="z-50 hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-    <div class="bg-white p-6 h-96 overflow-y-auto rounded-lg shadow-lg w-96 relative">
+    <div class="bg-white dark:bg-[#1f2022] p-6 h-96 overflow-y-auto rounded-lg shadow-lg w-96 relative">
         <!-- Close Button -->
         <div class="w-full flex justify-between pb-3 border-b">
             <p></p>
             <h2 class="text-lg font-semibold">Following</h2>
-            <button onclick="toggleFollowingPopup()" class="text-xl text-gray-600">&times;</button>
+            <button onclick="toggleFollowersPopup()" class="text-xl text-gray-600">&times;</button>
         
         </div>
 
@@ -77,11 +78,11 @@
                     <a href="{% url 'profile' follower.username %}" class="w-full text-blue-500">
                         <div class="flex w-full flex-col justify-start w-full items-center  overflow-hidden gap-2.5">
                             <div
-                              class="flex hover:bg-gray-100 cursor-pointer justify-start items-center  w-full relative overflow-hidden gap-0.5 p-[7px] rounded-[10px] bg-white"
+                              class="flex hover:bg-gray-100 dark:hover:bg-[#1f2022] cursor-pointer justify-start items-center  w-full relative overflow-hidden gap-0.5 p-[7px] rounded-[10px] "
                             >
                             <img src="{{follower.profile_picture.url}}" class="h-12 w-12 rounded-full" alt="User">
                             <div class="flex flex-col w-full ml-2">
-                                <p class="text-sm text-black">
+                                <p class="text-sm text-black dark:text-white">
                                     {{follower.fullname}}
                                   </p>
                                   
@@ -89,7 +90,7 @@
                                     {{follower.masterytitle}} XII
                                   </p>
                                   <p
-                                    class=" text-xs font-medium text-left text-black/40"
+                                    class=" text-xs font-medium text-left text-black/40 dark:text-white/40"
                                   >
                                     Life Level {{follower.lifelevel}}
                                   </p>
@@ -110,7 +111,7 @@
     
     <!-- Main Content -->
     <div style="width: 90%;" class="flex-1 py-6  lg:px-36 md:px-12 sm:px-12 px-6">
-        <div class="bg-white rounded-xl border-2 border-gray-200 flex justify-between w-full">
+        <div class="bg-white dark:bg-[#1f2022] rounded-xl border-2 border-gray-200 dark:border-[#2d2f32] flex justify-between w-full">
         <div class=" p-6 mb-4 flex flex-col gap-2 w-full  ">
             
             <div class="flex gap-8 mb-4">
@@ -142,7 +143,7 @@
 
         
         </div>
-        <p class="text-gray-800 font-semibold">
+        <p class="text-gray-800 dark:text-gray-300 font-semibold">
             {%if player.title%}
                 {{player.title}}
             {%else%}
@@ -150,7 +151,8 @@
             {%endif%}
         </p>
         
-        <p class="text-gray-500">
+        
+        <p class="text-gray-500 dark:text-gray-400">
             {%if player.bio%}
             {{ player.bio|linebreaksbr }}
             {%else%}
@@ -163,12 +165,12 @@
             
            
             {% if ownprofile %}
-                <button class="bg-black  w-48  text-white px-8 py-2 rounded-md mt-4">Edit Profile</button>
+            <button class="bg-black text-white dark:bg-white dark:text-black px-8 py-2 rounded-md mt-4">Edit Profile</button>
             {% else %}
                 
                 <button  id="unfollow-btn" onclick="toggleFollow('{{ player.username }}')" 
-                {% if is_following %} class="bg-black  w-48  text-white px-8 py-2 rounded-md mt-4"
-                {% else %} class="bg-black  w-48 hidden  text-white px-8 py-2 rounded-md mt-4"  {% endif %}>Unfollow</button>
+                {% if is_following %} class="bg-black text-white dark:bg-white dark:text-black px-8 py-2 rounded-md mt-4"
+                {% else %} class="bg-black hidden text-white dark:bg-white dark:text-black px-8 py-2 rounded-md mt-4"  {% endif %}>Unfollow</button>
                     
 
                 <button  id="follow-btn"  onclick="toggleFollow('{{ player.username }}')" 
@@ -176,7 +178,7 @@
                 {% else %} class="bg-blue-500   w-48  text-white px-8 py-2 rounded-md mt-4"{% endif %}  style="background-color: {{player.primary_accent_color}};">Follow</button>
 
             {%endif%}
-            <button id="shareBtn" onclick="copyToClipboard()"  class=" w-48 bg-gray-700 hover:bg-black text-white px-8 py-2 rounded-md mt-4">Share Profile</button>
+            <button id="shareBtn" onclick="copyToClipboard()"  class=" w-48 bg-gray-700 hover:bg-black text-white px-8 py-2 rounded-md mt-4  dark:hover:bg-gray-700">Share Profile</button>
             <button class="py-2 rounded-md mt-4">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="black"><path d="M720-400v-120H600v-80h120v-120h80v120h120v80H800v120h-80Zm-360-80q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM40-160v-112q0-34 17.5-62.5T104-378q62-31 126-46.5T360-440q66 0 130 15.5T616-378q29 15 46.5 43.5T680-272v112H40Zm80-80h480v-32q0-11-5.5-20T580-306q-54-27-109-40.5T360-360q-56 0-111 13.5T140-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T440-640q0-33-23.5-56.5T360-720q-33 0-56.5 23.5T280-640q0 33 23.5 56.5T360-560Zm0-80Zm0 400Z"/></svg>
             </button>
@@ -195,7 +197,7 @@
         <div class="my-4 flex justify-between text-sm gap-4">
             
             <!-- Streak count -->
-            <div class="bg-white border-2 rounded-xl border-gray-200 w-full flex flex-col rounded-md items-center justify-between p-4">
+            <div class="bg-white dark:bg-[#1f2022] border-2 rounded-xl border-gray-200 dark:border-[#2d2f32] w-full flex flex-col rounded-md items-center justify-between p-4">
                 <p class="text-sm ">Streak Count</p>
                 <div class="flex gap-2 items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#ffc05b" class="size-6">
@@ -203,16 +205,16 @@
                       </svg>
                       
                     
-                    <p class="text-lg font-bold " style="color: #1f1f1f">{{player.streak_count}}</p>
+                    <p class="text-lg font-bold text-black dark:text-white">{{player.streak_count}}</p>
                 </div>
                 
             </div>
 
             <!-- life level -->
-            <div class="bg-white border-2 rounded-xl border-gray-200 w-full flex flex-col rounded-md items-center justify-between p-4">
+            <div class="bg-white dark:bg-[#1f2022] border-2 rounded-xl border-gray-200 dark:border-[#2d2f32] w-full flex flex-col rounded-md items-center justify-between p-4">
                 
                 <span class="flex items-center justify-center gap-1">
-                    <p class="text-gray-600 text-lg font-bold ">Life Level {{player.lifelevel}}</p>
+                    <p class="text-gray-600 dark:text-white text-lg font-bold ">Life Level {{player.lifelevel}}</p>
                 </span>
                 <span class="flex items-center justify-center gap-1">
                     <p style="font-size: 11px;" class=" text-gray-500">Member since 13 Jan 2027</p> 
@@ -226,7 +228,7 @@
             <div class="bg-gray-300 border-2 rounded-xl border-gray-200 w-full flex flex-col rounded-md items-center justify-between p-4">
             </div>
             {%else%}
-            <div class="bg-white border-2 rounded-xl border-gray-200  w-full flex flex-col rounded-md items-center justify-between p-4">
+            <div class="bg-white dark:bg-[#1f2022] border-2 rounded-xl border-gray-200 dark:border-[#2d2f32] w-full flex flex-col rounded-md items-center justify-between p-4">
             {%endif%} 
                 <span class="flex items-center justify-center gap-1">
                     <p style="color: {{player.primary_accent_color}};"  class=" text-lg font-bold ">
@@ -290,7 +292,7 @@
 
 
         </div>
-        <div class="p-6 my-4 bg-white border-2 border-gray-200 rounded-2xl w-full">
+        <div class="p-6 my-4 bg-white dark:bg-[#1f2022] dark:border-[#2d2f32] border-2 border-gray-200 rounded-2xl w-full">
             <!-- Header -->
             <div class="flex justify-between items-center mb-4">
                 <h2 class="text-xl font-semibold">{{ total_xp_week }} XP this week</h2>
@@ -304,13 +306,13 @@
     
             <!-- Filters -->
             <div class="flex justify-between mt-4">
-                <button class="flex items-center text-gray-700">
+                <button class="flex items-center text-gray-500 dark:text-gray-400">
                     <span>All</span>
                     <svg class="w-4 h-4 ml-1" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
                     </svg>
                 </button>
-                <button class="flex items-center text-gray-700">
+                <button class="flex items-center text-gray-500 dark:text-gray-400">
                     <span>All time</span>
                     <svg class="w-4 h-4 ml-1" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
@@ -319,8 +321,7 @@
             </div>
         </div>
         <div class="flex gap-4">
-            <div class="p-6 my-4 bg-white border-2 border-gray-200 rounded-2xl w-full">
-
+            <div class="p-6 my-4 bg-white border-2 border-gray-200 dark:bg-[#1f2022] dark:border-[#2d2f32] rounded-2xl w-full">
                 <!-- Header -->
                 <div class="flex justify-between items-center mb-8">
                     <h2 class="text-lg font-bold">Top Experiences</h2>
@@ -378,12 +379,12 @@
 
                 
             </div>
-            <div class="flex flex-col my-4 h-min bg-white border-2 border-gray-200 rounded-2xl w-full ">
-                <div class=" p-4 space-y-4 cursor-pointer hover:bg-gray-100 ">
+            <div class="flex flex-col my-4 h-min bg-white border-2 border-gray-200 dark:bg-[#1f2022] dark:border-[#2d2f32] rounded-2xl w-full ">
+                <div class=" p-4 space-y-4 cursor-pointer hover:bg-gray-100 dark:hover:bg-[#292b2f]">
                    
                     <div class="flex items-center justify-between">
                         <div class="flex items-center space-x-4">
-                            <span class="text-black ">Life Analytics</span>
+                            <span >Life Analytics</span>
                             
                         </div>
                         <span >
@@ -395,11 +396,11 @@
                     </div>
 
                 </div>
-                <div class=" p-4 space-y-4 cursor-pointer hover:bg-gray-100 ">
+                <div class=" p-4 space-y-4 cursor-pointer hover:bg-gray-100 dark:hover:bg-[#292b2f]">
                    
                     <div class="flex items-center justify-between">
                         <div class="flex items-center space-x-4">
-                            <span class="text-black ">History</span>
+                            <span >History</span>
                             
                         </div>
                         <span >
@@ -436,7 +437,6 @@
             {% endfor %}
         </div>
         </div>
-    </div>
 </main>
 
 
@@ -445,36 +445,64 @@
       const ctx = document.getElementById("radarChart").getContext("2d");
   
       new Chart(ctx, {
-        type: "radar",
-        data: {
-          labels: ["Physique", "Energy", "Social", "Creativity", "Skill"],
-          datasets: [
-            {
-              label: "{{player.fullname}}",
-              data: ["{{player.categoryxp.physique}}", "{{player.categoryxp.energy}}", "{{player.categoryxp.social}}", "{{player.categoryxp.creativity}}", "{{player.categoryxp.skill}}"], // Values for each category
-              backgroundColor: "{{player.secondary_accent_color}}",
-              borderColor: "{{player.primary_accent_color}}",
-              borderWidth: 2,
-            },
-            // {
-            //   label: "Player 2",
-            //   data: [70, 90, 80, 60, 85],
-            //   backgroundColor: "rgba(255, 99, 132, 0.2)",
-            //   borderColor: "rgba(255, 99, 132, 1)",
-            //   borderWidth: 2,
-            // },
+    type: "radar",
+    data: {
+      labels: ["Physique", "Energy", "Social", "Creativity", "Skill"],
+      datasets: [
+        {
+          label: "{{player.fullname}}",
+          data: [
+            "{{player.categoryxp.physique}}",
+            "{{player.categoryxp.energy}}",
+            "{{player.categoryxp.social}}",
+            "{{player.categoryxp.creativity}}",
+            "{{player.categoryxp.skill}}"
           ],
+          backgroundColor: "{{player.primary_accent_color}}",  // Fill color (semi-transparent recommended)
+          borderColor: "{{player.secondary_accent_color}}",   // Line color
+          borderWidth: 2,
+          pointBackgroundColor: "{{player.secondary_accent_color}}",
+          pointBorderColor: "#fff",
+          pointHoverBackgroundColor: "#fff",
+          pointHoverBorderColor: "{{player.secondary_accent_color}}"
         },
-        options: {
-          responsive: true,
-          scales: {
-            r: {
-              beginAtZero: true,
-            },
+      ],
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          labels: {
+            color: document.body.classList.contains('dark') ? '#fff' : '#000'  // Legend text color
+          }
+        }
+      },
+      scales: {
+        r: {
+          beginAtZero: true,
+          angleLines: {
+            color: document.body.classList.contains('dark') ? '#444' : '#ccc'  // Spoke lines
           },
-        },
-      });
-    });
+          grid: {
+            color: document.body.classList.contains('dark') ? '#555' : '#444', // Circular grid
+            backgroundColor: document.body.classList.contains('dark') ? '#f9fafb' : '#1f2937' // bg color of radar
+          },
+          pointLabels: {
+            color: document.body.classList.contains('dark') ? '#AAA' : '#444',  // Label text color
+            font: {
+              size: 14
+            }
+          },
+          ticks: {
+            color: document.body.classList.contains('dark') ? '#ccc' : '#444',  // Ticks color
+            backdropColor: 'transparent' // Removes the default tick background
+          }
+        }
+      }
+    },
+  });
+});
+
   </script>
   
   <script>
