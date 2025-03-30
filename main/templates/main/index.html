@@ -222,7 +222,46 @@
         </div>
 
 
+        <div class="bg-white p-6 mb-4 rounded-xl border-2 border-gray-200 dark:bg-[#1f2022] dark:border-[#2d2f32]">
 
+          <div
+          class="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 gap-2.5 pb-2.5"
+        >
+          <div
+            class="flex mb-4 justify-between items-center self-stretch w-full relative overflow-hidden">
+            <p class="flex-grow-0 flex-shrink-0 text-md text-left text-black dark:text-white">Notifications</p>
+            {% if unread_count  %}
+            <span class=" h-5 w-5 bg-red-600 text-white text-xs font-bold flex items-center justify-center rounded-full">
+              {{ unread_count }}
+            </span>
+            {%endif%}
+          </div>
+          <ul class="max-h-60 overflow-y-auto">
+            {% for notification in notifications %}
+              <a href="{% url 'profile' notification.sender.username %}">
+                <li class="p-3{% if not notification.is_read %}border-l-2 border-red-600{% endif %}">
+                  <div class="flex justify-between gap-4">
+                    <img src="{{ notification.sender.player.profile_picture.url }}" class="h-12 w-12 rounded-full" alt="User">
+                    <div class="flex flex-col">
+                    <p><strong>{{ notification.sender.username }}</strong> {{ notification.message }} </p>
+                    <small class="text-gray-500 block">{{ notification.created_at }}</small>
+                    </div>
+
+
+                  </div>
+                    
+                </li>
+              </a>
+            {% empty %}
+                <p class="text-gray-500 text-center w-full">No notifications.</p>
+            {% endfor %}
+        </ul>
+
+
+
+
+          </div>
+        </div>
 
 
 
@@ -245,7 +284,7 @@
             Eric Foreman
           </p>
           
-          <p class="text-xs font-semibold text-left text-[#d8b4fe]">
+          <p class="text-xs font-semibold text-left text-[{{ userplayer.primary_accent_color }}]  dark:text-[{{ userplayer.secondary_accent_color }}]">
             Prodigy XII
           </p>
           <p
@@ -257,7 +296,7 @@
 
     </div>
 
-    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M720-400v-120H600v-80h120v-120h80v120h120v80H800v120h-80Zm-360-80q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM40-160v-112q0-34 17.5-62.5T104-378q62-31 126-46.5T360-440q66 0 130 15.5T616-378q29 15 46.5 43.5T680-272v112H40Zm80-80h480v-32q0-11-5.5-20T580-306q-54-27-109-40.5T360-360q-56 0-111 13.5T140-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T440-640q0-33-23.5-56.5T360-720q-33 0-56.5 23.5T280-640q0 33 23.5 56.5T360-560Zm0-80Zm0 400Z"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#60a6fa"><path d="M720-400v-120H600v-80h120v-120h80v120h120v80H800v120h-80Zm-360-80q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM40-160v-112q0-34 17.5-62.5T104-378q62-31 126-46.5T360-440q66 0 130 15.5T616-378q29 15 46.5 43.5T680-272v112H40Zm80-80h480v-32q0-11-5.5-20T580-306q-54-27-109-40.5T360-360q-56 0-111 13.5T140-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T440-640q0-33-23.5-56.5T360-720q-33 0-56.5 23.5T280-640q0 33 23.5 56.5T360-560Zm0-80Zm0 400Z"/></svg>
 
       
     </div>
@@ -269,7 +308,7 @@
               Eric Foreman
             </p>
             
-            <p class="text-xs font-semibold text-left text-[#d8b4fe]">
+            <p class="text-xs font-semibold text-left text-[{{ userplayer.primary_accent_color }}]  dark:text-[{{ userplayer.secondary_accent_color }}]">
               Prodigy XII
             </p>
             <p
@@ -281,7 +320,7 @@
   
       </div>
   
-      <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M720-400v-120H600v-80h120v-120h80v120h120v80H800v120h-80Zm-360-80q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM40-160v-112q0-34 17.5-62.5T104-378q62-31 126-46.5T360-440q66 0 130 15.5T616-378q29 15 46.5 43.5T680-272v112H40Zm80-80h480v-32q0-11-5.5-20T580-306q-54-27-109-40.5T360-360q-56 0-111 13.5T140-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T440-640q0-33-23.5-56.5T360-720q-33 0-56.5 23.5T280-640q0 33 23.5 56.5T360-560Zm0-80Zm0 400Z"/></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#60a6fa"><path d="M720-400v-120H600v-80h120v-120h80v120h120v80H800v120h-80Zm-360-80q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM40-160v-112q0-34 17.5-62.5T104-378q62-31 126-46.5T360-440q66 0 130 15.5T616-378q29 15 46.5 43.5T680-272v112H40Zm80-80h480v-32q0-11-5.5-20T580-306q-54-27-109-40.5T360-360q-56 0-111 13.5T140-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T440-640q0-33-23.5-56.5T360-720q-33 0-56.5 23.5T280-640q0 33 23.5 56.5T360-560Zm0-80Zm0 400Z"/></svg>
   
         
       </div>
@@ -294,7 +333,7 @@
                 Eric Foreman
               </p>
               
-              <p class="text-xs font-semibold text-left text-[#d8b4fe]">
+              <p class="text-xs font-semibold text-left text-[{{ userplayer.primary_accent_color }}]  dark:text-[{{ userplayer.secondary_accent_color }}]">
                 Prodigy XII
               </p>
               <p
@@ -306,7 +345,7 @@
     
         </div>
     
-        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M720-400v-120H600v-80h120v-120h80v120h120v80H800v120h-80Zm-360-80q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM40-160v-112q0-34 17.5-62.5T104-378q62-31 126-46.5T360-440q66 0 130 15.5T616-378q29 15 46.5 43.5T680-272v112H40Zm80-80h480v-32q0-11-5.5-20T580-306q-54-27-109-40.5T360-360q-56 0-111 13.5T140-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T440-640q0-33-23.5-56.5T360-720q-33 0-56.5 23.5T280-640q0 33 23.5 56.5T360-560Zm0-80Zm0 400Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#60a6fa"><path d="M720-400v-120H600v-80h120v-120h80v120h120v80H800v120h-80Zm-360-80q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM40-160v-112q0-34 17.5-62.5T104-378q62-31 126-46.5T360-440q66 0 130 15.5T616-378q29 15 46.5 43.5T680-272v112H40Zm80-80h480v-32q0-11-5.5-20T580-306q-54-27-109-40.5T360-360q-56 0-111 13.5T140-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T440-640q0-33-23.5-56.5T360-720q-33 0-56.5 23.5T280-640q0 33 23.5 56.5T360-560Zm0-80Zm0 400Z"/></svg>
     
           
         </div>
@@ -319,7 +358,7 @@
                   Eric Foreman
                 </p>
                 
-                <p class="text-xs font-semibold text-left text-[#d8b4fe]">
+                <p class="text-xs font-semibold text-left text-[{{ userplayer.primary_accent_color }}]  dark:text-[{{ userplayer.secondary_accent_color }}]">
                   Prodigy XII
                 </p>
                 <p
@@ -331,7 +370,7 @@
       
           </div>
       
-          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M720-400v-120H600v-80h120v-120h80v120h120v80H800v120h-80Zm-360-80q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM40-160v-112q0-34 17.5-62.5T104-378q62-31 126-46.5T360-440q66 0 130 15.5T616-378q29 15 46.5 43.5T680-272v112H40Zm80-80h480v-32q0-11-5.5-20T580-306q-54-27-109-40.5T360-360q-56 0-111 13.5T140-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T440-640q0-33-23.5-56.5T360-720q-33 0-56.5 23.5T280-640q0 33 23.5 56.5T360-560Zm0-80Zm0 400Z"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#60a6fa"><path d="M720-400v-120H600v-80h120v-120h80v120h120v80H800v120h-80Zm-360-80q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM40-160v-112q0-34 17.5-62.5T104-378q62-31 126-46.5T360-440q66 0 130 15.5T616-378q29 15 46.5 43.5T680-272v112H40Zm80-80h480v-32q0-11-5.5-20T580-306q-54-27-109-40.5T360-360q-56 0-111 13.5T140-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T440-640q0-33-23.5-56.5T360-720q-33 0-56.5 23.5T280-640q0 33 23.5 56.5T360-560Zm0-80Zm0 400Z"/></svg>
       
             
           </div>

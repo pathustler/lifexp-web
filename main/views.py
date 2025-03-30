@@ -4,7 +4,7 @@ from django.db.models import Q
 from . import views
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from users.models import Player, UserSettings
+from users.models import Player, UserSettings, Notification
 import roman
 from .forms import PostForm
 from .models import Post, ActivityLog, Comment
@@ -17,6 +17,14 @@ from django.core.paginator import Paginator
 # wenv\Scripts\activate my ref. ok
 
 
+# recipient = models.ForeignKey(User, on_delete=models.CASCADE, related_name="notifications")
+#     sender = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name="sent_notifications")
+#     notification_type = models.CharField(max_length=20, choices=NOTIFICATION_TYPES)
+#     message = models.TextField(blank=True, null=True)
+#     related_object_id = models.IntegerField(null=True, blank=True)  # ID of the related object (e.g., post, message)
+#     created_at = models.DateTimeField(default=now)
+#     is_read = models.BooleanField(default=False)
+
 @login_required
 def toggle_follow(request, username):
     """Follow or unfollow a player"""
@@ -28,6 +36,12 @@ def toggle_follow(request, username):
         following = False
     else:
         user_player.follow(player_to_follow)
+        Notification.objects.create(
+            recipient=player_to_follow.user,
+            sender=request.user,
+            notification_type='follow',
+            message=f'{request.user.username} followed you',
+        )
         following = True
 
     return JsonResponse({"status": "success", "following": following})
@@ -83,6 +97,10 @@ def index(request):
     for post in posts:
         top_comment = Comment.objects.filter(post=post, parent_comment=None).order_by('created_at').all()
         comments_map[post.id] = top_comment
+        
+    notifications = Notification.objects.filter(recipient=request.user).order_by('-created_at')
+    unread_count = notifications.filter(is_read=False).count()
+
 
     return render(request, 'main/index.html',{
         "currentpage": currentpage,
@@ -92,6 +110,8 @@ def index(request):
         'title': title,
         'player': player,
         'nextrom': nextrom,
+        "notifications": notifications,
+        "unread_count": unread_count,
 
     })
 
@@ -233,9 +253,7 @@ def new_post(request):
 
                 new_activity = ActivityLog(
                     user=player,
-                    name=tag,
-                    start_time=start_time_obj,
-                    end_time=end_time_obj,
+                    name=tag
                 )
                 
                 new_activity.save()

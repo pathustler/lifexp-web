@@ -68,7 +68,7 @@ class Player(AbstractBaseUser):
     email = models.EmailField(unique=True)
     profile_picture = CloudinaryField('image', blank=True, null=True, default="Screenshot_2025-03-25_at_10.40.01_PM_vugdxk")
     masterytitle = models.CharField( choices=masterytitle_choices, default="Rookie",max_length=150, blank=True, null=True)
-    # joined_date = models.DateTimeField(default=now)
+    joined_date = models.DateTimeField(default=now)
     lifelevel = models.IntegerField(default=1)
     masterlevel = models.IntegerField(default=1)
     title = models.CharField(max_length=150, blank=True, null=True)
@@ -167,3 +167,31 @@ class UserSettings(models.Model):
 
     def __str__(self):
         return f"{self.player.username}'s Settings"
+    
+    
+    
+    
+class Notification(models.Model):
+    NOTIFICATION_TYPES = [
+        ('follow', 'Follow'),
+        ('like', 'Like'),
+        ('comment', 'Comment'),
+        ('message', 'Message'),
+        ('system', 'System'),
+    ]
+
+    recipient = models.ForeignKey(User, on_delete=models.CASCADE, related_name="notifications")
+    sender = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name="sent_notifications")
+    notification_type = models.CharField(max_length=20, choices=NOTIFICATION_TYPES)
+    message = models.TextField(blank=True, null=True)
+    related_object_id = models.IntegerField(null=True, blank=True)  # ID of the related object (e.g., post, message)
+    created_at = models.DateTimeField(default=now)
+    is_read = models.BooleanField(default=False)
+
+    def mark_as_read(self):
+        """Marks the notification as read."""
+        self.is_read = True
+        self.save()
+
+    def __str__(self):
+        return f"Notification for {self.recipient.username} - {self.notification_type}"

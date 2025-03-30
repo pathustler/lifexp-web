@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Player, SearchHistory, UserSettings
+from .models import Player, SearchHistory, UserSettings, Notification
 
 @admin.register(Player)
 class PlayerAdmin(admin.ModelAdmin):
@@ -14,3 +14,6 @@ class SearchHistoryAdmin(admin.ModelAdmin):
 class UserSettingsAdmin(admin.ModelAdmin):
     list_display = ("player","account_type", "notifications", "appearance")
     
+@admin.register(Notification)
+class NotificationAdmin(admin.ModelAdmin):
+    list_display = ("recipient","sender", "created_at")
