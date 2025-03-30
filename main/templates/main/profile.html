@@ -430,6 +430,7 @@
                 </a>
                 
             {% empty %}
+                {% if ownprofile %}
                 <div class="col-span-3 flex items-center justify-center py-36">
                     <a href="{% url 'new_post' %}" 
                         class="flex items-center gap-2 bg-blue-500 text-white font-semibold px-6 py-3 rounded-lg 
@@ -440,6 +441,7 @@
                         Add Post
                     </a>
                 </div>
+                {% endif %}
             {% endfor %}
         </div>
         </div>

@@ -110,7 +110,9 @@
     </div>
       
     <div id="posts-container" class="min-h-screen overflow-hidden transition-opacity duration-300"></div>
-    <div id="loading" style="text-align: center; display: none;">Loading...</div>
+    <div id="loading" class="w-full flex items-center justify-center px-auto mx-auto" style=" display: none;">
+      <img src="{% static 'main/images/loading.gif' %}" alt="Loading..." class=" px-auto mx-auto" style="height: 50px;">
+    </div>
     <div id="no-more-posts" style="text-align: center; display: none;">No more posts to load.</div>    
   </div>
 </main>
@@ -231,11 +233,11 @@
         </span>
         {%endif%}
       </div>
-      <ul class="max-h-60 overflow-y-auto">
+      <ul class="max-h-60 overflow-y-auto flex flex-col gap-3">
         {% for notification in notifications %}
           <a href="{% url 'profile' notification.sender.username %}">
-            <li class="p-3{% if not notification.is_read %}border-l-2 border-red-600{% endif %}">
-              <div class="flex justify-between gap-4">
+            <li >
+              <div class="flex  gap-4">
                 <img src="{{ notification.sender.player.profile_picture.url }}" class="h-12 w-12 rounded-full" alt="User">
                 <div class="flex flex-col">
                 <p><strong>{{ notification.sender.username }}</strong> {{ notification.message }} </p>
