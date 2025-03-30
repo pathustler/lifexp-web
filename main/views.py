@@ -39,7 +39,6 @@ def toggle_follow(request, username):
             sender=request.user,
             notification_type='follow',
             message=f'{request.user.username} followed you',
-            target=user_player,
         )
         following = True
 
