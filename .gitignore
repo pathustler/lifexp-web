@@ -5,6 +5,10 @@
 !.vscode/launch.json 
 !.vscode/extensions.json 
 .history
-pycache/
+*/__pycache__/
 *.pyc
 *.pyo
+main/migrations/__pycache__
+users.migrations/__pycache__
+venv/
+wenv/
