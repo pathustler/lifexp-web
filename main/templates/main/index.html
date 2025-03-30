@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block content %}
-<main style="width: 60%;" class="overflow-y-hidden">
+<main style="width: 60%;" class="overflow-hidden">
 <!-- Main Content -->
      <!-- top bar thing -->
   <div id="content" style="width: 100%;" class="flex-1 py-6 pl-6 min-h-[100vh] flex-1 py-6 px-6 overflow-y-auto h-screen">
@@ -116,7 +116,7 @@
 </main>
 
   <!-- Profile Widget -->
-  <aside style="width: 450px;" class="w-80 p-6 ">
+  <aside style="width: 450px;" class="w-80 p-6 overflow-auto">
 
     <div class="bg-white p-6 mb-4 rounded-xl border-2 border-gray-200 dark:bg-[#1f2022] dark:border-[#242729]">
       <a href="{% url 'profile' player.username %}">
@@ -415,6 +415,117 @@ class="flex justify-between items-center self-stretch w-full relative overflow-h
                             <p><strong>1h 31m</strong> Duration</p>
                             ${post.tags ? post.tags.split(",").map(tag => `<span class="border-2 border-gray-600 text-gray-600 text-xs px-2 cursor-pointer hover:bg-gray-600 hover:text-white rounded-lg dark:text-[#dfdfe0] dark:border-[#5b6161] dark:hover:bg-[#5b616d]">${tag}</span>`).join(" ") : "<span class='text-gray-500 text-xs'>No tags</span>"}</span>
                         </div>
+
+                        <div 
+class="flex flex-col w-full justify-between items-start self-stretch flex-grow-0 flex-shrink-0 h-[50px] overflow-hidden border-t border-r-0 border-b-0 border-l-0 border-black/5">
+              <div class="flex justify-between w-full items-center self-stretch flex-grow-0 flex-shrink-0 overflow-hidden gap-2.5 ">
+                <div class="flex justify-center w-full items-start  gap-[5px]">
+                  <div class="flex h-10 flex-col w-full justify-center items-center overflow-hidden gap-2.5 p-3 rounded-[5px] bg-[#baafea]">
+                    <div class="flex justify-center items-center  relative gap-[5px]">
+                      <svg
+                        width="11"
+                        height="10"
+                        viewBox="0 0 11 10"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="flex-grow-0 flex-shrink-0 w-4 h-4 relative"
+                        preserveAspectRatio="xMidYMid meet"
+                      >
+                        <path
+                          d="M7.87944 4.63867C7.38982 4.73242 6.86894 4.56836 6.49043 4.14258L5.82892 3.39844C5.56848 3.10547 5.42263 2.71094 5.42263 2.29688V2.06055L4.03883 1.21094C3.94681 1.1543 3.88951 1.04297 3.89472 0.923828C3.89993 0.804688 3.96244 0.699219 4.05967 0.650391L4.87918 0.240234C5.19866 0.0820312 5.54417 0 5.8949 0H6.20916C6.84637 0 7.45927 0.273437 7.92285 0.763672L8.69722 1.58398C9.1174 2.0293 9.27366 2.67188 9.15907 3.26367L9.4334 3.57422L9.5723 3.41797C9.73551 3.23438 9.99942 3.23438 10.1609 3.41797L10.5776 3.88672C10.7408 4.07031 10.7408 4.36719 10.5776 4.54883L9.04968 6.26758C8.88648 6.45117 8.62256 6.45117 8.46109 6.26758L8.04439 5.79883C7.88118 5.61523 7.88118 5.31836 8.04439 5.13672L8.18329 4.98047L7.87944 4.63867ZM1.17574 7.36523L5.22991 3.56641C5.29068 3.66211 5.36013 3.75391 5.43479 3.83984L6.0963 4.58398C6.20048 4.70117 6.3116 4.80273 6.42966 4.89062L3.04222 9.46484C2.79046 9.80469 2.41716 10 2.02477 10C1.29207 10 0.700001 9.33203 0.700001 8.50977C0.700001 8.06836 0.875363 7.64844 1.17574 7.36523Z"
+                          fill="#713599"
+                        ></path>
+                      </svg>
+                      <p class="flex-grow-0 flex-shrink-0 text-xs text-left text-[#713599]">24</p>
+                    </div>
+                  </div>
+                  <div class="flex h-10 flex-col w-full justify-center items-center overflow-hidden gap-2.5 p-3 rounded-[5px] bg-[#afd9ea]"
+                  >
+                    <div
+                      class="flex justify-center items-center h-2.5 relative gap-[5px]"
+                    >
+                      <svg
+                        width="11"
+                        height="10"
+                        viewBox="0 0 11 10"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="flex-grow-0 flex-shrink-0 w-4 h-4 relative"
+                        preserveAspectRatio="xMidYMid meet"
+                      >
+                        <path
+                          d="M4.01112 0C3.49202 0 3.06147 0.400391 2.9382 0.941406C2.92431 0.941406 2.9139 0.9375 2.90001 0.9375C2.28716 0.9375 1.7889 1.49805 1.7889 2.1875C1.7889 2.28125 1.79931 2.37305 1.81841 2.46094C1.31147 2.69531 0.955565 3.25391 0.955565 3.90625C0.955565 4.15234 1.01112 4.38086 1.09966 4.58789C0.682995 4.85742 0.400009 5.35742 0.400009 5.9375C0.400009 6.58789 0.754176 7.14648 1.25765 7.38086C1.24202 7.4707 1.23334 7.5625 1.23334 7.65625C1.23334 8.43359 1.79237 9.0625 2.48334 9.0625C2.55452 9.0625 2.62397 9.05273 2.69168 9.03906C2.85834 9.5957 3.32015 10 3.87223 10C4.5632 10 5.12223 9.37109 5.12223 8.59375V1.25C5.12223 0.560547 4.62397 0 4.01112 0ZM10.4 5.9375C10.4 5.35742 10.117 4.85742 9.70036 4.58789C9.79064 4.38086 9.84445 4.15234 9.84445 3.90625C9.84445 3.25391 9.48855 2.69531 8.98161 2.46094C8.99897 2.37305 9.01112 2.28125 9.01112 2.1875C9.01112 1.49805 8.51286 0.9375 7.90001 0.9375C7.88612 0.9375 7.87397 0.941406 7.86181 0.941406C7.73855 0.400391 7.308 0 6.7889 0C6.17605 0 5.67779 0.558594 5.67779 1.25V8.59375C5.67779 9.37109 6.23681 10 6.92779 10C7.47987 10 7.94168 9.5957 8.10834 9.03906C8.17605 9.05273 8.2455 9.0625 8.31668 9.0625C9.00765 9.0625 9.56668 8.43359 9.56668 7.65625C9.56668 7.5625 9.55799 7.4707 9.54237 7.38086C10.0458 7.14648 10.4 6.58789 10.4 5.9375Z"
+                          fill="#4187A2"
+                        ></path>
+                      </svg>
+                      <p class="flex-grow-0 flex-shrink-0 text-xs text-left text-[#4187a2]">24</p>
+                    </div>
+                  </div>
+                  <div class="flex h-10 flex-col w-full justify-center items-center  overflow-hidden gap-2.5 p-2.5 rounded-[5px] bg-[#fdf099]"
+                  >
+                    <div
+                      class="flex justify-center items-center  h-2.5 relative gap-[5px]"
+                    >
+                      <svg
+                        width="11"
+                        height="10"
+                        viewBox="0 0 11 10"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="flex-grow-0 flex-shrink-0 w-4 h-4 relative"
+                        preserveAspectRatio="xMidYMid meet"
+                      >
+                        <path
+                          d="M2.98864 10L3.4858 6.5H1L5.47443 0H6.46875L5.97159 4H8.95455L3.98295 10H2.98864Z"
+                          fill="#BFA600"
+                        ></path>
+                      </svg>
+                      <p class="flex-grow-0 flex-shrink-0 text-xs text-left text-[#bfa600]">24</p>
+                    </div>
+                  </div>
+
+                  <div class="flex h-10 flex-col w-full justify-center items-center  overflow-hidden gap-2.5 p-2.5 rounded-[5px] bg-[#afeac7]">
+                    <div class="flex justify-center items-center h-2.5 relative gap-[5px]">
+                      <svg
+                        width="11"
+                        height="10"
+                        viewBox="0 0 11 10"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="flex-grow-0 flex-shrink-0 w-4 h-4 relative"
+                        preserveAspectRatio="xMidYMid meet"
+                      >
+                        <path
+                          d="M5.47368 0C4.7486 0 4.05322 0.289731 3.54051 0.805456C3.0278 1.32118 2.73977 2.02065 2.73977 2.75C2.73977 3.47935 3.0278 4.17882 3.54051 4.69454C4.05322 5.21027 4.7486 5.5 5.47368 5.5C6.19876 5.5 6.89415 5.21027 7.40686 4.69454C7.91957 4.17882 8.2076 3.47935 8.2076 2.75C8.2076 2.02065 7.91957 1.32118 7.40686 0.805456C6.89415 0.289731 6.19876 0 5.47368 0ZM3.48538 6C2.82622 6 2.19405 6.26339 1.72795 6.73223C1.26185 7.20107 1 7.83696 1 8.5V10H9.94737V8.5C9.94737 7.83696 9.68552 7.20107 9.21942 6.73223C8.75332 6.26339 8.12115 6 7.46199 6H6.77503L5.47368 8.618L4.17234 6H3.48538Z"
+                          fill="#31784E"
+                        ></path>
+                      </svg>
+                      <p class="flex-grow-0 flex-shrink-0 text-xs text-left text-[#31784e]">24</p>
+                    </div>
+                  </div>
+
+                  <div class="flex h-10 flex-col w-full justify-center items-center  overflow-hidden gap-2.5 p-2.5 rounded-[5px] bg-[#eaafaf]">
+                    <div class="flex justify-center items-center  h-2.5 relative gap-[5px]">
+                      <svg
+                        width="12"
+                        height="10"
+                        viewBox="0 0 12 10"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="flex-grow-0 flex-shrink-0 w-4 h-4 relative"
+                        preserveAspectRatio="xMidYMid meet"
+                      >
+                        <path
+                          d="M1 8.52153C1 8.52153 1.57005 2.27204 3.28022 0L6.13049 0.55551L5.56043 2.27204H4.42032V6.24949H4.99038C6.13049 4.54407 8.49051 3.9219 9.91564 4.54407C11.7968 5.394 11.6258 7.95491 9.91564 9.08815C8.54751 9.99918 4.42032 10.7936 1 8.52153Z"
+                          fill="#8D2E2E"
+                        ></path>
+                      </svg>
+                      <p class="flex-grow-0 flex-shrink-0 text-xs text-left text-[#8d2e2e]">24</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
 
                         <div class="flex flex-col justify-center items-start self-stretch flex-grow-0 flex-shrink-0 overflow-hidden gap-2.5 p-2.5 border-t border-r-0 border-b-0 border-l-0 border-black/5">
                             <div class="flex mb-4 justify-between items-center self-stretch flex-grow-0 flex-shrink-0 h-2.5 relative">
