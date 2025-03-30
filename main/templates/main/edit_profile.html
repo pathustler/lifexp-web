@@ -7,8 +7,8 @@
 
 {% block content %}
 
-<main style="width: 80%;" class="flex h-screen overflow-hidden">
-    <div class="max-w-2xl mx-auto w-full  text-white p-8 ">
+<main  style="width: 100%;" class="flex h-screen overflow-hidden">
+    <div  style="width: 80%;" class="mx-auto w-full  p-8 ">
         <h2 class="text-2xl font-semibold mb-6">Edit Profile</h2>
     
         <form method="POST" enctype="multipart/form-data" class="space-y-6">
@@ -19,11 +19,11 @@
                 <img id="profilePreview" src="{{ user.player.profile_picture.url }}" 
                      alt="Profile Picture" class="w-20 h-20 rounded-full object-cover border-2 border-gray-400">
                 <div class="flex flex-col">
-                     <label class="cursor-pointer bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md">
+                     <label class="cursor-pointer bg-[{{player.primary_accent_color}}]  text-white  py-2 px-4 rounded-md">
                         Change Photo
                         <input type="file" name="profile_picture" accept="image/*" class="hidden" onchange="previewImage(event)">
                     </label>
-                    <span onclick="remove_profile()" class="text-red-600 text-sm mt-1 cursor-pointer">Remove Photo</span>
+                    <span onclick="remove_profile()" class="text-red-600 text-sm mt-1 cursor-pointer px-4">Remove Photo</span>
                 </div>
             </div>
     
@@ -31,24 +31,24 @@
             <div>
                 <label class="block text-gray-400">Username</label>
                 <!-- disabled text field -->
-                <input type="text" name="username" value="{{ user.player.username }}" class="w-full p-3 bg-gray-700 text-gray-400 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" disabled>
+                <input type="text" name="username" value="{{ user.player.username }}" class="w-full p-3 dark:bg-gray-700 text-gray-400 border dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[{{player.secondary_accent_color}}] focus:outline-none" disabled>
             </div>
     
             <div>
                 <label class="block text-gray-400">Display Name</label>
                 <!-- disabled text field -->
-                <input type="text" placeholder="Eg. John" name="fullname" value="{{ user.player.fullname }}"  class="w-full p-3 bg-gray-700 text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" >
+                <input type="text" placeholder="Eg. John" name="fullname" value="{{ user.player.fullname }}"  class="w-full p-3 dark:bg-gray-700 dark:text-white border dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[{{player.secondary_accent_color}}] focus:outline-none" >
             </div>
          
             <div>
                 <label class="block text-gray-400">Title</label>
                 <!-- disabled text field -->
-                <input type="text" placeholder="Eg. 25 Year Old Software Developer" name="title" value="{{ user.player.title }}"  class="w-full p-3 bg-gray-700 text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none" >
+                <input type="text" placeholder="Eg. 25 Year Old Software Developer" name="title" value="{{ user.player.title }}"  class="w-full p-3 dark:bg-gray-700 dark:text-white border dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[{{player.secondary_accent_color}}] focus:outline-none" >
             </div>
             <!-- Bio -->
             <div>
                 <label class="block text-gray-400">Bio</label>
-                <textarea name="bio" rows="3"  class="w-full p-3 bg-gray-700 text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none">{{ user.player.bio }}</textarea>
+                <textarea name="bio" rows="3"  class="w-full p-3 dark:bg-gray-700 dark:text-white border dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[{{player.secondary_accent_color}}] focus:outline-none">{{ user.player.bio }}</textarea>
             </div>
     
         
