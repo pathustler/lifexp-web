@@ -25,6 +25,26 @@ from django.core.paginator import Paginator
 #     created_at = models.DateTimeField(default=now)
 #     is_read = models.BooleanField(default=False)
 
+
+def hex_to_rgba(hex_color, opacity=1):
+    # Remove the hash (#) if it's present
+    hex_color = hex_color.lstrip('#')
+
+    # Handle shorthand hex notation (e.g., #abc -> #aabbcc)
+    if len(hex_color) == 3:
+        hex_color = ''.join([c * 2 for c in hex_color])
+
+    # Extract the RGB components from the hex string
+    r = int(hex_color[0:2], 16)
+    g = int(hex_color[2:4], 16)
+    b = int(hex_color[4:6], 16)
+
+    # Return the rgba value
+    return f'rgba({r}, {g}, {b}, {opacity})'
+
+
+
+
 @login_required
 def toggle_follow(request, username):
     """Follow or unfollow a player"""
@@ -181,7 +201,7 @@ def profile(request, username):
             })
             
 
-        
+    userprofile_secondary_color_rgba = hex_to_rgba(player.secondary_accent_color, 0.5) 
 
     actlist.sort(key=lambda x: x["total_xp"], reverse=True)
     
@@ -199,7 +219,8 @@ def profile(request, username):
         "currentpage": currentpage,
         "playerposts": playerposts,
         "actlist": actlist,
-        "ownprofile": ownprofile
+        "ownprofile": ownprofile,
+        "userprofile_secondary_color_rgba": userprofile_secondary_color_rgba,
         })
 
 def search(request):
@@ -218,7 +239,7 @@ def search(request):
     }
     return render(request, 'main/search.html', context)
 
-
+import random
 
 def new_post(request):
     currentpage= "new_post"
@@ -252,8 +273,16 @@ def new_post(request):
             for tag in form.cleaned_data['tags'].split(','):
 
                 new_activity = ActivityLog(
+                    post=new_post,
                     user=player,
-                    name=tag
+                    name=tag,
+                    xp_distribution={
+                        "physique": random.randint(0, 100),
+                        "creativity": random.randint(0, 100),
+                        "social": random.randint(0, 100),
+                        "energy": random.randint(0, 100),
+                        "skill": random.randint(0, 100)
+                    }
                 )
                 
                 new_activity.save()

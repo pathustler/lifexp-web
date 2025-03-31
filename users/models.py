@@ -10,6 +10,8 @@ import cloudinary.api
 from django.contrib.auth.models import User
 from django.utils.timezone import now
 from datetime import timedelta
+from django.db.models import Sum, F, ExpressionWrapper, IntegerField
+from django.db.models.functions import Cast
 
 # from .models import Player
 
@@ -76,6 +78,8 @@ class Player(AbstractBaseUser):
     streak_count = models.IntegerField(default=0)
     last_visit = models.DateField(null=True, blank=True)
     totalxp = models.IntegerField(default=0)
+    
+    #i want this to be the sum of xp from all the ActivityLog objects related to this user for each category
     categoryxp = models.JSONField(default=default_xp) # A way to store the xp in each category like physique, creativity, social, energy, skill 
     categorylevels = models.JSONField(default=default_category_levels)
     is_active = models.BooleanField(default=True)
@@ -92,7 +96,45 @@ class Player(AbstractBaseUser):
         related_name="followers",
         blank=True
     )
+    
 
+    def update_category_xp(self):
+        """Recalculate XP for each category and update categoryxp field."""
+        from django.apps import apps  # Import inside the method to avoid circular import
+        from django.db.models import Sum
+
+        ActivityLog = apps.get_model('main', 'ActivityLog')  # Adjust 'main' to your app name
+        Player = apps.get_model('users', 'Player')  # Get the Player model
+
+        # Ensure self.user is a Player instance
+        if isinstance(self.user, str):  
+            try:
+                self.user = Player.objects.get(username=self.user)  # Convert username to Player instance
+            except Player.DoesNotExist:
+                print("DEBUG: No matching Player found!")
+                return  # Stop execution if no player is found
+
+        # Now that self.user is a Player instance, proceed with the query
+        xp_data = ActivityLog.objects.filter(user=Player.objects.get(username=self.user))
+        xp_distribution = xp_data.aggregate(
+            physique_xp=Sum(Cast(F('xp_distribution__physique'), IntegerField())),
+            creativity_xp=Sum(Cast(F('xp_distribution__creativity'), IntegerField())),
+            social_xp=Sum(Cast(F('xp_distribution__social'), IntegerField())),
+            energy_xp=Sum(Cast(F('xp_distribution__energy'), IntegerField())),
+            skill_xp=Sum(Cast(F('xp_distribution__skill'), IntegerField()))
+        )
+
+        # Construct the category XP dictionary
+        self.categoryxp = {
+            "physique": xp_distribution['physique_xp'] or 0,
+            "creativity": xp_distribution['creativity_xp'] or 0,
+            "social": xp_distribution['social_xp'] or 0,
+            "energy": xp_distribution['energy_xp'] or 0,
+            "skill": xp_distribution['skill_xp'] or 0
+        }
+        
+        
+        self.save()
     def follow(self, other_player):
         """Follow another player"""
         if other_player != self:
@@ -132,6 +174,22 @@ class Player(AbstractBaseUser):
         self.save()
     
     def save(self, *args, **kwargs):
+        
+        max_category = max(self.categoryxp, key=self.categoryxp.get)
+        if max(self.categoryxp.values()) < 1000:
+            self.masterytitle = "Rookie"
+        elif max(self.categoryxp.values()) >= 1000 and max_category == "skill":
+            self.masterytitle = "Prodigy"
+        elif max(self.categoryxp.values()) >= 1000 and max_category == "physique":
+            self.masterytitle = "Warrior"
+        elif max(self.categoryxp.values()) >= 1000 and max_category == "creativity":
+            self.masterytitle = "Maverick"
+        elif max(self.categoryxp.values()) >= 1000 and max_category == "social":
+            self.masterytitle = "Diplomat"
+        elif max(self.categoryxp.values()) >= 1000 and max_category == "energy":
+            self.masterytitle = "Protagonist"
+
+        # Set the primary and secondary accent colors based on mastery title
         primseckey = {
             "Warrior":  ["8D2E2E","EAAFAF"],
             "Protagonist":  ["ECCC00","FDF099"],
@@ -142,8 +200,14 @@ class Player(AbstractBaseUser):
         }
         self.primary_accent_color = "#" + primseckey[self.masterytitle][0]
         self.secondary_accent_color = "#" + primseckey[self.masterytitle][1]
+      
+            
         self.totalxp = sum(self.categoryxp.values())
         self.masterlevel = max(self.categorylevels.values())
+        
+        # Mastery title should update based on the max value in categoryxp, if max value is less than 600, it should be rookie, if the max value is above 600, and the category with max value is skill, then mastery title would be prodigy and so on
+        
+        
         super().save(*args, **kwargs)
 
 class SearchHistory(models.Model):

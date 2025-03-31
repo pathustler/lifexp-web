@@ -6,6 +6,8 @@ import cloudinary
 import cloudinary.uploader
 import cloudinary.api
 from users.models import Player
+from django.db.models.signals import post_save, post_delete
+from django.dispatch import receiver
 
 cloudinary.config( 
   cloud_name = settings.CLOUDINARY_STORAGE['CLOUD_NAME'], 
@@ -70,6 +72,7 @@ class ActivityLog(models.Model):
         on_delete=models.CASCADE, 
         related_name='activity_logs'
     )
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='activity_logs')
     name = models.CharField(max_length=255, blank=True, null=True)
     xp_distribution = models.JSONField(default=default_xp)
     
@@ -110,3 +113,8 @@ class Comment(models.Model):
 
     def __str__(self):
         return f'Comment by {self.user.username} on {self.post.id}'
+
+@receiver(post_save, sender=ActivityLog)
+@receiver(post_delete, sender=ActivityLog)
+def update_user_xp(sender, instance, **kwargs):
+    instance.user.update_category_xp()

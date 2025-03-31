@@ -34,6 +34,7 @@ def global_variables(request):
     nextrom = roman.toRoman(player.masterlevel+1) if request.user.is_authenticated and player else None
     title = f"{player.masterytitle} {rom}" if request.user.is_authenticated and player else None
     
+    
     secondary_color_rgba = hex_to_rgba(player.secondary_accent_color, 0.5) if request.user.is_authenticated and player else None
     
     dark_mode = dark_mode_context(request)
