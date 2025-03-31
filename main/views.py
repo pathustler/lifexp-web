@@ -14,7 +14,7 @@ from django.http import JsonResponse
 from django.core.paginator import Paginator
 
 
-# wenv\Scripts\activate my ref. ok
+# venv\Scripts\activate my ref. ok
 
 
 # recipient = models.ForeignKey(User, on_delete=models.CASCADE, related_name="notifications")
@@ -245,9 +245,6 @@ def new_post(request):
     currentpage= "new_post"
     player = Player.objects.get(username=request.user.username)
     print(player.fullname)
-    
-    # user = request.user.player
-
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
@@ -269,6 +266,8 @@ def new_post(request):
                 end_time=end_time_obj,  # if this field exists
                 tags=form.cleaned_data['tags'],  # if this field exists
             )
+            # Save the new post to the database
+            new_post.save()
             
             for tag in form.cleaned_data['tags'].split(','):
                 xpdict = dict()
@@ -298,13 +297,6 @@ def new_post(request):
                 
                 new_activity.save()
                 
-            
-            
-            # Save the new post to the database
-            new_post.save()
-            
-            
-
             # Redirect to the index view, not main/new_post
             return redirect('index')
             
