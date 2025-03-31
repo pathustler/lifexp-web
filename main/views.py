@@ -271,17 +271,28 @@ def new_post(request):
             )
             
             for tag in form.cleaned_data['tags'].split(','):
+                xpdict = dict()
+                if "skill" in tag:
+                    xpdict["skill"] = random.randint(50, 100)
+                if "physique" in tag:
+                    xpdict["physique"] = random.randint(50, 100)
+                if "creativity" in tag:
+                    xpdict["creativity"] = random.randint(50, 100)
+                if "social" in tag:
+                    xpdict["social"] = random.randint(50, 100)
+                if "energy" in tag:
+                    xpdict["energy"] = random.randint(50, 100)
 
                 new_activity = ActivityLog(
                     post=new_post,
                     user=player,
                     name=tag,
                     xp_distribution={
-                        "physique": random.randint(0, 100),
-                        "creativity": random.randint(0, 100),
-                        "social": random.randint(0, 100),
-                        "energy": random.randint(0, 100),
-                        "skill": random.randint(0, 100)
+                        "physique": random.randint(0, 10) + xpdict.get("physique", 0),
+                        "creativity": random.randint(0, 10)+ xpdict.get("creativity", 0),
+                        "social": random.randint(0, 10)+   xpdict.get("social", 0),
+                        "energy": random.randint(0, 10)+   xpdict.get("energy", 0),
+                        "skill": random.randint(0, 10)+   xpdict.get("skill", 0)
                     }
                 )
                 
