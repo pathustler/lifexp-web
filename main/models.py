@@ -118,3 +118,15 @@ class Comment(models.Model):
 @receiver(post_delete, sender=ActivityLog)
 def update_user_xp(sender, instance, **kwargs):
     instance.user.update_category_xp()
+    
+    
+class Like(models.Model):
+    liked_by = models.ForeignKey(Player, on_delete=models.CASCADE, related_name="likes")
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="likes")
+    liked_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('liked_by', 'post')  # Prevents duplicate likes
+
+    def __str__(self):
+        return f"{self.liked_by.fullname} liked {self.post.content[:5]}"

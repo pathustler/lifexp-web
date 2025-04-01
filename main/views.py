@@ -7,11 +7,12 @@ from rest_framework.response import Response
 from users.models import Player, UserSettings, Notification
 import roman
 from .forms import PostForm
-from .models import Post, ActivityLog, Comment
+from .models import Post, ActivityLog, Comment, Like
 from .models import Comment, Post
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.core.paginator import Paginator
+from django.views.decorators.csrf import csrf_exempt
 
 
 # venv\Scripts\activate my ref. ok
@@ -94,7 +95,8 @@ def fetch_posts(request):
             "end_time": post.end_time.strftime('%Y-%m-%d %H:%M:%S') if post.end_time else None,
             "user_id": post.user.id,
             "comments": comments_data,
-            "likes":23,  # Placeholder for likes count
+            "likes":post.likes.count(),  
+            "user_liked": post.likes.filter(liked_by=request.user.player).exists()
         })
 
     return JsonResponse({
@@ -441,3 +443,24 @@ def edit_profile(request):
     return render(request, 'main/edit_profile.html', {
         'player': player, 
         'currentpage': currentpage})
+    
+    
+    
+@csrf_exempt
+@login_required
+def like_post(request, post_id):
+    if request.method == "POST":
+        post = get_object_or_404(Post, id=post_id)
+        player = request.user.player  # Assuming `Player` is linked to `User`
+
+        if post.likes.filter(liked_by=player).exists():
+            
+            post.likes.filter(liked_by=player).delete()
+            liked = False
+        else:
+            post.likes.create(liked_by=player)
+            liked = True
+
+        return JsonResponse({"liked": liked, "like_count": post.likes.count()})
+
+    return JsonResponse({"error": "Invalid request"}, status=400)

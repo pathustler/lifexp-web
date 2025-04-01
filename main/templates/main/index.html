@@ -8,6 +8,8 @@
 {% endblock %}
 
 {% block content %}
+
+
 <main style="width: 60%;" class="overflow-hidden">
 <!-- Main Content -->
      <!-- top bar thing -->
@@ -417,6 +419,8 @@ class="flex justify-between items-center self-stretch w-full relative overflow-h
             console.log("Received data for page:", page, data);
             data.posts.forEach(post => {
                 const postElement = document.createElement('div');
+                const userLiked = post.user_liked;
+                const likeColor = userLiked ? "#DC1E1E" : "gray";
                 postElement.classList.add('post');
                 postElement.innerHTML = `
                     <div class="bg-white mb-6 p-6 rounded-xl border-2 border-gray-200 dark:bg-[#1f2022] dark:border-[#242729]">
@@ -590,23 +594,19 @@ class="flex flex-col w-full justify-between items-start self-stretch flex-grow-0
                         
                     <div class="flex justify-between items-center self-stretch flex-grow-0 flex-shrink-0 h-[50px] relative overflow-hidden px-2.5 border-t border-r-0 border-b-0 border-l-0 border-black/5" style="padding-top: 1rem;">
                 <div class="flex justify-start items-center flex-grow-0 flex-shrink-0 relative gap-[5px]">
-                  <svg
-                    width="36"
-                    height="36"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="flex-grow-0 flex-shrink-0 w-6 h-6 relative"
-                    preserveAspectRatio="xMidYMid meet"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
-                      d="M4.536 5.77802C5.47364 4.84066 6.74518 4.31409 8.071 4.31409C9.39682 4.31409 10.6684 4.84066 11.606 5.77802C11.7893 5.96069 12.0253 6.18802 12.314 6.46002C12.602 6.18802 12.8377 5.96069 13.021 5.77802C13.9547 4.84869 15.2175 4.3254 16.5348 4.32188C17.8522 4.31835 19.1177 4.83486 20.0564 5.75918C20.9951 6.68349 21.531 7.94091 21.5478 9.25817C21.5646 10.5754 21.0608 11.8461 20.146 12.794L13.02 19.92C12.8325 20.1075 12.5782 20.2128 12.313 20.2128C12.0478 20.2128 11.7935 20.1075 11.606 19.92L4.48 12.795C3.56604 11.8524 3.05951 10.5882 3.0698 9.27525C3.08009 7.96235 3.60738 6.70618 4.536 5.77802Z"
-                      fill="#DC1E1E"
-                    ></path>
-                  </svg>
-                  <p class="text-sm text-left text-black/50 dark:text-white/50">181K</p>
+                 <button class="like-button" onclick="like(this)" data-post-id="${post.id}">
+                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none">
+                        <path
+                            fill-rule="evenodd"
+                            clip-rule="evenodd"
+                            d="M4.536 5.77802C5.47364 4.84066 6.74518 4.31409 8.071 4.31409C9.39682 4.31409 10.6684 4.84066 11.606 5.77802C11.7893 5.96069 12.0253 6.18802 12.314 6.46002C12.602 6.18802 12.8377 5.96069 13.021 5.77802C13.9547 4.84869 15.2175 4.3254 16.5348 4.32188C17.8522 4.31835 19.1177 4.83486 20.0564 5.75918C20.9951 6.68349 21.531 7.94091 21.5478 9.25817C21.5646 10.5754 21.0608 11.8461 20.146 12.794L13.02 19.92C12.8325 20.1075 12.5782 20.2128 12.313 20.2128C12.0478 20.2128 11.7935 20.1075 11.606 19.92L4.48 12.795C3.56604 11.8524 3.05951 10.5882 3.0698 9.27525C3.08009 7.96235 3.60738 6.70618 4.536 5.77802Z"
+                            fill="${post.user_liked ? '#DC1E1E' : '#AAAAAA'}"
+                        ></path>
+                    </svg>
+                </button>
+
+                  
+                  <p class="text-sm text-left text-black/50 dark:text-white/50">${post.likes}</p>
                 </div>
                 <svg
                   width="36"
@@ -674,5 +674,62 @@ class="flex flex-col w-full justify-between items-start self-stretch flex-grow-0
 
     // Load first batch of posts
     loadMorePosts();
+    function like(button) {
+      console.log("Like button clicked");
+      const postId = button.dataset.postId; // Get post ID from data attribute
+      console.log(postId);
+
+      const likeIcon = button.querySelector('path');
+      const likeCountElement = button.nextElementSibling;  // Adjust based on HTML structure
+
+      // Toggle the like icon and the like state before making the fetch request
+      let liked = likeIcon.getAttribute("fill") !== "#DC1E1E"; // If it's not red, we will "like" it
+      if (liked) {
+          likeIcon.setAttribute("fill", "#DC1E1E");  // Red if liked
+      } else {
+          likeIcon.setAttribute("fill", "#AAAAAA");  // Gray if unliked
+      }
+
+      // Update the like count locally before making the fetch request
+      let currentLikeCount = parseInt(likeCountElement.textContent);
+      if (liked) {
+          likeCountElement.textContent = currentLikeCount + 1; // Increment like count
+      } else {
+          likeCountElement.textContent = currentLikeCount - 1; // Decrement like count
+      }
+
+      console.log("Fetching");
+
+      fetch(`/like/${postId}/`, {
+          method: 'POST',
+          headers: {
+              'X-CSRFToken': getCSRFToken(),
+              'Content-Type': 'application/json'
+          },
+      })
+      .then(response => response.json())
+      .then(data => {
+          console.log(data);
+          // If the response is different, update the icon and like count based on server response
+          if (data.liked !== liked) {
+              // If server state doesn't match our local toggle, we need to revert
+              likeIcon.setAttribute("fill", liked ? "#AAAAAA" : "#DC1E1E");
+              likeCountElement.textContent = data.like_count;
+          }
+      })
+      .catch(error => console.error("Error:", error));
+  }
+
+    
+
+    
+;
+
+// Function to get CSRF token
+function getCSRFToken() {
+    return document.cookie.split('; ')
+        .find(row => row.startsWith('csrftoken='))
+        ?.split('=')[1];
+}
 </script>
 {% endblock %}

@@ -15,3 +15,7 @@ class ActivityLog(admin.ModelAdmin):
 class Comment(admin.ModelAdmin):
     list_display = ("post", "user", "content", "created_at")
 
+@admin.register(Like)
+class Like(admin.ModelAdmin):
+    list_display = ("post", "liked_by")
+
