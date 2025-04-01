@@ -120,6 +120,9 @@ def index(request):
         
     notifications = Notification.objects.filter(recipient=request.user).order_by('-created_at')
     unread_count = notifications.filter(is_read=False).count()
+    
+    # Mark unread notifications as read
+    notifications.filter(is_read=False).update(is_read=True)
 
 
     return render(request, 'main/index.html',{
