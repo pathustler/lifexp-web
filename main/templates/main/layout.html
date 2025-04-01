@@ -71,7 +71,7 @@
             
             <nav class="space-y-4"> 
                 {% if currentpage == "index" %}
-                <a href="/" class="flex items-center p-2 rounded-lg bg-[{{ userplayer.button_secondary_accent_color }}]/80 text-[{{ userplayer.primary_accent_color }}]  dark:text-[{{ userplayer.secondary_accent_color }}] dark:bg-[{{ userplayer.primary_accent_color }}30]">
+                <a href="/" class="flex items-center p-2 rounded-lg {%if player.masterytitle == 'Rookie' %} bg-blue-500/20 text-blue-500 {%else %} bg-[{{ userplayer.secondary_accent_color }}]/80  text-[{{ userplayer.primary_accent_color }}]{%endif%} dark:text-[{{ userplayer.secondary_accent_color }}] dark:bg-[{{ userplayer.primary_accent_color }}30] ">
                 {% else %}
                 <a href="/" class="flex items-center p-2 rounded-lg text-gray-700 hover:bg-gray-200 dark:text-[#838992] dark:hover:bg-[#292b2f]">
                 {% endif %}
@@ -85,7 +85,7 @@
                 </a>
 
                 {% if currentpage == "search" %}
-                <a href="/search" class="flex items-center p-2 rounded-lg bg-[{{ userplayer.secondary_accent_color }}]/80 text-[{{ userplayer.primary_accent_color }}]  dark:text-[{{ userplayer.secondary_accent_color }}] dark:bg-[{{ userplayer.primary_accent_color }}30] ">
+                <a href="/search" class="flex items-center p-2 rounded-lg {%if player.masterytitle == 'Rookie' %} bg-blue-500/20 text-blue-500 {%else %} bg-[{{ userplayer.secondary_accent_color }}]/80  text-[{{ userplayer.primary_accent_color }}]{%endif%} dark:text-[{{ userplayer.secondary_accent_color }}] dark:bg-[{{ userplayer.primary_accent_color }}30] ">
                 {% else %}
                 <a href="/search" class="flex items-center p-2 rounded-lg text-gray-700 hover:bg-gray-200 dark:text-[#838992] dark:hover:bg-[#292b2f]">
                 {% endif %}
@@ -97,7 +97,7 @@
                 </a>
 
                 {% if currentpage == "new_post" %}
-                <a href="/posts/new" class="flex items-center p-2 rounded-lg bg-[{{ userplayer.secondary_accent_color }}]/80 text-[{{ userplayer.primary_accent_color }}] dark:text-[{{ userplayer.secondary_accent_color }}] dark:bg-[{{ userplayer.primary_accent_color }}30]">
+                <a href="/posts/new" class="flex items-center p-2 rounded-lg {%if player.masterytitle == 'Rookie' %} bg-blue-500/20 text-blue-500 {%else %} bg-[{{ userplayer.secondary_accent_color }}]/80  text-[{{ userplayer.primary_accent_color }}]{%endif%} dark:text-[{{ userplayer.secondary_accent_color }}] dark:bg-[{{ userplayer.primary_accent_color }}30] ">
                 {% else %}
                 <a href="/posts/new" class="flex items-center p-2 rounded-lg text-gray-700 hover:bg-gray-200 dark:text-[#838992] dark:hover:bg-[#292b2f]">
                 {% endif %}
@@ -110,7 +110,7 @@
                 </a>
 
                 {% if currentpage == "leaderboard" %}
-                <a href="{% url 'leaderboard' mastery %}" class="flex items-center p-2 rounded-lg bg-[{{ userplayer.secondary_accent_color }}]/80 text-[{{ userplayer.primary_accent_color }}] dark:text-[{{ userplayer.secondary_accent_color }}] dark:bg-[{{ userplayer.primary_accent_color }}30] ">
+                <a href="{% url 'leaderboard' mastery %}" class="flex items-center p-2 rounded-lg {%if player.masterytitle == 'Rookie' %} bg-blue-500/20 text-blue-500 {%else %} bg-[{{ userplayer.secondary_accent_color }}]/80  text-[{{ userplayer.primary_accent_color }}]{%endif%} dark:text-[{{ userplayer.secondary_accent_color }}] dark:bg-[{{ userplayer.primary_accent_color }}30] ">
                 {% else %}
                 <a href="{% url 'leaderboard' mastery %}" class="flex items-center p-2 rounded-lg text-gray-700 hover:bg-gray-200 dark:text-[#838992] dark:hover:bg-[#292b2f]">
                 {% endif %}
@@ -136,7 +136,7 @@
                 </a>
 
                 {% if currentpage == "settings" %}
-                <a href="/settings" class="flex items-center p-2 rounded-lg bg-[{{ userplayer.secondary_accent_color }}]/80 text-[{{ userplayer.primary_accent_color }}] dark:text-[{{ userplayer.secondary_accent_color }}] dark:bg-[{{ userplayer.primary_accent_color }}30] ">
+                <a href="/settings" class="flex items-center p-2 rounded-lg {%if player.masterytitle == 'Rookie' %} bg-blue-500/20 text-blue-500 {%else %} bg-[{{ userplayer.secondary_accent_color }}]/80  text-[{{ userplayer.primary_accent_color }}]{%endif%} dark:text-[{{ userplayer.secondary_accent_color }}] dark:bg-[{{ userplayer.primary_accent_color }}30] ">
                 {% else %}
                 <a href="/settings" class="flex items-center p-2 rounded-lg text-gray-700 hover:bg-gray-200 dark:text-[#838992] dark:hover:bg-[#292b2f]">
                 {% endif %}
