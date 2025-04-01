@@ -387,7 +387,7 @@ class="flex justify-between items-center self-stretch w-full relative overflow-h
   document.addEventListener("DOMContentLoaded", function () {
       const notificationsTab = document.getElementById("notifications-tab");
   
-      notificationsTab.addEventListener("mouseenter", function () {
+      notificationsTab.addEventListener("click", function () {
         console.log("Hovering over notifications tab");
           fetch("{% url 'mark_notifications_read' %}", {
               method: "POST",
