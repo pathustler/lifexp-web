@@ -102,6 +102,15 @@ def fetch_posts(request):
         'has_next': page_obj.has_next()
     })
 
+def mark_notifications_read(request):
+    """Marks all unread notifications as read when user hovers."""
+    
+    if request.method == "POST":
+        # Mark all unread notifications as read
+        Notification.objects.filter(recipient=request.user, is_read=False).update(is_read=True)
+        return JsonResponse({"status": "success"})  # Send success response
+    
+    return JsonResponse({"status": "error"}, status=400)
 
 @login_required
 def index(request):
@@ -122,7 +131,7 @@ def index(request):
     unread_count = notifications.filter(is_read=False).count()
     
     # Mark unread notifications as read
-    notifications.filter(is_read=False).update(is_read=True)
+    # notifications.filter(is_read=False).update(is_read=True)
 
 
     return render(request, 'main/index.html',{

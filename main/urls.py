@@ -15,6 +15,8 @@ urlpatterns = [
     path('toggle-follow/<str:username>/', views.toggle_follow, name='toggle_follow'),
     path('edit_profile/', views.edit_profile, name='edit_profile'),
     path('fetch_posts/', views.fetch_posts, name='fetch_posts'),
+    path("notifications/mark-read/", views.mark_notifications_read, name="mark_notifications_read"),
+
 ]
 
 

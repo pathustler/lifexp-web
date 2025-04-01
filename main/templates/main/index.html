@@ -219,7 +219,7 @@
     </div>
 
 
-    <div class="bg-white p-6 mb-4 rounded-xl border-2 border-gray-200 dark:bg-[#1f2022] dark:border-[#2d2f32]">
+    <div id='notifications-tab' class="bg-white p-6 mb-4 rounded-xl border-2 border-gray-200 dark:bg-[#1f2022] dark:border-[#2d2f32]">
 
       <div
       class="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 gap-2.5 pb-2.5"
@@ -228,7 +228,7 @@
         class="flex mb-4 justify-between items-center self-stretch w-full relative overflow-hidden">
         <p class="flex-grow-0 flex-shrink-0 text-md text-left text-black dark:text-white">Notifications</p>
         {% if unread_count  %}
-        <span class=" h-5 w-5 bg-red-600 text-white text-xs font-bold flex items-center justify-center rounded-full">
+        <span id="notification-badge" class=" h-5 w-5 bg-red-600 text-white text-xs font-bold flex items-center justify-center rounded-full">
           {{ unread_count }}
         </span>
         {%endif%}
@@ -381,7 +381,28 @@ class="flex justify-between items-center self-stretch w-full relative overflow-h
 {% endblock %}
 
 {% block scripts %}
+
+  
 <script>
+  document.addEventListener("DOMContentLoaded", function () {
+      const notificationsTab = document.getElementById("notifications-tab");
+  
+      notificationsTab.addEventListener("mouseenter", function () {
+        console.log("Hovering over notifications tab");
+          fetch("{% url 'mark_notifications_read' %}", {
+              method: "POST",
+              headers: {
+                  "X-CSRFToken": "{{ csrf_token }}",
+              },
+          }).then(response => {
+              if (response.ok) {
+                  document.getElementById("notification-badge").style.display = "none"; // Hide badge
+              }
+          });
+      });
+  });
+
+
     let page = 1;
     let loading = false;
 
