@@ -12,3 +12,7 @@ main/migrations/__pycache__
 users.migrations/__pycache__
 venv/
 wenv/
+# Ignore all migration files
+**/migrations/*.py
+**/migrations/*.pyc
+!**/migrations/__init__.py
