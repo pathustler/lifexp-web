@@ -35,8 +35,10 @@
           {% for name in recent_searches %}
           <div class="flex justify-between items-center py-2 hover:bg-gray-100 rounded-md px-2 dark:hover:bg-[#292b2f]">
               <div class="flex items-center gap-3">
+                <a href="{% url 'profile' name %}">
                   <img src="https://via.placeholder.com/32" class="rounded-full" alt="user" />
                   <span class="text-sm dark:text-gray-500">{{ name }}</span>
+                </a>
               </div>
               <button onclick="this.parentElement.remove()">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 dark:text-gray-500 hover:text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -57,7 +59,10 @@
             <div class="grid grid-cols-3 gap-4">
                 {% for post in posts %}
                 <div class="bg-gray-300 h-48 rounded-lg">
-                    <img src="{{ post.post_image.url }}" alt="{{ post.content }}" class="w-full h-full object-cover rounded-lg">
+                    <a href="{% url 'post_detail' post.id %}" class="block h-full w-full relative group">
+                        <img src="{{ post.post_image.url }}" alt="{{ post.content }}" class="w-full h-full object-cover rounded-lg">
+                    </a>
+                    <!-- <img src="{{ post.post_image.url }}" alt="{{ post.content }}" class="w-full h-full object-cover rounded-lg"> -->
                 </div>
                 {% empty %}
                 <p>No posts found.</p>
@@ -70,13 +75,15 @@
             <h2 class="text-xl font-medium mb-4">Users</h2>
             <ul class="space-y-4">
                 {% for user in users %}
-                <li class="flex items-center gap-4">
-                    <img src="{{ user.profile_picture.url }}" class="rounded-full w-12 h-12" alt="{{ user.username }}">
-                    <div class="flex-1">
-                        <p class="text-gray-700 dark:text-[#f5f5f5]">{{ user.username }}</p>
-                        <p class="text-gray-500 text-sm dark:text-[#7c818b]">{{ user.bio }}</p>
-                    </div>
-                </li>
+                <a href="{% url 'profile' user.username %}" target="_blank">
+                    <li class="flex items-center gap-4">
+                        <img src="{{ user.profile_picture.url }}" class="rounded-full w-12 h-12" alt="{{ user.username }}">
+                        <div class="flex-1">
+                            <p class="text-gray-700 dark:text-[#f5f5f5]">{{ user.username }}</p>
+                            <p class="text-gray-500 text-sm dark:text-[#7c818b]">{{ user.bio }}</p>
+                        </div>
+                    </li>
+                </a>
                 {% empty %}
                 <p>No users found.</p>
                 {% endfor %}
