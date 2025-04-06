@@ -11,7 +11,7 @@
 <div id="leaderboard-popup" class="bg-white hidden z-40 overflow-hidden  rounded-lg shadow-lg absolute top-24 right-8 dark:bg-[#1f2022] dark:border-[#2f2f30] border-2 border-gray-200 w-[300px] h-[400px]">
     <ul >
         <a href="{% url 'leaderboard' 'warrior' %}">
-        <li {% if type == "warrior" %} class="bg-gray-100 cursor-pointer dark:bg-[#292b2f]" {% else %} class="hover:bg-gray-100 cursor-pointer dark:hover:bg-[#292b2f]" {% endif %}>
+        <li {% if type == "warrior"%} class="bg-gray-100 cursor-pointer dark:bg-[#292b2f]" {% else %} class="hover:bg-gray-100 cursor-pointer dark:hover:bg-[#292b2f]" {% endif %}>
             <div class="flex justify-between items-center px-5 py-2">
                 <div
                   class="flex justify-start items-center flex-grow-0 flex-shrink-0  relative gap-[15px]"
