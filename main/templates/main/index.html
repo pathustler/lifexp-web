@@ -222,43 +222,34 @@
 
 
     <div id='notifications-tab' class="bg-white p-6 mb-4 rounded-xl border-2 border-gray-200 dark:bg-[#1f2022] dark:border-[#2d2f32]">
-
-      <div
-      class="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 gap-2.5 pb-2.5"
-    >
-      <div
-        class="flex mb-4 justify-between items-center self-stretch w-full relative overflow-hidden">
-        <p class="flex-grow-0 flex-shrink-0 text-md text-left text-black dark:text-white">Notifications</p>
-        {% if unread_count  %}
-        <span id="notification-badge" class=" h-5 w-5 bg-red-600 text-white text-xs font-bold flex items-center justify-center rounded-full">
-          {{ unread_count }}
-        </span>
-        {%endif%}
-      </div>
-      <ul class="max-h-60 overflow-y-auto flex flex-col gap-3">
-        {% for notification in notifications %}
-          <a href="{% url 'profile' notification.sender.username %}">
-            <li >
-              <div class="flex  gap-4">
-                <img src="{{ notification.sender.player.profile_picture.url }}" class="h-12 w-12 rounded-full" alt="User">
-                <div class="flex flex-col">
-                <p><strong>{{ notification.sender.username }}</strong> {{ notification.message }} </p>
-                <small class="text-gray-500 block">{{ notification.created_at }}</small>
-                </div>
-
-
-              </div>
-                
-            </li>
-          </a>
-        {% empty %}
-            <p class="text-gray-500 text-center w-full">No notifications.</p>
-        {% endfor %}
-    </ul>
-
-
-
-
+      <div class="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 gap-2.5 max-w-full">
+        <div class="flex mb-4 justify-between items-center self-stretch w-full relative overflow-hidden">
+          <p class="flex-grow-0 flex-shrink-0 text-md text-left text-black dark:text-white">Notifications</p>
+          {% if unread_count  %}
+          <span id="notification-badge" class=" h-5 w-5 bg-red-600 text-white text-xs font-bold flex items-center justify-center rounded-full">
+            {{ unread_count }}
+          </span>
+          {%endif%}
+        </div>
+        <div class="max-h-80 overflow-y-auto overflow-x-hidden max-w-full">
+          <ul class="flex flex-col gap-3 max-w-full">
+            {% for notification in notifications %}
+              <a href="{% url 'profile' notification.sender.username %}">
+                <li>
+                  <div class="flex  gap-4">
+                    <img src="{{ notification.sender.player.profile_picture.url }}" class="h-12 w-12 rounded-full" alt="User">
+                    <div class="flex flex-col">
+                    <p><strong>{{ notification.sender.username }}</strong> {{ notification.message }} </p>
+                    <small class="text-gray-500 block">{{ notification.created_at }}</small>
+                    </div>
+                  </div>
+                </li>
+              </a>
+            {% empty %}
+                <p class="text-gray-500 text-center w-full">No notifications.</p>
+            {% endfor %}
+          </ul>
+        </div>
       </div>
     </div>
 
