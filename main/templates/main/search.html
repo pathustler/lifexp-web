@@ -57,7 +57,7 @@
             <h2 class="text-xl font-medium mb-4">Posts</h2>
             <div class="grid grid-cols-3 gap-4">
                 {% for post in posts %}
-                <div class="bg-gray-300 h-48 rounded-lg p-2">
+                <div class="h-48 rounded-lg">
                     <a href="{% url 'post_detail' post.id %}" class="block h-full w-full relative group">
                         <img src="{{ post.post_image.url }}" alt="{{ post.content }}" class="w-full h-full object-cover rounded-lg">
                     </a>
