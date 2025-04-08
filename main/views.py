@@ -425,13 +425,16 @@ def add_comment(request, post_id):
 
 def post_detail(request, post_id):
     post = get_object_or_404(Post, id=post_id)
+    player = request.user.player
+
+    user_liked = post.likes.filter(liked_by=player).exists()
     
     comments_map = {}
 
     top_comment = Comment.objects.filter(post=post, parent_comment=None).order_by('created_at').all()
     comments_map[post.id] = top_comment
-
-    return render(request, 'main/post_detail.html', {'post': post, 'comments_map': comments_map,})
+    
+    return render(request, 'main/post_detail.html', {'post': post, 'comments_map': comments_map, 'user_liked': user_liked, 'player': player})
 
 
 
