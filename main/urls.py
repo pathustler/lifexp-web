@@ -17,6 +17,7 @@ urlpatterns = [
     path('fetch_posts/', views.fetch_posts, name='fetch_posts'),
     path("notifications/mark-read/", views.mark_notifications_read, name="mark_notifications_read"),
     path('like/<int:post_id>/', views.like_post, name='like_post'),
+    path('delete-search-history/<int:id>/', views.delete_search_history, name='delete_search_history'),
 ]
 
 

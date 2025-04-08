@@ -4,16 +4,15 @@ from django.db.models import Q
 from . import views
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from users.models import Player, UserSettings, Notification
+from users.models import Player, UserSettings, Notification, SearchHistory
 import roman
 from .forms import PostForm
 from .models import Post, ActivityLog, Comment, Like
-from .models import Comment, Post
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.core.paginator import Paginator
 from django.views.decorators.csrf import csrf_exempt
-
+from django.views.decorators.http import require_POST
 
 # venv\Scripts\activate my ref. ok
 
@@ -237,22 +236,53 @@ def profile(request, username):
         "userprofile_secondary_color_rgba": userprofile_secondary_color_rgba,
         })
 
+
 def search(request):
     currentpage= "search"
     query = request.GET.get('q', '')
-    posts = Post.objects.filter(Q(tags__icontains=query) | Q(content__icontains=query)
-)
+    posts = Post.objects.filter(Q(tags__icontains=query) | Q(content__icontains=query))
     users = Player.objects.filter(username__icontains=query)
+    player = Player.objects.get(user=request.user)
     
+    if query:
+        # Search for posts and users
+        posts = Post.objects.filter(
+            Q(content__icontains=query) | 
+            Q(user__username__icontains=query)
+        )
+        users = Player.objects.filter(username__icontains=query)
+        
+        # Record search history if user is logged in
+        if request.user.is_authenticated:
+            SearchHistory.objects.create(
+                user=player,
+                search_query=query,
+                search_type='general'
+            )
+    
+    # Get recent searches for logged-in user
+    recent_searches = SearchHistory.objects.filter(user=player).order_by('-searched_at')[:5]
+
     context = {
         'posts': posts,
         'users': users,
-        'recent_searches': ['Jason', 'Pat', 'ML project'],  # Fetch recent search from user model later
+        'recent_searches': recent_searches,  # Fetch recent search from user model later
         'query': query,
         "currentpage": currentpage,
     }
     return render(request, 'main/search.html', context)
 
+@login_required
+@require_POST
+def delete_search_history(request, id):
+    player = Player.objects.get(user=request.user)
+    try:
+        search_history = SearchHistory.objects.get(id=id, user=player)
+        search_history.delete()
+        return JsonResponse({'status': 'success'})
+    except SearchHistory.DoesNotExist:
+        return JsonResponse({'status': 'error', 'message': 'Record not found'}, status=404)
+    
 import random
 
 def new_post(request):

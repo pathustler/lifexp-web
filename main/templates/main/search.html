@@ -14,14 +14,14 @@
 
         <!-- Search Bar -->
         <div class="flex items-center bg-gray-200 rounded-full px-4 py-2 dark:bg-[#292b2f]">
-            <form method="GET" action="{% url 'search' %}">
+            <form method="GET" action="{% url 'search' %}" id="searchForm">
                 <div class="flex items-center rounded-full px-4 py-2">
                     <div class="w-5 h-5 relative flex items-center justify-center">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="#888888" class="h-4 w-4">
                             <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                         </svg>
                     </div>
-                    <input type="text" name="q" placeholder="Search" class="bg-transparent outline-none ml-2 w-full text-gray-600" value="{{ request.GET.q }}"/>
+                    <input type="text" name="q" id="searchInput" placeholder="Search" class="bg-transparent outline-none ml-2 w-full text-gray-600" value="{{ request.GET.q }}"/>
                 </div>
             </form>
         </div>
@@ -30,28 +30,46 @@
         <div class="mt-8 border-t pt-4 border-gray-200 dark:border-[#333] dark:bg-[#191a1c]"> 
           <h3 class="text-sm text-gray-500 mb-4">Recent</h3>
 
-          <!-- Hardcoded Recent Items -->
-          {% for name in recent_searches %}
-          <div class="flex justify-between items-center py-2 hover:bg-gray-100 rounded-md px-2 dark:hover:bg-[#292b2f]">
-              <div class="flex items-center gap-3">
-                <a href="{% url 'profile' name %}">
-                  <img src="https://via.placeholder.com/32" class="rounded-full" alt="user" />
-                  <span class="text-sm dark:text-gray-500">{{ name }}</span>
-                </a>
+          <!-- Dynamic Recent Searches -->
+          <div id="recentSearches">
+            {% if recent_searches %}
+              {% for search in recent_searches %}
+              <div class="flex justify-between items-center py-2 hover:bg-gray-100 rounded-md px-2 dark:hover:bg-[#292b2f]">
+                  <div class="flex items-center gap-3">
+                    <a href="{% url 'search' %}?q={{ search.search_query }}" class="flex items-center">
+                      <div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center mr-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                        </svg>
+                      </div>
+                      <span class="text-sm dark:text-gray-500">{{ search.search_query }}</span>
+                    </a>
+                  </div>
+                  <button class="delete-search" data-id="{{ search.id }}">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 dark:text-gray-500 hover:text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 18 6M6 6l12 12"/>
+                      </svg>
+                  </button>
               </div>
-              <button onclick="this.parentElement.remove()">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 dark:text-gray-500 hover:text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 18 6M6 6l12 12"/>
-                  </svg>
-              </button>
+              {% endfor %}
+            {% else %}
+              <p class="text-sm text-gray-500">No recent searches</p>
+            {% endif %}
           </div>
-          {% endfor %}
         </div>
 
     </div>
 
     <!-- Content Section -->
     <div class="flex-1 overflow-y-auto p-6 dark:border-[#00000000] dark:bg-[#191a1c] max-w-full">
+        <!-- Search Results Summary -->
+        {% if request.GET.q %}
+        <div class="mb-6">
+            <h1 class="text-2xl font-semibold">Results for "{{ request.GET.q }}"</h1>
+            <p class="text-gray-500">Found {{ posts|length }} posts and {{ users|length }} users</p>
+        </div>
+        {% endif %}
+        
         <!-- Posts Section -->
         <div class="mb-8">
             <h2 class="text-xl font-medium mb-4">Posts</h2>
@@ -61,10 +79,9 @@
                     <a href="{% url 'post_detail' post.id %}" class="block h-full w-full relative group">
                         <img src="{{ post.post_image.url }}" alt="{{ post.content }}" class="w-full h-full object-cover rounded-lg">
                     </a>
-                    <!-- <img src="{{ post.post_image.url }}" alt="{{ post.content }}" class="w-full h-full object-cover rounded-lg"> -->
                 </div>
                 {% empty %}
-                <p>No posts found.</p>
+                <p>{% if request.GET.q %}No posts matching "{{ request.GET.q }}"{% else %}Search for posts{% endif %}</p>
                 {% endfor %}
             </div>
         </div>
@@ -74,8 +91,8 @@
             <h2 class="text-xl font-medium mb-4">Users</h2>
             <ul class="space-y-4">
                 {% for user in users %}
-                <a href="{% url 'profile' user.username %}" target="_blank">
-                    <li class="flex items-center gap-4 p-2">
+                <a href="{% url 'profile' user.username %}" class="block">
+                    <li class="flex items-center gap-4 p-2 hover:bg-gray-100 rounded-md dark:hover:bg-[#292b2f]">
                         <img src="{{ user.profile_picture.url }}" class="rounded-full w-12 h-12" alt="{{ user.username }}">
                         <div class="flex-1">
                             <p class="text-gray-700 dark:text-[#f5f5f5]">{{ user.username }}</p>
@@ -84,12 +101,13 @@
                     </li>
                 </a>
                 {% empty %}
-                <p>No users found.</p>
+                <p>{% if request.GET.q %}No users matching "{{ request.GET.q }}"{% else %}Search for users{% endif %}</p>
                 {% endfor %}
             </ul>
         </div>
 
-        <!-- Tags and Others -->
+        <!-- Tags and Others (placeholder) -->
+        {% if not request.GET.q %}
         <div>
             <h2 class="text-xl font-medium mb-4">Tags & Others</h2>
             <ul class="space-y-3">
@@ -101,7 +119,69 @@
                 {% endfor %}
             </ul>
         </div>
+        {% endif %}
     </div>
 </main>
+
+<!-- JavaScript for dynamic search functionality -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Search on input after short delay (for a more dynamic feel)
+    const searchInput = document.getElementById('searchInput');
+    let searchTimeout;
+    
+    searchInput.addEventListener('input', function() {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(function() {
+            if (searchInput.value.trim().length > 0) {
+                document.getElementById('searchForm').submit();
+            }
+        }, 800); // Wait 800ms after user stops typing
+    });
+    
+    // Handle delete search history items
+    document.querySelectorAll('.delete-search').forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const searchId = this.getAttribute('data-id');
+            deleteSearchHistory(searchId, this.parentElement);
+        });
+    });
+    
+    // Function to delete search history via AJAX
+    function deleteSearchHistory(id, element) {
+        fetch('/delete-search-history/' + id + '/', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken'),
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                // Remove the element from DOM
+                element.remove();
+            }
+        })
+        .catch(error => console.error('Error deleting search history:', error));
+    }
+    
+    // Helper function to get CSRF token
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+});
+</script>
 
 {% endblock %}
