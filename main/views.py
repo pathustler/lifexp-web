@@ -313,6 +313,9 @@ def new_post(request):
             # Save the new post to the database
             new_post.save()
             
+            if request.POST.get("pre_liked") == "true":
+                Like.objects.create(liked_by=player, post=new_post)
+            
             for tag in form.cleaned_data['tags'].split(','):
                 xpdict = dict()
                 if "skill" in tag:

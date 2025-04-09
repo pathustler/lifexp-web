@@ -92,6 +92,9 @@
       
       
   
+    
+    <!-- Hidden input for backend -->
+    <input type="hidden" name="pre_liked" id="pre-liked-input" value="false">
  
     <!-- Submit Button -->
     <button type="submit" 
@@ -258,43 +261,39 @@ class="flex justify-between w-full items-center self-stretch flex-grow-0 flex-sh
 <div
 class="flex justify-between items-center self-stretch flex-grow-0 flex-shrink-0 h-[50px] relative overflow-hidden px-2.5 border-t border-r-0 border-b-0 border-l-0 border-black/5"
 >
-<div class="flex justify-start items-center flex-grow-0 flex-shrink-0 relative gap-[5px]">
-<svg
+  <!-- like button -->
+  <div class="flex justify-start items-center relative gap-[5px]">
+    <button id="like-button" data-liked="false">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none">
+        <path
+          id="like-icon"
+          fill="#AAAAAA"
+          d="M4.536 5.77802C5.47364 4.84066 6.74518 4.31409 8.071 4.31409C9.39682 4.31409 10.6684 4.84066 11.606 5.77802C11.7893 5.96069 12.0253 6.18802 12.314 6.46002C12.602 6.18802 12.8377 5.96069 13.021 5.77802C13.9547 4.84869 15.2175 4.3254 16.5348 4.32188C17.8522 4.31835 19.1177 4.83486 20.0564 5.75918C20.9951 6.68349 21.531 7.94091 21.5478 9.25817C21.5646 10.5754 21.0608 11.8461 20.146 12.794L13.02 19.92C12.8325 20.1075 12.5782 20.2128 12.313 20.2128C12.0478 20.2128 11.7935 20.1075 11.606 19.92L4.48 12.795C3.56604 11.8524 3.05951 10.5882 3.0698 9.27525C3.08009 7.96235 3.60738 6.70618 4.536 5.77802Z"
+        ></path>
+      </svg>
+    </button>
+    <p id="like-count" class="text-sm text-gray-500 ml-2">0</p>
+  </div>
+  
+
+  <svg
   width="36"
   height="36"
-  viewBox="0 0 24 24"
+  viewBox="0 0 20 20"
   fill="none"
   xmlns="http://www.w3.org/2000/svg"
-  class="flex-grow-0 flex-shrink-0 w-6 h-6 relative"
+  class="flex-grow-0 flex-shrink-0 w-5 h-5 relative text-black dark:text-[#fff]"
   preserveAspectRatio="xMidYMid meet"
->
+  >
   <path
-    fill-rule="evenodd"
-    clip-rule="evenodd"
-    d="M4.536 5.77802C5.47364 4.84066 6.74518 4.31409 8.071 4.31409C9.39682 4.31409 10.6684 4.84066 11.606 5.77802C11.7893 5.96069 12.0253 6.18802 12.314 6.46002C12.602 6.18802 12.8377 5.96069 13.021 5.77802C13.9547 4.84869 15.2175 4.3254 16.5348 4.32188C17.8522 4.31835 19.1177 4.83486 20.0564 5.75918C20.9951 6.68349 21.531 7.94091 21.5478 9.25817C21.5646 10.5754 21.0608 11.8461 20.146 12.794L13.02 19.92C12.8325 20.1075 12.5782 20.2128 12.313 20.2128C12.0478 20.2128 11.7935 20.1075 11.606 19.92L4.48 12.795C3.56604 11.8524 3.05951 10.5882 3.0698 9.27525C3.08009 7.96235 3.60738 6.70618 4.536 5.77802Z"
-    fill="#DC1E1E"
+    d="M3.33334 10V16.6667C3.33334 17.1087 3.50894 17.5326 3.8215 17.8452C4.13406 18.1578 4.55798 18.3334 5.00001 18.3334H15C15.442 18.3334 15.866 18.1578 16.1785 17.8452C16.4911 17.5326 16.6667 17.1087 16.6667 16.6667V10M13.3333 5.00002L10 1.66669M10 1.66669L6.66668 5.00002M10 1.66669V12.5"
+    stroke="currentColor"
+    stroke-opacity="0.6"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
   ></path>
-</svg>
-
-</div>
-<svg
-width="36"
-height="36"
-viewBox="0 0 20 20"
-fill="none"
-xmlns="http://www.w3.org/2000/svg"
-class="flex-grow-0 flex-shrink-0 w-5 h-5 relative text-black dark:text-[#fff]"
-preserveAspectRatio="xMidYMid meet"
->
-<path
-  d="M3.33334 10V16.6667C3.33334 17.1087 3.50894 17.5326 3.8215 17.8452C4.13406 18.1578 4.55798 18.3334 5.00001 18.3334H15C15.442 18.3334 15.866 18.1578 16.1785 17.8452C16.4911 17.5326 16.6667 17.1087 16.6667 16.6667V10M13.3333 5.00002L10 1.66669M10 1.66669L6.66668 5.00002M10 1.66669V12.5"
-  stroke="currentColor"
-  stroke-opacity="0.6"
-  stroke-width="2"
-  stroke-linecap="round"
-  stroke-linejoin="round"
-></path>
-</svg>
+  </svg>
 </div>
 
 
@@ -402,6 +401,23 @@ document.getElementById('end').addEventListener('input', function() {
     }
     document.getElementById('duration-preview').textContent = `${hours}h ${minutes}m`;
 });
+
+  const likeBtn = document.getElementById('like-button');
+  const likeIcon = document.getElementById('like-icon');
+  const likeCount = document.getElementById('like-count');
+  const preLikedInput = document.getElementById('pre-liked-input');
+
+  likeBtn.addEventListener('click', (e) => {
+    e.preventDefault(); // prevent accidental form submission
+    const isLiked = likeBtn.dataset.liked === "true";
+
+    // Toggle like
+    likeBtn.dataset.liked = (!isLiked).toString();
+    likeIcon.setAttribute("fill", isLiked ? "#AAAAAA" : "#DC1E1E");
+    likeCount.textContent = isLiked ? "0" : "1";
+    preLikedInput.value = (!isLiked).toString();
+  });
+
 
 </script>
 {% endblock %}
