@@ -415,16 +415,19 @@ class="flex justify-between items-center self-stretch w-full relative overflow-h
                 postElement.classList.add('post');
                 postElement.innerHTML = `
                     <div class="bg-white mb-6 p-6 rounded-xl border-2 border-gray-200 dark:bg-[#1f2022] dark:border-[#242729]">
-                        <a href="/user/${post.username}">
+                        
                             
                       <div class="flex items-center mb-4">
+                        <a href="/user/${post.username}">
+                          <div class="flex items-center">
                             <img src="${ post.profile_picture }" class="rounded-full w-10 h-10" alt="User">
                             <div class="ml-3">
                                 <p class="font-semibold">${ post.fullname }</p>
                                 <p class="text-sm text-gray-500">${ post.created_at }</p>
                             </div>
-                        </div>
+                          </div>
                         </a>
+                        </div>
 
                         <div class="w-full mb-4">
                             <img class="w-full" style="aspect-ratio: 4 / 3; object-fit: cover;" src="${ post.post_image }">

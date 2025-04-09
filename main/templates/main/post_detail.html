@@ -10,6 +10,7 @@
 <div class="flex items-center justify-center min-h-screen w-full py-6 px-4">
     <div class="bg-white p-6 rounded-xl border-2 border-gray-200 w-full max-w-lg mx-auto dark:bg-[#1f2022] dark:border-[#242729] shadow-lg">
         <!-- details of poster -->
+        <a href="/user/{{post.user.username}}">
         <div class="flex items-center mb-4">
             <img src="{{ post.user.profile_picture.url }}" class="rounded-full w-10 h-10" alt="User">
             <div class="ml-3">
@@ -17,6 +18,7 @@
                 <p class="text-sm text-gray-500">{{ post.created_at|date:"M d, Y H:i A" }}</p>
             </div>
         </div>
+        </a>
 
         <!-- post image -->
         <div class="w-full mb-4">
