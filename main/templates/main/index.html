@@ -412,6 +412,10 @@ class="flex justify-between items-center self-stretch w-full relative overflow-h
                 const postElement = document.createElement('div');
                 const userLiked = post.user_liked;
                 const likeColor = userLiked ? "#DC1E1E" : "gray";
+                
+                var likedby = post.likedbyprofiles.map(user => {
+                    return `<a href="/user/${user[1]}"><img class="h-5 w-5 rounded-full" src="${user[0]}" class="rounded-full w-10 h-10" alt="User"></a>`;
+                }).join(" ");
                 postElement.classList.add('post');
                 postElement.innerHTML = `
                     <div class="bg-white mb-6 p-6 rounded-xl border-2 border-gray-200 dark:bg-[#1f2022] dark:border-[#242729]">
@@ -579,9 +583,7 @@ class="flex justify-between items-center self-stretch w-full relative overflow-h
                             <div class="flex justify-start items-center flex-grow-0 flex-shrink-0 relative gap-1">
                                 <p class="flex-grow-0 flex-shrink-0 text-xs text-left text-black/30 dark:text-white/30">Liked by</p>
                                 <div class="flex justify-start items-center flex-grow-0 flex-shrink-0 relative space-x-[-2px]">
-                                    <img class="h-4 w-4 rounded-full" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeYJRKQh2AdhB2knnEBDBikE1ONI8tQY9Hng&s" />
-                                    <img class="h-4 w-4 rounded-full" src="https://avatarfiles.alphacoders.com/336/336872.png" />
-                                    <img class="h-4 w-4 rounded-full" src="https://i.imgur.com/5qRSsDE.png" />
+                                    ${likedby}
                                 </div>  
                             </div>
                         </div>

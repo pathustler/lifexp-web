@@ -82,6 +82,16 @@ def fetch_posts(request):
     for post in page_obj:
         comments = Comment.objects.filter(post=post, parent_comment=None).order_by('created_at')[:3]  # Load top 3 comments
         comments_data = [{"id": c.id, "content": c.content, "user": c.user.username, "pfp":c.user.profile_picture.url} for c in comments]
+        likedbyprofiles = []
+        # i want 5 players followed by this  this user to be stored in the list, who have liked this post
+        for like in post.likes.all():
+            if like.liked_by in request.user.player.following.all():
+                likedbyprofiles.append([like.liked_by.profile_picture.url, like.liked_by.username])
+        # if the length of the list is greater than 5, remove the last element
+        if len(likedbyprofiles) > 5:
+            likedbyprofiles = likedbyprofiles[:5]
+
+        
         
         post_activities = ActivityLog.objects.filter(post=post)
         xp_data = {
@@ -111,6 +121,7 @@ def fetch_posts(request):
             "likes":post.likes.count(),  
             "user_liked": post.likes.filter(liked_by=request.user.player).exists(),
             "xp_data": xp_data,
+            "likedbyprofiles": likedbyprofiles,
         })
 
     return JsonResponse({
@@ -159,7 +170,7 @@ def index(request):
         # 'xp_data': xp_data,
         # 'xp_data_json': json.dumps(xp_data)
     })
-
+@login_required
 def profile(request, username):
     currentpage= "profile"
     player = Player.objects.get(username=username)
@@ -247,7 +258,7 @@ def profile(request, username):
         "userprofile_secondary_color_rgba": userprofile_secondary_color_rgba,
         })
 
-
+@login_required
 def search(request):
     currentpage= "search"
     query = request.GET.get('q', '')
@@ -295,7 +306,7 @@ def delete_search_history(request, id):
         return JsonResponse({'status': 'error', 'message': 'Record not found'}, status=404)
     
 import random
-
+@login_required
 def new_post(request):
     currentpage= "new_post"
     player = Player.objects.get(username=request.user.username)
@@ -378,7 +389,7 @@ def new_post(request):
         'player':player
     })
     
-    
+@login_required
 def leaderboard(request, type):
     currentpage= "leaderboard"
     trophyurl = "images/leaderboard/"+type+".png"
@@ -401,7 +412,7 @@ def leaderboard(request, type):
         "label": label
     })
     
-    
+@login_required    
 def settings(request):
     currentpage= "settings"
     player = Player.objects.get(username=request.user.username)
@@ -415,7 +426,7 @@ def settings(request):
         return redirect('settings')
 
     return render(request, 'main/settings.html', {'settings': settings, 'currentpage': currentpage, 'player': player})
-
+@login_required
 def add_comment(request, post_id):
     if request.method == "POST":
         post = get_object_or_404(Post, id=post_id)
