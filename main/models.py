@@ -81,9 +81,7 @@ class ActivityLog(models.Model):
 
     class Meta:
         ordering = ['-created_at']
-
-
-
+    
     def __str__(self):
         return f'Activity by {self.user.username} on {self.created_at.strftime("%Y-%m-%d")}'
 
