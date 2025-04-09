@@ -13,6 +13,7 @@ from django.http import JsonResponse
 from django.core.paginator import Paginator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
+import json
 
 # venv\Scripts\activate my ref. ok
 
@@ -68,6 +69,7 @@ def toggle_follow(request, username):
 
 @login_required
 def fetch_posts(request):
+    player = Player.objects.get(username=request.user.username)
     page = int(request.GET.get('page', 1))  # Get the requested page number
     per_page = 5  # Number of posts to load per request
 
@@ -80,7 +82,19 @@ def fetch_posts(request):
     for post in page_obj:
         comments = Comment.objects.filter(post=post, parent_comment=None).order_by('created_at')[:3]  # Load top 3 comments
         comments_data = [{"id": c.id, "content": c.content, "user": c.user.username, "pfp":c.user.profile_picture.url} for c in comments]
-
+        
+        post_activities = ActivityLog.objects.filter(post=post)
+        xp_data = {
+            'physique': 0,
+            'creativity': 0,
+            'social': 0,
+            'energy': 0,
+            'skill': 0
+        }
+        for activity in post_activities:
+            for xp_type, value in activity.xp_distribution.items():
+                xp_data[xp_type] += value
+            
         post_list.append({
             "id": post.id,
             "content": post.content,  # Adjust fields as per your model
@@ -95,7 +109,8 @@ def fetch_posts(request):
             "user_id": post.user.id,
             "comments": comments_data,
             "likes":post.likes.count(),  
-            "user_liked": post.likes.filter(liked_by=request.user.player).exists()
+            "user_liked": post.likes.filter(liked_by=request.user.player).exists(),
+            "xp_data": xp_data,
         })
 
     return JsonResponse({
@@ -115,7 +130,7 @@ def mark_notifications_read(request):
 
 @login_required
 def index(request):
-    currentpage= "index"
+    currentpage = "index"
     player = Player.objects.get(username=request.user.username)
     posts = Post.objects.select_related('user').all()
     activities = ActivityLog.objects.select_related('user').all()
@@ -127,14 +142,10 @@ def index(request):
     for post in posts:
         top_comment = Comment.objects.filter(post=post, parent_comment=None).order_by('created_at').all()
         comments_map[post.id] = top_comment
-        
+       
     notifications = Notification.objects.filter(recipient=request.user).order_by('-created_at')
     unread_count = notifications.filter(is_read=False).count()
-    
-    # Mark unread notifications as read
-    # notifications.filter(is_read=False).update(is_read=True)
-
-
+   
     return render(request, 'main/index.html',{
         "currentpage": currentpage,
         'activities': activities,
@@ -145,9 +156,9 @@ def index(request):
         'nextrom': nextrom,
         "notifications": notifications,
         "unread_count": unread_count,
-
+        # 'xp_data': xp_data,
+        # 'xp_data_json': json.dumps(xp_data)
     })
-
 
 def profile(request, username):
     currentpage= "profile"
