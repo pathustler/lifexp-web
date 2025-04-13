@@ -14,6 +14,7 @@ from django.core.paginator import Paginator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 import json
+from collections import defaultdict
 
 # venv\Scripts\activate my ref. ok
 
@@ -522,3 +523,18 @@ def like_post(request, post_id):
         return JsonResponse({"liked": liked, "like_count": post.likes.count()})
 
     return JsonResponse({"error": "Invalid request"}, status=400)
+
+@login_required
+def history(request):
+    activities = ActivityLog.objects.filter(user=request.user.player).select_related('post')
+    
+    grouped_activities = defaultdict(list)
+
+    for activity in activities:
+        grouped_activities[activity.post].append(activity)
+
+    return render(request, 'main/history.html', {
+        'grouped_activities': grouped_activities.items(),  # List of (Post, [activities])
+        'currentpage': 'history'
+    })
+

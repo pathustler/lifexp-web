@@ -1,0 +1,40 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+{% load custom_filters %}
+
+{% block title %}
+    History
+{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto mt-8 px-4">
+    <h1 class="text-2xl font-bold mb-6 text-gray-800 dark:text-white">📚 XP History</h1>
+
+    {% for post, activities in grouped_activities %}
+        <div class="bg-white dark:bg-[#1f2022] shadow-md rounded-xl p-6 mb-6 border border-gray-200 dark:border-[#333]">
+            <div class="mb-3">
+                <p class="text-lg font-semibold text-gray-900 dark:text-white">{{ post.content }}</p>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Posted on {{ post.created_at|date:"M d, Y - H:i A" }}</p>
+            </div>
+
+            <div>
+                <h2 class="text-md font-medium mb-2 text-gray-700 dark:text-gray-300">🧪 Activities:</h2>
+                <ul class="space-y-3">
+                    {% for activity in activities %}
+                        <li class="bg-gray-100 dark:bg-[#2a2b2e] rounded-md p-3">
+                            <p class="font-semibold text-gray-800 dark:text-white">Activity: {{ activity.name|default:"Unnamed" }}</p>
+                            <ul class="ml-4 mt-1 text-sm text-gray-700 dark:text-gray-300 list-disc">
+                                {% for key, value in activity.xp_distribution.items %}
+                                    <li><span class="capitalize">{{ key }}</span>: {{ value }} XP</li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    {% empty %}
+        <p class="text-gray-600 dark:text-gray-400">No activity yet. Start posting to build XP! 🚀</p>
+    {% endfor %}
+</div>
+{% endblock %}
