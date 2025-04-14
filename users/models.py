@@ -12,6 +12,7 @@ from django.utils.timezone import now
 from datetime import timedelta
 from django.db.models import Sum, F, ExpressionWrapper, IntegerField
 from django.db.models.functions import Cast
+from django.urls import reverse
 
 # from .models import Player
 
@@ -259,3 +260,12 @@ class Notification(models.Model):
 
     def __str__(self):
         return f"Notification for {self.recipient.username} - {self.notification_type}"
+    
+    def get_link(self):
+        if self.notification_type == 'follow':
+            return reverse('profile', args=[self.sender.username])
+        elif self.notification_type in ['like', 'comment'] and self.related_object_id:
+            return reverse('post_detail', args=[self.related_object_id])
+        elif self.notification_type == 'message':
+            return f"/messages/{self.related_object_id}/"
+        return "#"

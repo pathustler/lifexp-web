@@ -263,13 +263,9 @@
         <div class="max-h-80 overflow-y-auto overflow-x-hidden max-w-full">
           <ul class="flex flex-col gap-3 max-w-full">
             {% for notification in notifications %}
-              {% if notification.notification_type == "follow" %}
-              <a href="{% url 'profile' notification.sender.username %}" {% if notification.is_read %} class="opacity-60"{% endif %}>
-              {% elif notification.notification_type in "like comment" and notification.related_object_id %}
-                <a href="{% url 'post_detail' notification.related_object_id %}" {% if notification.is_read %} class="opacity-60"{% endif %}>
-              {% else %}
-                <a href="#" class="text-gray-500 pointer-events-none">Invalid link</a>
-              {% endif %}
+            <a href="{{ notification.get_link }}" {% if notification.is_read %}class="opacity-60"{% endif %}>
+
+          
           
               {% with post=notification.related_object_id|lookup_post %}
                 <li>
