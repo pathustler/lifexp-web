@@ -463,6 +463,7 @@ def settings(request):
         return redirect('settings')
 
     return render(request, 'main/settings.html', {'settings': settings, 'currentpage': currentpage, 'player': player})
+
 @login_required
 def add_comment(request, post_id):
     if request.method == "POST":
