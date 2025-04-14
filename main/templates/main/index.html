@@ -9,7 +9,7 @@
 
 {% block content %}
 <div id="comments-modal" class="fixed  inset-0 bg-black/50 z-50 hidden items-center justify-center">
-  <div class="bg-white p-6 h-72 rounded-xl shadow-lg w-full max-w-md relative flex flex-col justify-between">
+  <div class="bg-white p-6 rounded-xl shadow-lg w-full max-w-md relative flex flex-col justify-between dark:bg-[#1f2022] dark:border-[#27292c]">
     <button onclick="closeCommentsPopup()" class="absolute top-2 right-2 text-gray-500 hover:text-red-500 text-xl">&times;</button>
     <div>
       <h2 class="text-lg font-bold mb-4">Comments</h2>
@@ -22,19 +22,23 @@
     
 
     <!-- Add Comment Field -->
-    <div class="flex items-center border rounded-full px-3 py-2 shadow-sm">
-      <img src="{{ player.profile_picture.url}}" alt="User Avatar" class="w-8 h-8 rounded-full mr-3">
+    <br>
+    <div class="flex items-center gap-3 border rounded-full px-4 py-2 shadow-sm dark:border-[#444] bg-white dark:bg-[#1f2022]">
+      <img src="{{ player.profile_picture.url }}" alt="User Avatar" class="w-9 h-9 rounded-full">
+    
       <textarea
-      id="comment-input"
-      rows="2"
-      placeholder="Add a comment..."
-      class="flex-1 text-sm focus:outline-none resize-none bg-transparent"
-    ></textarea>
+        id="comment-input"
+        rows="1"
+        placeholder="Add a comment..."
+        class="w-full text-sm focus:outline-none resize-none bg-transparent placeholder:text-gray-400 dark:placeholder:text-gray-500"
+      ></textarea>
+    
       <button
         onclick="submitComment()"
-        class="ml-3 text-blue-500 font-semibold text-sm hover:text-blue-600"
+        class="text-blue-500 font-semibold text-sm hover:text-blue-600 whitespace-nowrap"
       >Post</button>
     </div>
+    
   </div>
 </div>
 
@@ -263,10 +267,6 @@
         <div class="max-h-80 overflow-y-auto overflow-x-hidden max-w-full">
           <ul class="flex flex-col gap-3 max-w-full">
             {% for notification in notifications %}
-            <a href="{{ notification.get_link }}" {% if notification.is_read %}class="opacity-60"{% endif %}>
-
-          
-          
               {% with post=notification.related_object_id|lookup_post %}
                 <li>
                   <div class="flex  gap-4">
