@@ -8,6 +8,35 @@
 {% endblock %}
 
 {% block content %}
+<div id="comments-modal" class="fixed  inset-0 bg-black/50 z-50 hidden items-center justify-center">
+  <div class="bg-white p-6 h-72 rounded-xl shadow-lg w-full max-w-md relative flex flex-col justify-between">
+    <button onclick="closeCommentsPopup()" class="absolute top-2 right-2 text-gray-500 hover:text-red-500 text-xl">&times;</button>
+    <div>
+      <h2 class="text-lg font-bold mb-4">Comments</h2>
+    
+    <div id="comments-content" class="space-y-3 max-h-60 overflow-y-auto mb-4">
+      <!-- Comments will be injected here -->
+    </div>
+
+    </div>
+    
+
+    <!-- Add Comment Field -->
+    <div class="flex items-center border rounded-full px-3 py-2 shadow-sm">
+      <img src="{{ player.profile_picture.url}}" alt="User Avatar" class="w-8 h-8 rounded-full mr-3">
+      <textarea
+      id="comment-input"
+      rows="2"
+      placeholder="Add a comment..."
+      class="flex-1 text-sm focus:outline-none resize-none bg-transparent"
+    ></textarea>
+      <button
+        onclick="submitComment()"
+        class="ml-3 text-blue-500 font-semibold text-sm hover:text-blue-600"
+      >Post</button>
+    </div>
+  </div>
+</div>
 
 
 <main style="width: 60%;" class="overflow-hidden">
@@ -234,16 +263,30 @@
         <div class="max-h-80 overflow-y-auto overflow-x-hidden max-w-full">
           <ul class="flex flex-col gap-3 max-w-full">
             {% for notification in notifications %}
-              <a href="{% url 'profile' notification.sender.username %}">
+              {% if notification.notification_type == "follow" %}
+              <a href="{% url 'profile' notification.sender.username %}" {% if notification.is_read %} class="opacity-60"{% endif %}>
+              {% elif notification.notification_type == "like" %}
+              <a href="{% url 'post_detail' notification.related_object_id %}" {% if notification.is_read %} class="opacity-60"{% endif %}>
+              {% elif notification.notification_type == "comment" %}
+              <a href="{% url 'post_detail' notification.related_object_id %}" {% if notification.is_read %} class="opacity-60"{% endif %}>
+              {%else%}
+              <a href="{% url 'post_detail' notification.sender.username %}" {% if notification.is_read %} class="opacity-60"{% endif %}>
+              {%endif%}
+              {% with post=notification.related_object_id|lookup_post %}
                 <li>
                   <div class="flex  gap-4">
+                    {% if notification.notification_type == "comment" or notification.notification_type == "like" %}
+                    <img src="{{ post.post_image.url }}" class="h-12 w-12 rounded-md" alt="User">
+                    {%else%}
                     <img src="{{ notification.sender.player.profile_picture.url }}" class="h-12 w-12 rounded-full" alt="User">
+                    {%endif%}
                     <div class="flex flex-col">
                     <p><strong>{{ notification.sender.username }}</strong> {{ notification.message }} </p>
                     <small class="text-gray-500 block">{{ notification.created_at }}</small>
                     </div>
                   </div>
                 </li>
+                {% endwith %}
               </a>
             {% empty %}
                 <p class="text-gray-500 text-center w-full">No notifications.</p>
@@ -558,14 +601,14 @@ class="flex justify-between items-center self-stretch w-full relative overflow-h
                         <div class="flex flex-col justify-center items-start self-stretch flex-grow-0 flex-shrink-0 overflow-hidden gap-2.5 p-2.5 border-t border-r-0 border-b-0 border-l-0 border-black/5">
                             <div class="flex mb-4 justify-between items-center self-stretch flex-grow-0 flex-shrink-0 h-2.5 relative">
                             <p class="text-md font-medium text-left text-black dark:text-white">Comments</p>
-                            <p class=" text-sm text-blue-400 font-semibold cursor-pointer hover:text-blue-500 text-black/90">View all comments</p>
+                            <p class="text-sm text-blue-400 font-semibold cursor-pointer hover:text-blue-500 text-black/90" onclick="showCommentsPopup(${post.id})">View all comments</p>
                             </div>
 
-                            <div id="comments-${post.id}" class="space-y-2 mt-2">
+                            <div id="comments-${post.id}" class="space-y-4 mt-2">
                                 ${post.comments && post.comments.length > 0 ? post.comments.map(comment => `
-                                    <div class="flex gap-3 items-center self-stretch flex-grow-0 flex-shrink-0 h-10 relative rounded-[45px] bg-white dark:bg-[#1f2022] p-3">
-                                        <img class="h-12 w-12 rounded-full" src="${comment.pfp}" alt="PFP"/>
-                                        <div class="flex flex-col gap-2 w-full">
+                                    <div class="flex gap-3 items-center self-stretch flex-grow-0 flex-shrink-0 h-10 relative rounded-[45px] bg-white dark:bg-[#1f2022] py-3">
+                                        <img class="h-10 w-10 rounded-full" src="${comment.pfp}" alt="PFP"/>
+                                        <div class="flex flex-col w-full">
                                             <div class="flex justify-start items-start">
                                                 <p class="text-sm">
                                                     <span class="font-semibold text-black dark:text-white">${comment.user}</span>
@@ -721,11 +764,92 @@ class="flex justify-between items-center self-stretch w-full relative overflow-h
     
 ;
 
+async function submitComment() {
+  const commentInput = document.getElementById("comment-input");
+  const content = commentInput.value.trim();
+  if (!content) return;
+
+  const modal = document.getElementById("comments-modal");
+  const postId = modal.dataset.postId;
+
+  const response = await fetch('/api/comments/', {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRFToken": getCSRFToken(),
+    },
+    body: JSON.stringify({
+      post: postId,
+      content: content
+    })
+  });
+
+  if (response.ok) {
+    const data = await response.json();
+    const newComment = document.createElement("div");
+    newComment.className = "flex items-start space-x-2";
+    newComment.innerHTML = `
+      <img src="${data.profile_picture}" class="w-10 h-10 rounded-full">
+      <div class="flex flex-col w-full overflow-hidden">
+        <p class="text-sm font-medium">${data.username}</p>
+        <p class="text-sm w-full text-gray-700 break-words whitespace-pre-wrap">${data.content}</p>
+      </div>
+    `;
+    document.getElementById("comments-content").appendChild(newComment);
+    commentInput.value = "";
+  } else {
+    console.error("Failed to submit comment", await response.json());
+  }
+}
+
+
 // Function to get CSRF token
 function getCSRFToken() {
     return document.cookie.split('; ')
         .find(row => row.startsWith('csrftoken='))
         ?.split('=')[1];
+}
+
+
+async function showCommentsPopup(postId) {
+  const modal = document.getElementById("comments-modal");
+  const content = document.getElementById("comments-content");
+  content.innerHTML = `<p class="text-sm text-gray-500">Loading...</p>`;
+  modal.classList.remove("hidden");
+  modal.classList.add("flex");
+  modal.dataset.postId = postId;
+  try {
+    const response = await fetch(`/get_comments?post_id=${postId}`);
+    const data = await response.json();
+
+    if (data.comments.length > 0) {
+      content.innerHTML = data.comments.map(comment => `
+        <div class="flex gap-3 items-center self-stretch flex-grow-0 flex-shrink-0 h-10 relative rounded-[45px] bg-white dark:bg-[#1f2022] py-3">
+            <img class="h-10 w-10 rounded-full" src="${comment.pfp}" alt="PFP"/>
+            <div class="flex flex-col w-full">
+                <div class="flex justify-start items-start">
+                    <p class="text-sm">
+                        <span class="font-semibold text-black dark:text-white">${comment.username}</span>
+                        <span class="text-xs text-black/50 dark:text-white/50">• Just now</span>
+                    </p>
+                </div>
+                <p class="text-sm text-black dark:text-white">${comment.text}</p>
+            </div>
+        </div>
+      `).join('');
+    } else {
+      content.innerHTML = `<p class="text-sm text-gray-500">No comments yet.</p>`;
+    }
+  } catch (err) {
+    content.innerHTML = `<p class="text-sm text-red-500">Error loading comments.</p>`;
+    console.error(err);
+  }
+}
+
+function closeCommentsPopup() {
+  const modal = document.getElementById("comments-modal");
+  modal.classList.add("hidden");
+  modal.classList.remove("flex");
 }
 </script>
 {% endblock %}

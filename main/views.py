@@ -13,8 +13,13 @@ from django.http import JsonResponse
 from django.core.paginator import Paginator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
+from .serializers import CommentSerializer
 import json
 from collections import defaultdict
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework import status
+
 
 # venv\Scripts\activate my ref. ok
 
@@ -44,6 +49,25 @@ def hex_to_rgba(hex_color, opacity=1):
     # Return the rgba value
     return f'rgba({r}, {g}, {b}, {opacity})'
 
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def post_comment(request):
+    serializer = CommentSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save(user=Player.objects.get(user=request.user))
+        # Notify the post owner about the new comment
+        post = serializer.validated_data['post']
+        post_owner = post.user
+        Notification.objects.create(
+            recipient=post_owner.user,
+            sender=request.user,
+            notification_type='comment',
+            message=f'commented on your post',
+        )
+        
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 
@@ -69,6 +93,18 @@ def toggle_follow(request, username):
     return JsonResponse({"status": "success", "following": following})
 
 @login_required
+def get_comments(request):
+    post_id = request.GET.get("post_id")
+    post = get_object_or_404(Post, id=post_id)
+    comments = Comment.objects.filter(post=post).order_by("-created_at")
+    comment_list = [{
+        "pfp": comment.user.profile_picture.url if comment.user.profile_picture else None,
+        "username": comment.user.username,
+        "text": comment.content
+    } for comment in comments]
+    return JsonResponse({"comments": comment_list})
+
+@login_required
 def fetch_posts(request):
     player = Player.objects.get(username=request.user.username)
     page = int(request.GET.get('page', 1))  # Get the requested page number
@@ -82,7 +118,7 @@ def fetch_posts(request):
 
     for post in page_obj:
         comments = Comment.objects.filter(post=post, parent_comment=None).order_by('created_at')[:3]  # Load top 3 comments
-        comments_data = [{"id": c.id, "content": c.content, "user": c.user.username, "pfp":c.user.profile_picture.url} for c in comments]
+        comments_data = [{"id": c.id, "content": c.content, "user": c.user.fullname, "pfp":c.user.profile_picture.url} for c in comments]
         likedbyprofiles = []
         # i want 5 players followed by this  this user to be stored in the list, who have liked this post
         for like in post.likes.all():
@@ -519,6 +555,13 @@ def like_post(request, post_id):
         else:
             post.likes.create(liked_by=player)
             liked = True
+            Notification.objects.create(
+                recipient=post.user.user,
+                sender=request.user,
+                notification_type='like',
+                message=f'liked your post',
+                related_object_id=post.id
+            )
 
         return JsonResponse({"liked": liked, "like_count": post.likes.count()})
 
