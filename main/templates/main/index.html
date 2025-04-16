@@ -518,12 +518,27 @@
 
                         <div class="flex flex-col justify-center items-start self-stretch flex-grow-0 flex-shrink-0 overflow-hidden gap-2.5 p-2.5 border-t border-r-0 border-b-0 border-l-0 border-black/5">
                             <div class="flex mb-4 justify-between items-center self-stretch flex-grow-0 flex-shrink-0 h-2.5 relative">
-                            <p class="text-md font-medium text-left text-black dark:text-white">Comments</p>
+                            <p class="text-md font-medium text-left text-black dark:text-white">Comments - ${ post.comments.length}</p>
                             <p class="text-sm text-blue-400 font-semibold cursor-pointer hover:text-blue-500 text-black/90" onclick="showCommentsPopup(${post.id})">View all comments</p>
                             </div>
 
+                            <div class="flex items-center border w-full rounded-full px-3 py-2 shadow-sm">
+                              <img src="{{ player.profile_picture.url}}" alt="User Avatar" class="w-8 h-8 rounded-full mr-3">
+                              <textarea
+                              id="comment-input"
+                              rows="1"
+                              placeholder="Add a comment..."
+                              class="flex-1 text-sm focus:outline-none resize-none bg-transparent leading-[1.5rem]"
+                            ></textarea>
+                              <button
+                                data-post-id="${post.id}"
+                                onclick="submitComment(this)"
+                                class="ml-3 text-blue-500 font-semibold text-sm hover:text-blue-600"
+                              >Post</button>
+                            </div>
+
                             <div id="comments-${post.id}" class="space-y-4 mt-2">
-                                ${post.comments && post.comments.length > 0 ? post.comments.map(comment => `
+                                ${post.comments && post.comments.length > 0 ? post.comments.slice(0, 3).map(comment => `
                                     <div class="flex gap-3 items-center self-stretch flex-grow-0 flex-shrink-0 h-10 relative rounded-[45px] bg-white dark:bg-[#1f2022] py-3">
                                         <img class="h-10 w-10 rounded-full" src="${comment.pfp}" alt="PFP"/>
                                         <div class="flex flex-col w-full">
@@ -682,13 +697,16 @@
     
 ;
 
-async function submitComment() {
-  const commentInput = document.getElementById("comment-input");
+async function submitComment(button) {
+  const parent = button.closest(".flex");
+  const commentInput = parent.querySelector("#comment-input");
+  console.log("Comment input:", parent);
   const content = commentInput.value.trim();
   if (!content) return;
 
-  const modal = document.getElementById("comments-modal");
-  const postId = modal.dataset.postId;
+  const postId = button.dataset.postId; // Get post ID from data attribute
+
+  
 
   const response = await fetch('/api/comments/', {
     method: "POST",
@@ -705,16 +723,29 @@ async function submitComment() {
   if (response.ok) {
     const data = await response.json();
     const newComment = document.createElement("div");
-    newComment.className = "flex items-start space-x-2";
-    newComment.innerHTML = `
-      <img src="${data.profile_picture}" class="w-10 h-10 rounded-full">
-      <div class="flex flex-col w-full overflow-hidden">
-        <p class="text-sm font-medium">${data.username}</p>
-        <p class="text-sm w-full text-gray-700 break-words whitespace-pre-wrap">${data.content}</p>
-      </div>
-    `;
-    document.getElementById("comments-content").appendChild(newComment);
-    commentInput.value = "";
+  newComment.className = "flex items-start space-x-2";
+  newComment.innerHTML = `
+  
+
+    <div class="flex gap-3 items-center self-stretch flex-grow-0 flex-shrink-0 h-10 relative rounded-[45px] bg-white dark:bg-[#1f2022] py-3">
+        <img class="h-10 w-10 rounded-full" src="${data.profile_picture}" alt="PFP"/>
+        <div class="flex flex-col w-full">
+            <div class="flex justify-start items-start">
+                <p class="text-sm">
+                    <span class="font-semibold text-black dark:text-white">${data.fullname}</span>
+                    <span class="text-xs text-black/50 dark:text-white/50">• Just now</span>
+                </p>
+            </div>
+            <p class="text-sm text-black dark:text-white">${data.content}</p>
+        </div>
+    </div>
+
+
+  `;
+  document.getElementById("comments-content").appendChild(newComment);
+  document.getElementById(`comments-${postId}`).appendChild(newComment);
+  commentInput.value = "";
+    
   } else {
     console.error("Failed to submit comment", await response.json());
   }
@@ -735,7 +766,7 @@ async function showCommentsPopup(postId) {
   content.innerHTML = `<p class="text-sm text-gray-500">Loading...</p>`;
   modal.classList.remove("hidden");
   modal.classList.add("flex");
-  modal.dataset.postId = postId;
+  modal.querySelector("#submit-comment-btn").dataset.postId = postId;
   try {
     const response = await fetch(`/get_comments?post_id=${postId}`);
     const data = await response.json();
@@ -765,7 +796,8 @@ async function showCommentsPopup(postId) {
 }
 
 function closeCommentsPopup() {
-  const modal = document.getElementById("comments-modal");
+  const modal = document.querySelector("#comments-modal");
+  modal.querySelector("#submit-comment-btn").dataset.postId = undefined;
   modal.classList.add("hidden");
   modal.classList.remove("flex");
 }

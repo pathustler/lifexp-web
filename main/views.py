@@ -62,12 +62,14 @@ def post_comment(request):
         # Notify the post owner about the new comment
         post = serializer.validated_data['post']
         post_owner = post.user
-        Notification.objects.create(
-            recipient=post_owner.user,
-            sender=request.user,
-            notification_type='comment',
-            message=f'commented on your post',
-        )
+        if post.user != request.user.player:
+            Notification.objects.create(
+                recipient=post_owner.user,
+                sender=request.user,
+                notification_type='comment',
+                message=f'commented on your post',
+                related_object_id=post.id
+            )
         
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -104,6 +106,7 @@ def get_comments(request):
     comment_list = [{
         "pfp": comment.user.profile_picture.url if comment.user.profile_picture else None,
         "username": comment.user.username,
+        "fullname": comment.user.fullname,
         "text": comment.content
     } for comment in comments]
     return JsonResponse({"comments": comment_list})
@@ -378,26 +381,26 @@ def new_post(request):
             for tag in form.cleaned_data['tags'].split(','):
                 xpdict = dict()
                 if "skill" in tag:
-                    xpdict["skill"] = random.randint(50, 100)
+                    xpdict["skill"] = random.randint(-50, 100)
                 if "physique" in tag:
-                    xpdict["physique"] = random.randint(50, 100)
+                    xpdict["physique"] = random.randint(-50, 100)
                 if "creativity" in tag:
-                    xpdict["creativity"] = random.randint(50, 100)
+                    xpdict["creativity"] = random.randint(-50, 100)
                 if "social" in tag:
-                    xpdict["social"] = random.randint(50, 100)
+                    xpdict["social"] = random.randint(-50, 100)
                 if "energy" in tag:
-                    xpdict["energy"] = random.randint(50, 100)
+                    xpdict["energy"] = random.randint(-50, 100)
 
                 new_activity = ActivityLog(
                     post=new_post,
                     user=player,
                     name=tag,
                     xp_distribution={
-                        "physique": random.randint(0, 10) + xpdict.get("physique", 0),
-                        "creativity": random.randint(0, 10)+ xpdict.get("creativity", 0),
-                        "social": random.randint(0, 10)+   xpdict.get("social", 0),
-                        "energy": random.randint(0, 10)+   xpdict.get("energy", 0),
-                        "skill": random.randint(0, 10)+   xpdict.get("skill", 0)
+                        "physique": random.randint(-5, 10) + xpdict.get("physique", 0),
+                        "creativity": random.randint(-5, 10)+ xpdict.get("creativity", 0),
+                        "social": random.randint(-5, 10)+   xpdict.get("social", 0),
+                        "energy": random.randint(-5, 10)+   xpdict.get("energy", 0),
+                        "skill": random.randint(-5, 10)+   xpdict.get("skill", 0)
                     }
                 )
                 
@@ -556,13 +559,14 @@ def like_post(request, post_id):
         else:
             post.likes.create(liked_by=player)
             liked = True
-            Notification.objects.create(
-                recipient=post.user.user,
-                sender=request.user,
-                notification_type='like',
-                message=f'liked your post',
-                related_object_id=post.id
-            )
+            if post.user != request.user.player:
+                Notification.objects.create(
+                    recipient=post.user.user,
+                    sender=request.user,
+                    notification_type='like',
+                    message=f'liked your post',
+                    related_object_id=post.id
+                )
 
         return JsonResponse({"liked": liked, "like_count": post.likes.count()})
 
@@ -570,7 +574,9 @@ def like_post(request, post_id):
 
 @login_required
 def history(request):
+
     activities = ActivityLog.objects.filter(user=request.user.player).select_related('post')
+    print(activities)
     
     grouped_activities = defaultdict(list)
 
@@ -579,7 +585,7 @@ def history(request):
 
     return render(request, 'main/history.html', {
         'grouped_activities': grouped_activities.items(),  # List of (Post, [activities])
-        'currentpage': 'history'
+        'currentpage': 'profile'
     })
 
 @login_required

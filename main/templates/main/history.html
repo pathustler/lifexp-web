@@ -7,34 +7,129 @@
 {% endblock %}
 
 {% block content %}
-<div class="max-w-3xl mx-auto mt-8 px-4">
-    <h1 class="text-2xl font-bold mb-6 text-gray-800 dark:text-white">📚 XP History</h1>
+
+<main style="width: 100%;" class="flex  w-full" style="height: 100vh;">
+    <div style="width: 80%;" class="flex-1 overflow-y-auto py-8 px-12 scrollbar-hide">
+    <h1 class="text-2xl font-bold mb-6 text-gray-800 dark:text-white">History</h1>
+
+    <div class="flex items-center bg-gray-200 rounded-full px-4 py-2 dark:bg-[#292b2f]">
+        <form method="GET" action="{% url 'search' %}" id="searchForm">
+            <div class="flex items-center rounded-full px-4 py-2">
+                <div class="w-5 h-5 relative flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="#888888" class="h-4 w-4">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                    </svg>
+                </div>
+                <input type="text" name="q" id="searchInput" placeholder="Search" class="bg-transparent outline-none ml-2 w-full text-gray-600" value="{{ request.GET.q }}"/>
+            </div>
+        </form>
+    </div>    
 
     {% for post, activities in grouped_activities %}
-        <div class="bg-white dark:bg-[#1f2022] shadow-md rounded-xl p-6 mb-6 border border-gray-200 dark:border-[#333]">
-            <div class="mb-3">
-                <p class="text-lg font-semibold text-gray-900 dark:text-white">{{ post.content }}</p>
-                <p class="text-sm text-gray-500 dark:text-gray-400">Posted on {{ post.created_at|date:"M d, Y - H:i A" }}</p>
-            </div>
+    <div
+  class="flex flex-col my-6 justify-end items-start self-stretch flex-grow-0 flex-shrink-0 relative overflow-hidden gap-2.5 px-[25px] py-6 rounded-[10px] bg-white"
+>
+  <p class="flex-grow-0 flex-shrink-0 w-[284px] text-lg font-medium text-left text-black">
+    {{ post.content }}
+  </p>
+  <div
+    class="flex justify-start items-center self-stretch flex-grow-0 flex-shrink-0 relative overflow-hidden gap-[5px]"
+  >
+    <p class="flex-grow-0 flex-shrink-0 text-xs text-left text-black/50">{{ post.created_at|date:"M d, Y - H:i A" }}</p>
+    <div
+      class="flex justify-center items-center flex-grow-0 flex-shrink-0 relative overflow-hidden gap-0.5 px-1.5 py-[5px] rounded-[1000px] bg-[#baafea]"
+    >
+      <p class="flex-grow-0 flex-shrink-0 text-xs text-left text-[#713599]">+233</p>
+      <svg
+        width="10"
+        height="10"
+        viewBox="0 0 10 10"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        class="flex-grow-0 flex-shrink-0 w-2.5 h-2.5 relative"
+        preserveAspectRatio="xMidYMid meet"
+      >
+        <path
+          d="M7.17944 4.63867C6.68982 4.73242 6.16894 4.56836 5.79043 4.14258L5.12892 3.39844C4.86848 3.10547 4.72263 2.71094 4.72263 2.29688V2.06055L3.33883 1.21094C3.24681 1.1543 3.18951 1.04297 3.19472 0.923828C3.19993 0.804688 3.26244 0.699219 3.35967 0.650391L4.17918 0.240234C4.49865 0.0820312 4.84417 0 5.1949 0H5.50916C6.14637 0 6.75927 0.273437 7.22285 0.763672L7.99722 1.58398C8.4174 2.0293 8.57366 2.67188 8.45907 3.26367L8.7334 3.57422L8.8723 3.41797C9.03551 3.23438 9.29942 3.23438 9.46089 3.41797L9.87759 3.88672C10.0408 4.07031 10.0408 4.36719 9.87759 4.54883L8.34968 6.26758C8.18647 6.45117 7.92256 6.45117 7.76109 6.26758L7.34439 5.79883C7.18118 5.61523 7.18118 5.31836 7.34439 5.13672L7.48329 4.98047L7.17944 4.63867ZM0.475736 7.36523L4.52991 3.56641C4.59068 3.66211 4.66013 3.75391 4.73479 3.83984L5.3963 4.58398C5.50048 4.70117 5.6116 4.80273 5.72966 4.89062L2.34222 9.46484C2.09046 9.80469 1.71716 10 1.32477 10C0.592065 10 0 9.33203 0 8.50977C0 8.06836 0.175362 7.64844 0.475736 7.36523Z"
+          fill="#713599"
+        ></path>
+      </svg>
+    </div>
+    <div
+      class="flex justify-center items-center flex-grow-0 flex-shrink-0 relative overflow-hidden gap-0.5 px-1.5 py-[5px] rounded-[1000px] bg-[#afd9ea]"
+    >
+      <p class="flex-grow-0 flex-shrink-0 text-xs text-left text-[#4187a2]">+233</p>
+      <svg
+        width="10"
+        height="10"
+        viewBox="0 0 10 10"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        class="flex-grow-0 flex-shrink-0"
+        preserveAspectRatio="none"
+      >
+        <path
+          d="M3.61111 0C3.09201 0 2.66146 0.400391 2.53819 0.941406C2.52431 0.941406 2.51389 0.9375 2.5 0.9375C1.88715 0.9375 1.38889 1.49805 1.38889 2.1875C1.38889 2.28125 1.39931 2.37305 1.4184 2.46094C0.911458 2.69531 0.555556 3.25391 0.555556 3.90625C0.555556 4.15234 0.611111 4.38086 0.699653 4.58789C0.282986 4.85742 0 5.35742 0 5.9375C0 6.58789 0.354167 7.14648 0.857639 7.38086C0.842014 7.4707 0.833333 7.5625 0.833333 7.65625C0.833333 8.43359 1.39236 9.0625 2.08333 9.0625C2.15451 9.0625 2.22396 9.05273 2.29167 9.03906C2.45833 9.5957 2.92014 10 3.47222 10C4.16319 10 4.72222 9.37109 4.72222 8.59375V1.25C4.72222 0.560547 4.22396 0 3.61111 0ZM10 5.9375C10 5.35742 9.71701 4.85742 9.30035 4.58789C9.39063 4.38086 9.44444 4.15234 9.44444 3.90625C9.44444 3.25391 9.08854 2.69531 8.5816 2.46094C8.59896 2.37305 8.61111 2.28125 8.61111 2.1875C8.61111 1.49805 8.11285 0.9375 7.5 0.9375C7.48611 0.9375 7.47396 0.941406 7.46181 0.941406C7.33854 0.400391 6.90799 0 6.38889 0C5.77604 0 5.27778 0.558594 5.27778 1.25V8.59375C5.27778 9.37109 5.83681 10 6.52778 10C7.07986 10 7.54167 9.5957 7.70833 9.03906C7.77604 9.05273 7.84549 9.0625 7.91667 9.0625C8.60764 9.0625 9.16667 8.43359 9.16667 7.65625C9.16667 7.5625 9.15799 7.4707 9.14236 7.38086C9.64583 7.14648 10 6.58789 10 5.9375Z"
+          fill="#4187A2"
+        ></path>
+      </svg>
+    </div>
+  </div>
+  <p class="flex-grow-0 flex-shrink-0 w-[284px] text-[10px] text-left">
+    <span class="flex-grow-0 flex-shrink-0 w-[284px] text-xs text-left text-black/50"
+      >{{ post.content }}.</span
+    ><span class="flex-grow-0 flex-shrink-0 w-[284px] text-[10px] text-left text-black"> </span
+    >
+  </p>
+  <div
+    class="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 overflow-hidden"
+  >
+  {% for activity in activities %}
+    <div
+      class="flex justify-between items-center self-stretch flex-grow-0 flex-shrink-0 relative overflow-hidden py-[5px] border-t-0 border-r-0 border-b border-l-0 border-black/5"
+    >
+      <p class="flex-grow-0 flex-shrink-0 text-xs text-left text-black">{{ activity.name|default:"Unnamed" }}</p>
+      <div class="flex justify-center items-center flex-grow-0 flex-shrink-0 gap-2.5">
+        
+        {% for key, value in activity.xp_distribution.items %}
 
-            <div>
-                <h2 class="text-md font-medium mb-2 text-gray-700 dark:text-gray-300">🧪 Activities:</h2>
-                <ul class="space-y-3">
-                    {% for activity in activities %}
-                        <li class="bg-gray-100 dark:bg-[#2a2b2e] rounded-md p-3">
-                            <p class="font-semibold text-gray-800 dark:text-white">Activity: {{ activity.name|default:"Unnamed" }}</p>
-                            <ul class="ml-4 mt-1 text-sm text-gray-700 dark:text-gray-300 list-disc">
-                                {% for key, value in activity.xp_distribution.items %}
-                                    <li><span class="capitalize">{{ key }}</span>: {{ value }} XP</li>
-                                {% endfor %}
-                            </ul>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
+            {% if value > 0 %}
+            {% with aspect_colors|dict_get:key as aspect %}
+            <div class="flex justify-center w-10  items-center flex-grow-0 flex-shrink-0 relative overflow-hidden gap-1 px-2 py-[5px] rounded-[1000px]" style="background-color: {{ aspect.secondary }};">
+                <p class="flex-grow-0 flex-shrink-0 text-xs text-left" style="color: {{ aspect.primary }};">{{ value }}</p>
+                
+                {{ aspect.icon|safe }}
+            
+                </div>
+            {% endwith %}
+            {% elif value < 0%}
+            {% with aspect_colors|dict_get:key as aspect %}
+            <div class="flex justify-center  items-center flex-grow-0 relative overflow-hidden gap-1 px-2 py-[5px] rounded-[1000px]" style="background-color: #eeeeee;">
+                <p class="flex-grow-0 text-xs text-left" style="color: #777777;">{{ value }}</p>
+                
+                {{ aspect.icon|safe }}
+            
+                </div>
+            {% endwith %}
+            {%endif%}
+     {% endfor %}
+        
+       
+      </div>
+    </div>
+    {%endfor%}
+    
+    <div
+      class="flex flex-col justify-center items-center self-stretch flex-grow-0 flex-shrink-0 relative overflow-hidden gap-2.5 pt-[15px]"
+    >
+      <img src="expand-arrow.png" class="flex-grow-0 flex-shrink-0 w-3 h-[9px] object-contain" />
+    </div>
+  </div>
+</div>
+        
     {% empty %}
         <p class="text-gray-600 dark:text-gray-400">No activity yet. Start posting to build XP! 🚀</p>
     {% endfor %}
 </div>
+</main>
 {% endblock %}

@@ -25,3 +25,5 @@ def roman(value):
         return roman.toRoman(int(value))
     except Exception:
         return value  # fallback if something fails
+def dict_get(d, key):
+    return d.get(key)
