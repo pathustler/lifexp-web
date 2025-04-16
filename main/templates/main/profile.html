@@ -451,82 +451,80 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-  const ctx = document.getElementById("radarChart").getContext("2d");
+    const ctx = document.getElementById("radarChart").getContext("2d");
 
-  new Chart(ctx, {
-    type: "radar",
-    data: {
-      labels: ["Physique", "Energy", "Social", "Creativity", "Skill"],
-      datasets: [
-        {
-          label: "{{player.fullname}}",
-          data: [
-            "{{player.categoryxp.physique}}",
-            "{{player.categoryxp.energy}}",
-            "{{player.categoryxp.social}}",
-            "{{player.categoryxp.creativity}}",
-            "{{player.categoryxp.skill}}"
-          ],
-          backgroundColor: "{% if player.masterytitle == 'Rookie' %}rgba(217, 230, 254, 0.5){%else%}{{userprofile_secondary_color_rgba}}{%endif%}",  // Fill color (semi-transparent recommended)
-          backgroundOpacity: 0.5,
-          borderColor: "{% if player.masterytitle == 'Rookie' %}#5793f8{%else%}{{player.primary_accent_color}}99{%endif%}",   // Line color
-          borderWidth: 2,
-          pointBackgroundColor: "{{player.primary_accent_color}}",
-          pointBorderColor: "#fff",
-          pointHoverBackgroundColor: "#fff",
-          pointHoverBorderColor: "{{player.primary_accent_color}}"
-        },
-      ],
-    },
-    options: {
-      responsive: true,
-      
-      plugins: {
-        legend: {
-          labels: {
-            color: document.body.classList.contains('dark') ? '#fff' : '#000'  // Legend text color
-          }
-        }
-      },
-      scales: {
-        r: {
-          beginAtZero: true,
-          angleLines: {
-            color: document.body.classList.contains('dark') ? '#444' : '#ccc',  // Spoke lines
-          },
-          grid: {
-            color: document.body.classList.contains('dark') ? '#444' : '#ccc', // Circular grid
-            backgroundColor: document.body.classList.contains('dark') ? '#f9fafb' : '#1f2937', // Background color
-            drawOnChartArea: true,  // Ensure grid is drawn on chart area
-            zIndex: 4  // Set a higher zIndex than the radar surface
-          },
-          pointLabels: {
-            color: document.body.classList.contains('dark') ? '#AAA' : '#444',  // Label text color
-            font: {
-              size: 14
+    new Chart(ctx, {
+        type: "radar",
+        data: {
+        labels: ["Physique", "Energy", "Social", "Creativity", "Skill"],
+        datasets: [
+            {
+            label: "{{player.fullname}}",
+            data: [
+                "{{player.categoryxp.physique}}",
+                "{{player.categoryxp.energy}}",
+                "{{player.categoryxp.social}}",
+                "{{player.categoryxp.creativity}}",
+                "{{player.categoryxp.skill}}"
+            ],
+            backgroundColor: "{% if player.masterytitle == 'Rookie' %}rgba(217, 230, 254, 0.5){%else%}{{userprofile_secondary_color_rgba}}{%endif%}",  // Fill color (semi-transparent recommended)
+            backgroundOpacity: 0.5,
+            borderColor: "{% if player.masterytitle == 'Rookie' %}#5793f8{%else%}{{player.primary_accent_color}}99{%endif%}",   // Line color
+            borderWidth: 2,
+            pointBackgroundColor: "{{player.primary_accent_color}}",
+            pointBorderColor: "#fff",
+            pointHoverBackgroundColor: "#fff",
+            pointHoverBorderColor: "{{player.primary_accent_color}}"
             },
-            zIndex: 5  // Ensure point labels are above the radar chart surface
-          },
-          ticks: {
-            color: document.body.classList.contains('dark') ? '#ccc' : '#444',  // Ticks color
-            backdropColor: 'transparent', // Removes the default tick background
-            zIndex: 6  // Ensure ticks are above the grid and below the radar chart
-          }
+        ],
+        },
+        options: {
+        responsive: true,
+        
+        plugins: {
+            legend: {
+            labels: {
+                color: document.body.classList.contains('dark') ? '#fff' : '#000'  // Legend text color
+            }
+            }
+        },
+        scales: {
+            r: {
+            beginAtZero: true,
+            angleLines: {
+                color: document.body.classList.contains('dark') ? '#444' : '#ccc',  // Spoke lines
+            },
+            grid: {
+                color: document.body.classList.contains('dark') ? '#444' : '#ccc', // Circular grid
+                backgroundColor: document.body.classList.contains('dark') ? '#f9fafb' : '#1f2937', // Background color
+                drawOnChartArea: true,  // Ensure grid is drawn on chart area
+                zIndex: 4  // Set a higher zIndex than the radar surface
+            },
+            pointLabels: {
+                color: document.body.classList.contains('dark') ? '#AAA' : '#444',  // Label text color
+                font: {
+                size: 14
+                },
+                zIndex: 5  // Ensure point labels are above the radar chart surface
+            },
+            ticks: {
+                color: document.body.classList.contains('dark') ? '#ccc' : '#444',  // Ticks color
+                backdropColor: 'transparent', // Removes the default tick background
+                zIndex: 6  // Ensure ticks are above the grid and below the radar chart
+            }
+            }
         }
-      }
-    }
-  });
-});
+        }
+        });
+    });
 
 
   </script>
   
   <script>
-    console.log("{{player.profile_picture.url}}");
     document.addEventListener("DOMContentLoaded", function () {
         const ctx = document.getElementById("xpChart").getContext("2d");
-        const xpData = {{ xp_data|safe }};
-        
+        const xpData = {{ xp_data | safe }};
         new Chart(ctx, {
             type: "line",
             data: {

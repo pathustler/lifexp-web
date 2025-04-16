@@ -19,6 +19,8 @@ from collections import defaultdict
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
+from django.utils.timezone import now, timedelta
+from django.db import models
 
 
 # venv\Scripts\activate my ref. ok
@@ -209,59 +211,52 @@ def index(request):
     })
 @login_required
 def profile(request, username):
-    currentpage= "profile"
+    currentpage = "profile"
     player = Player.objects.get(username=username)
-    
     playerposts = Post.objects.filter(user=player)
-    
+
     rom = roman.toRoman(player.masterlevel)
     title = f"{player.masterytitle} {rom}"
     
-    titlemaster={
-        "Warrior": 0,
-        "Protagonist": 1,
-        "Diplomat": 2,
-        "Maverick": 3,
-        "Prodigy": 4
-    }
-    if player.masterytitle == "Rookie":
-        pass
-    
-    xp_data = [
-        {"day": "Monday", "xp": 200},
-        {"day": "Tuesday", "xp": 20},
-        {"day": "Wednesday", "xp": 90},
-        {"day": "Thursday", "xp": 130},
-        {"day": "Friday", "xp": 5},
-        {"day": "Saturday", "xp": 2},
-    ]
-    
-    activities = ActivityLog.objects.filter(user=player)
-    actlist = []
-    
     is_following = request.user.player.following.filter(id=player.id).exists() if request.user.is_authenticated else False
-
-    
     ownprofile = request.user.username == username
-    
+
+    # 🧠 Build dynamic XP data for past 7 days
+    today = now().date()
+    start_date = today - timedelta(days=6)
+
+    recent_activities = ActivityLog.objects.filter(user=player, created_at__date__gte=start_date)
+    daily_xp_map = defaultdict(int)
+
+    for activity in recent_activities:
+        day = activity.created_at.strftime('%A')  # e.g., 'Monday'
+        daily_xp_map[day] += sum(activity.xp_distribution.values())
+
+    # Preserve order of weekdays
+    weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+    xp_data = [{"day": day, "xp": daily_xp_map.get(day, 0)} for day in weekdays]
+
+    total_xp_week = sum(item["xp"] for item in xp_data)
+    activities = ActivityLog.objects.filter(user=player)
+    total_xp_all_time = 0
 
     for activity in activities:
-        maxxp = activity.xp_distribution[max(activity.xp_distribution, key=activity.xp_distribution.get)]
-        maxxplabel = max(activity.xp_distribution, key=activity.xp_distribution.get)
+        total_xp_all_time += sum(activity.xp_distribution.values())
+
+
+    # Activity breakdown
+    actlist = []
+    for activity in activities:
         totalxp = sum(activity.xp_distribution.values())
-        #if the activity of that name already exists in actlist, add total xp to it and update the max xp label
+        maxxplabel = max(activity.xp_distribution, key=activity.xp_distribution.get)
+        maxxp = activity.xp_distribution[maxxplabel]
+
         for act in actlist:
             if act["name"] == activity.name:
                 act["total_xp"] += totalxp
-                
-                    
-                #add both's xp_distribution
                 for key in act["xp_distribution"]:
                     act["xp_distribution"][key] += activity.xp_distribution[key]
                 act['max_xp_label'] = max(act["xp_distribution"], key=act["xp_distribution"].get)
-                
-                print(act)
-                
                 break
         else:
             actlist.append({
@@ -271,21 +266,16 @@ def profile(request, username):
                 "max_xp": maxxp,
                 "xp_distribution": activity.xp_distribution
             })
-            
-
-    userprofile_secondary_color_rgba = hex_to_rgba(player.secondary_accent_color, 0.5) 
 
     actlist.sort(key=lambda x: x["total_xp"], reverse=True)
-    
-    total_xp_week = sum(item["xp"] for item in xp_data)
-    total_xp_all_time = 2312320  # Replace with actual database value
-    
+    userprofile_secondary_color_rgba = hex_to_rgba(player.secondary_accent_color, 0.5)
+
     return render(request, 'main/profile.html', {
         'player': player,
         "is_following": is_following,
         'username': username,
         'title': title,
-         "xp_data": xp_data,
+        "xp_data": xp_data,
         "total_xp_week": total_xp_week,
         "total_xp_all_time": total_xp_all_time,
         "currentpage": currentpage,
@@ -293,7 +283,7 @@ def profile(request, username):
         "actlist": actlist,
         "ownprofile": ownprofile,
         "userprofile_secondary_color_rgba": userprofile_secondary_color_rgba,
-        })
+    })
 
 @login_required
 def search(request):
