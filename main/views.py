@@ -187,6 +187,13 @@ def index(request):
     rom = roman.toRoman(player.masterlevel)
     nextrom = roman.toRoman(player.masterlevel+1)
     title = f"{player.masterytitle} {rom}"
+    userplayer = request.user.player
+    
+    # Exclude users already being followed + self
+    following_ids = userplayer.following.values_list('id', flat=True)
+    suggested_users = Player.objects.exclude(
+        Q(id__in=following_ids) | Q(id=userplayer.id)
+    )[:10]
     
     comments_map = {}
     for post in posts:
@@ -206,9 +213,9 @@ def index(request):
         'nextrom': nextrom,
         "notifications": notifications,
         "unread_count": unread_count,
-        # 'xp_data': xp_data,
-        # 'xp_data_json': json.dumps(xp_data)
+        "suggested_users": suggested_users,
     })
+    
 @login_required
 def profile(request, username):
     currentpage = "profile"
