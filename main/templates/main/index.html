@@ -373,8 +373,6 @@
                 postElement.classList.add('post');
                 postElement.innerHTML = `
                     <div class="bg-white mb-6 p-6 rounded-xl border-2 border-gray-200 dark:bg-[#1f2022] dark:border-[#242729]">
-                        
-                            
                       <div class="flex items-center mb-4">
                         <a href="/user/${post.username}">
                           <div class="flex items-center">
@@ -386,12 +384,31 @@
                           </div>
                         </a>
 
-                        ${post.own_post ? `
-                          <button onclick="deletePost(${post.id}, this)" class="text-red-500 text-sm hover:text-red-700 ml-auto">
-                              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#f00"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>
+                        <div class="relative inline-block text-left ml-auto">
+                          <button onclick="toggleDropdown(this)" class="hover:bg-gray-200 dark:hover:bg-[#333] p-1 rounded-full">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#888">
+                              <path d="M480-160q-33 0-56.5-23.5T400-240q0-33 23.5-56.5T480-320q33 0 56.5 23.5T560-240q0 33-23.5 56.5T480-160Zm0-240q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm0-240q-33 0-56.5-23.5T400-720q0-33 23.5-56.5T480-800q33 0 56.5 23.5T560-720q0 33-23.5 56.5T480-640Z"/>
+                            </svg>
                           </button>
-                      `: ''}
 
+                          <div class="dropdown hidden absolute right-0 mt-2 w-40 bg-white dark:bg-[#1f1f1f] border border-gray-300 dark:border-[#444] rounded-md shadow-lg z-50">
+                            ${post.own_post ? `
+                              <button onclick="deletePost(${post.id}, this)" class="w-full text-sm flex items-center gap-1 dark:text-[#a5a5a6] px-4 py-2 hover:bg-gray-100 dark:hover:bg-[#333]">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="#a5a5a6"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg><span>Delete</span>
+                              </button>
+                              ` : 
+                              `
+                              <button onclick="reportPost(${post.id})" class="w-full text-sm flex items-center gap-1 dark:text-[#a5a5a6] px-4 py-2 hover:bg-gray-100 dark:hover:bg-[#333]">
+                               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#a5a5a6"><path d="M480-280q17 0 28.5-11.5T520-320q0-17-11.5-28.5T480-360q-17 0-28.5 11.5T440-320q0 17 11.5 28.5T480-280Zm-40-160h80v-240h-80v240ZM330-120 120-330v-300l210-210h300l210 210v300L630-120H330Zm34-80h232l164-164v-232L596-760H364L200-596v232l164 164Zm116-280Z"/></svg><span>Report</span>
+                              </button>
+                              `
+                              }
+                            
+                            <a href="/post/${post.id}" target="_blank" rel="noopener noreferrer" class="w-full text-sm flex items-center gap-1 dark:text-[#a5a5a6] px-4 py-2 hover:bg-gray-100 dark:hover:bg-[#333]">
+                              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h560v-280h80v280q0 33-23.5 56.5T760-120H200Zm188-212-56-56 372-372H560v-80h280v280h-80v-144L388-332Z"/></svg><span>Go to post</span>
+                            </a>
+                          </div>
+                        </div>
                       </div>
 
                         <div class="w-full mb-4">
@@ -801,5 +818,32 @@ function closeCommentsPopup() {
   modal.classList.add("hidden");
   modal.classList.remove("flex");
 }
+
+function toggleDropdown(button) {
+    const dropdown = button.parentElement.querySelector(".dropdown");
+    document.querySelectorAll(".dropdown").forEach(d => {
+        if (d !== dropdown) d.classList.add("hidden");
+    });
+    dropdown.classList.toggle("hidden");
+}
+
+// Close dropdowns on ESC or click outside
+document.addEventListener("keydown", function(e) {
+    if (e.key === "Escape") {
+        document.querySelectorAll(".dropdown").forEach(d => d.classList.add("hidden"));
+    }
+});
+
+document.addEventListener("click", function(e) {
+    if (!e.target.closest(".relative.inline-block")) {
+        document.querySelectorAll(".dropdown").forEach(d => d.classList.add("hidden"));
+    }
+});
+
+function reportPost(postId) {
+    alert(`Post ${postId} reported 🚨`);
+    // Later you can POST to /report/
+}
+
 </script>
 {% endblock %}

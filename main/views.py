@@ -600,3 +600,7 @@ def delete_post(request, post_id):
     post.delete()
     messages.success(request, "Post deleted successfully.")
     return redirect('index')
+
+@login_required
+def report_post(request, post_id):
+    pass
