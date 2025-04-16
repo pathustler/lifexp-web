@@ -98,7 +98,14 @@
  
     <!-- Submit Button -->
     <button type="submit" 
-            class="w-full bg-[{{player.primary_accent_color}}] text-white py-2 px-4 rounded-lg transition dark:bg-[{{player.primary_accent_color}}]">
+    {% if player.masterytitle == "Rookie" %}
+    class="w-full bg-[#5793f8] text-white py-2 px-4 rounded-lg transition"
+            
+    {% else %}
+    class="w-full bg-[{{player.primary_accent_color}}] text-white py-2 px-4 rounded-lg transition dark:bg-[{{player.primary_accent_color}}]"
+            
+    {% endif %}
+            >
       Publish Post
     </button>
   </form>
