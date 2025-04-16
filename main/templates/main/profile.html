@@ -403,13 +403,16 @@
                     </div>
 
                 </div>
+                <a href="{% url 'history' %}">
                 <div class=" p-4 space-y-4 cursor-pointer hover:bg-gray-100 dark:hover:bg-[#292b2f]">
-                   
+                    
                     <div class="flex items-center justify-between">
-                        <div class="flex items-center space-x-4">
-                            <span >History</span>
-                            
-                        </div>
+                        
+                            <div class="flex items-center space-x-4">
+                                <span >History</span>
+                                
+                            </div>
+                       
                         <span >
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
@@ -418,7 +421,9 @@
                         </span>
                     </div>
 
+
             </div>
+        </a>
             </div>
 
         </div>
@@ -453,7 +458,11 @@
     document.addEventListener("DOMContentLoaded", function () {
     const ctx = document.getElementById("radarChart").getContext("2d");
 
-    new Chart(ctx, {
+    const ownprofile = "{{ ownprofile }}";
+
+    console.log(ownprofile);
+    if (ownprofile == "True") {
+        new Chart(ctx, {
         type: "radar",
         data: {
         labels: ["Physique", "Energy", "Social", "Creativity", "Skill"],
@@ -475,7 +484,7 @@
             pointBorderColor: "#fff",
             pointHoverBackgroundColor: "#fff",
             pointHoverBorderColor: "{{player.primary_accent_color}}"
-            },
+            }
         ],
         },
         options: {
@@ -515,7 +524,100 @@
             }
         }
         }
-        });
+        }
+    
+    
+    );
+
+    }else{
+
+        new Chart(ctx, {
+        type: "radar",
+        data: {
+        labels: ["Physique", "Energy", "Social", "Creativity", "Skill"],
+        datasets: [
+        {
+            label: "You",
+            data: [
+                "{{userplayer.categoryxp.physique}}",
+                "{{userplayer.categoryxp.energy}}",
+                "{{userplayer.categoryxp.social}}",
+                "{{userplayer.categoryxp.creativity}}",
+                "{{userplayer.categoryxp.skill}}"
+            ],
+            backgroundColor: "rgba(150,150,150,0.5)",  // Fill color (semi-transparent recommended)
+            backgroundOpacity: 0.5,
+            borderColor: "#777",   // Line color
+            borderWidth: 2,
+            pointBackgroundColor: "#777",
+            pointBorderColor: "rgba(255,255,255)",
+            pointHoverBackgroundColor: "#777",
+            pointHoverBorderColor: "#fff"
+            },
+            {
+            label: "{{player.fullname}}",
+            data: [
+                "{{player.categoryxp.physique}}",
+                "{{player.categoryxp.energy}}",
+                "{{player.categoryxp.social}}",
+                "{{player.categoryxp.creativity}}",
+                "{{player.categoryxp.skill}}"
+            ],
+            backgroundColor: "{% if player.masterytitle == 'Rookie' %}rgba(217, 230, 254, 0.5){%else%}{{userprofile_secondary_color_rgba}}{%endif%}",  // Fill color (semi-transparent recommended)
+            backgroundOpacity: 0.5,
+            borderColor: "{% if player.masterytitle == 'Rookie' %}#5793f8{%else%}{{player.primary_accent_color}}99{%endif%}",   // Line color
+            borderWidth: 2,
+            pointBackgroundColor: "{{player.primary_accent_color}}",
+            pointBorderColor: "#fff",
+            pointHoverBackgroundColor: "#fff",
+            pointHoverBorderColor: "{{player.primary_accent_color}}"
+            }
+        ],
+        },
+        options: {
+        responsive: true,
+        
+        plugins: {
+            legend: {
+            labels: {
+                color: document.body.classList.contains('dark') ? '#fff' : '#000'  // Legend text color
+            }
+            }
+        },
+        scales: {
+            r: {
+            beginAtZero: true,
+            angleLines: {
+                color: document.body.classList.contains('dark') ? '#444' : '#ccc',  // Spoke lines
+            },
+            grid: {
+                color: document.body.classList.contains('dark') ? '#444' : '#ccc', // Circular grid
+                backgroundColor: document.body.classList.contains('dark') ? '#f9fafb' : '#1f2937', // Background color
+                drawOnChartArea: true,  // Ensure grid is drawn on chart area
+                zIndex: 4  // Set a higher zIndex than the radar surface
+            },
+            pointLabels: {
+                color: document.body.classList.contains('dark') ? '#AAA' : '#444',  // Label text color
+                font: {
+                size: 14
+                },
+                zIndex: 5  // Ensure point labels are above the radar chart surface
+            },
+            ticks: {
+                color: document.body.classList.contains('dark') ? '#ccc' : '#444',  // Ticks color
+                backdropColor: 'transparent', // Removes the default tick background
+                zIndex: 6  // Ensure ticks are above the grid and below the radar chart
+            }
+            }
+        }
+        }
+        }
+    
+    
+    );
+        
+    }
+    
     });
 
 
@@ -525,6 +627,11 @@
     document.addEventListener("DOMContentLoaded", function () {
         const ctx = document.getElementById("xpChart").getContext("2d");
         const xpData = {{ xp_data | safe }};
+
+            const ownprofile = "{{ ownprofile }}";
+
+        console.log(ownprofile);
+        if (ownprofile == "True") {
         new Chart(ctx, {
             type: "line",
             data: {
@@ -546,7 +653,41 @@
                     y: { beginAtZero: true }
                 }
             }
+        });}
+        else {
+            new Chart(ctx, {
+            type: "line",
+            data: {
+                labels: xpData.map(item => item.day),
+                datasets: [{
+                    label: "{{player.fullname}}",
+                    data: xpData.map(item => item.xp),
+                    borderColor: "{% if player.masterytitle == 'Rookie' %}#5793f8{%else%}{{player.primary_accent_color}}99{%endif%}",
+                    backgroundColor: "{% if player.masterytitle == 'Rookie' %}#d9e6fe{%else%}{{player.secondary_accent_color}}99{%endif%}",
+                    borderWidth: 2,
+                    tension: 0.3,
+                    pointRadius: 4
+                },
+                {
+                    label: "You",
+                    data: xpData.map(item => item.xp),
+                    borderColor: "#777",
+                    backgroundColor: "rgba(150,150,150,0.5)",
+                    borderWidth: 2,
+                    tension: 0.3,
+                    pointRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
         });
+
+        }
     });
 
 

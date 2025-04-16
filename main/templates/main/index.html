@@ -267,6 +267,15 @@
         <div class="max-h-80 overflow-y-auto overflow-x-hidden max-w-full">
           <ul class="flex flex-col gap-3 max-w-full">
             {% for notification in notifications %}
+            {% if notification.notification_type == "follow" %}
+              <a href="{% url 'profile' notification.sender.username %}" {% if notification.is_read %} class="opacity-60"{% endif %}>
+              {% elif notification.notification_type == "like" %}
+              <a href="{% url 'post_detail' notification.related_object_id %}" {% if notification.is_read %} class="opacity-60"{% endif %}>
+              {% elif notification.notification_type == "comment" %}
+              <a href="{% url 'post_detail' notification.related_object_id %}" {% if notification.is_read %} class="opacity-60"{% endif %}>
+              {%else%}
+              <a href="{% url 'post_detail' notification.sender.username %}" {% if notification.is_read %} class="opacity-60"{% endif %}>
+              {%endif%}
               {% with post=notification.related_object_id|lookup_post %}
                 <li>
                   <div class="flex  gap-4">
@@ -427,7 +436,7 @@
                             <div class="flex justify-center w-full items-start gap-[5px]">
                               <!-- Physique -->
                               <div class="flex h-10 flex-col w-full justify-center items-center overflow-hidden gap-2.5 p-3 rounded-[5px] bg-[#baafea]">
-                                <div class="flex justify-center items-center relative gap-[5px]">
+                                <div class="flex justify-center items-center h-2.5 relative gap-[5px]">
                                   <svg
                                     width="11"
                                     height="10"
@@ -810,7 +819,7 @@ async function showCommentsPopup(postId) {
     content.innerHTML = `<p class="text-sm text-red-500">Error loading comments.</p>`;
     console.error(err);
   }
-}
+}x
 
 function closeCommentsPopup() {
   const modal = document.querySelector("#comments-modal");
