@@ -21,6 +21,8 @@ urlpatterns = [
     path('like/<int:post_id>/', views.like_post, name='like_post'),
     path('delete-search-history/<int:id>/', views.delete_search_history, name='delete_search_history'),
     path('history/', views.history, name='history'),
+    path('post/<int:post_id>/delete/', views.delete_post, name='delete_post'),
+
 ]
 
 

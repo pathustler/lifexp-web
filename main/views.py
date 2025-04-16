@@ -21,7 +21,9 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from django.utils.timezone import now, timedelta
 from django.db import models
-
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404, redirect
+from django.contrib import messages
 
 # venv\Scripts\activate my ref. ok
 
@@ -161,6 +163,7 @@ def fetch_posts(request):
             "user_liked": post.likes.filter(liked_by=request.user.player).exists(),
             "xp_data": xp_data,
             "likedbyprofiles": likedbyprofiles,
+            "own_post": request.user.player == post.user,
         })
 
     return JsonResponse({
@@ -579,3 +582,15 @@ def history(request):
         'currentpage': 'history'
     })
 
+@login_required
+def delete_post(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+
+    # Make sure the current user owns the post
+    if request.user != post.user.user:  # post.user is Player, post.user.user is actual User
+        messages.error(request, "You don't have permission to delete this post.")
+        return redirect('index')
+
+    post.delete()
+    messages.success(request, "Post deleted successfully.")
+    return redirect('index')
