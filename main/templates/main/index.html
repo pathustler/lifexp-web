@@ -624,24 +624,27 @@
                   
                   <p class="text-sm text-left text-black/50 dark:text-white/50">${post.likes}</p>
                 </div>
-                <svg
-                  width="36"
-                  height="36"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="flex-grow-0 flex-shrink-0 w-5 h-5 relative"
-                  preserveAspectRatio="xMidYMid meet"
-                >
-                  <path
-                    d="M3.33334 10V16.6667C3.33334 17.1087 3.50894 17.5326 3.8215 17.8452C4.13406 18.1578 4.55798 18.3334 5.00001 18.3334H15C15.442 18.3334 15.866 18.1578 16.1785 17.8452C16.4911 17.5326 16.6667 17.1087 16.6667 16.6667V10M13.3333 5.00002L10 1.66669M10 1.66669L6.66668 5.00002M10 1.66669V12.5"
-                    stroke="currentColor"
-                    stroke-opacity="0.6"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  ></path>
-                </svg>
+                <button onclick="copyPostLink(${post.id})" class="relative">
+                  <svg
+                    width="36"
+                    height="36"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="flex-grow-0 flex-shrink-0 w-5 h-5 relative"
+                    preserveAspectRatio="xMidYMid meet"
+                  >
+                    <path
+                      d="M3.33334 10V16.6667C3.33334 17.1087 3.50894 17.5326 3.8215 17.8452C4.13406 18.1578 4.55798 18.3334 5.00001 18.3334H15C15.442 18.3334 15.866 18.1578 16.1785 17.8452C16.4911 17.5326 16.6667 17.1087 16.6667 16.6667V10M13.3333 5.00002L10 1.66669M10 1.66669L6.66668 5.00002M10 1.66669V12.5"
+                      stroke="currentColor"
+                      stroke-opacity="0.6"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    ></path>
+                  </svg>
+                </button>
+
               </div>
 
                     </div>
@@ -870,6 +873,30 @@ document.addEventListener("click", function(e) {
 function reportPost(postId) {
     alert(`Post ${postId} reported 🚨`);
     // Later you can POST to /report/
+}
+
+function copyPostLink(postId) {
+  const link = `${window.location.origin}/post/${postId}`;
+  navigator.clipboard.writeText(link).then(() => {
+    showCopyToast();
+  }).catch(() => {
+    alert("Failed to copy link 😢");
+  });
+}
+
+function showCopyToast() {
+  const toast = document.createElement("div");
+  toast.innerText = "🔗 Link copied!";
+  toast.className = "fixed bottom-5 right-5 bg-black text-white px-4 py-2 rounded-md shadow-md text-sm z-50";
+  document.body.appendChild(toast);
+  
+  setTimeout(() => {
+    toast.classList.add("opacity-0");
+  }, 1500);
+
+  setTimeout(() => {
+    toast.remove();
+  }, 2000);
 }
 
 </script>
