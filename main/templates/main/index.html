@@ -899,5 +899,11 @@ function showCopyToast() {
   }, 2000);
 }
 
+document.addEventListener("keydown", function (e) {
+  if (e.key === "Escape") {
+    closeCommentsPopup();
+  }
+});
+
 </script>
 {% endblock %}
