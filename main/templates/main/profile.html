@@ -429,7 +429,7 @@
         </div>
 
         
-        <div class="grid grid-cols-3  my-4 rounded-sm w-full">
+        <div class="grid grid-cols-3 p-2 pb-5 my-4 rounded-sm w-full">
             {% for post in playerposts %}
                 <a href="{% url 'post_detail' post.id %}" class="col-span-1">
                     <img class="border-2 border-gray-200 object-cover  w-full h-56 dark:border-[rgb(0,0,0,0)]" src="{{ post.post_image.url }}">
