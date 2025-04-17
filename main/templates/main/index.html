@@ -268,7 +268,7 @@
           {%endif%}
         </div>
         <div class="max-h-80 overflow-y-auto overflow-x-hidden max-w-full">
-          <ul class="flex flex-col gap-3 max-w-full">
+          <ul class="flex flex-col gap-3 max-w-full py-2">
             {% for notification in notifications %}
             {% if notification.notification_type == "follow" %}
               <a href="{% url 'profile' notification.sender.username %}" {% if notification.is_read %} class="opacity-60"{% endif %}>
@@ -299,6 +299,12 @@
                 <p class="text-gray-500 text-center w-full">No unread notifications.</p>
             {% endfor %}
           </ul>
+            <a href="{% url 'notification_page' %}" target="_blank">
+              <button class="py-2 text-sm text-blue-500 rounded-lg hover:text-blue-600 transition-all duration-200">
+                See all notifications
+              </button>
+            </a>
+          
         </div>
       </div>
     </div>
