@@ -9,6 +9,40 @@
 
 {% block content %}
 
+<div id="custom-activity-popup" class="z-50 hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+  <div class="bg-white dark:bg-[#1f2022] p-6 overflow-y-auto rounded-lg shadow-lg w-96 relative">
+      <!-- Close Button -->
+      <div class="w-full flex justify-between pb-3 border-b">
+          <p></p>
+          <h2 class="text-lg font-semibold">Add Custom Activity</h2>
+          <button onclick="toggleActivityPopup()" class="text-xl text-gray-600">&times;</button>
+      
+      </div>
+      <form>
+        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+      
+      <div class="mt-4">
+          <label for="activity-name" class="block text-gray-700 dark:text-[#999] mb-2">Activity Name</label>
+          <input type="text" id="activity-name" name="activity_name" class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[{{ player.primary_accent_color }}80] dark:bg-[#1f2022] dark:border-[#444] dark:focus:ring-[{{ player.secondary_accent_color }}80]" placeholder="Enter activity name">
+      </div>
+      <div class="mt-4">
+          <label for="activity-type" class="block text-gray-700 dark:text-[#999] mb-2">Activity Type</label>
+          <select id="activity-type" name="activity_type" class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[{{ player.primary_accent_color }}80] dark:bg-[#1f2022] dark:border-[#444] dark:focus:ring-[{{ player.secondary_accent_color }}80]">
+              <option value="skill">Skill</option>
+              <option value="creativity">Creativity</option>
+              <option value="social">Social</option>
+              <option value="energy">Energy</option>
+              <option value="physique">Physique</option>
+          </select>
+      </div>
+     <!-- submit button saying create activity -->
+      <div class="mt-4">
+          <button id="create-activity" class="bg-blue-500 text-white py-2 px-4 rounded-lg w-full">Create Activity</button>
+      </div>
+    </form>
+  </div>
+</div>
+
 <main style="width: 100%;" class="flex  w-full" style="height: 100vh;">
 
 
@@ -64,6 +98,16 @@
       </div>
 
 
+      <div  class="w-full mb-4 ">
+        <!-- Acitivties -->
+        <label for="activities" class="block text-gray-700 dark:text-[#999] mb-2">Activities</label>
+        <div id="activities-list" class="w-full mb-4 border border-gray-300 gap-2 p-4 rounded-lg flex flex-col gap-2 dark:bg-[#191a1c] dark:border-[#2f2f30]">
+
+        </div>
+        
+      </div>
+
+
 
     <!--  field, that creates tags as you type and hit space or enter -->
     <div x-data="tagInput()" class="w-full mb-4">
@@ -115,198 +159,103 @@
 
 
 
-<div class="border-l border-gray-200 bg-gray-50 p-6 flex items-center justify-center dark:bg-[#191a1c] dark:border-[#2f2f30]" style="width: 800px;">
-    <div class="bg-white mb-6 w-full p-6 rounded-xl border-2 border-gray-200 dark:bg-[#1f2022] dark:border-[#2f2f30]">
-        <div class="flex items-center mb-4">
-            <img src="{{player.profile_picture.url}}" class="rounded-full w-10 h-10" alt="User">
-            <div class="ml-3">
-              <p class="font-semibold">{{ player.fullname|default:request.user.username }}</p>
-              <p class="text-sm text-gray-500 dark:text-[#929292]">Just now</p>
+<div class="border-l border-gray-300 bg-gray-200 p-6 flex flex-col dark:bg-[#191a1c] dark:border-[#2f2f30]" style="width: 600px;">
+  <div class="flex items-center mb-4 gap-4">
+
+  <div class="flex items-center bg-gray-100 rounded-full px-2 py-1 w-full  dark:bg-[#292b2f]">
+
+        <div class="flex items-center rounded-full px-4 py-2">
+            <div class="w-5 h-5 relative flex items-center justify-center">
+              
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="#888888" class="h-4 w-4">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+              
             </div>
+            <input type="text" name="q" id="searchInput" placeholder="Search Activity" class="bg-transparent outline-none ml-2 w-full text-gray-600" value="{{ request.GET.q }}"/>
         </div>
-        <div class="w-full mb-4">
-            <img class="w-full" style="aspect-ratio: 4 / 3; object-fit: cover;" id="image-preview-big"  src="https://www.mariposakids.co.nz/wp-content/uploads/2014/08/image-placeholder2.jpg">
-        </div>
-        <p class="text-gray-700 text-sm mb-3 dark:text-[#929292]" id="preview-content">Captions</p>
-        <div class="flex text-sm text-gray-500 space-x-4 mb-3 dark:text-[#fff]">
-            <p class="font-bold" id="duration-preview">0m</p>
-            <span class="border-2 border-gray-600 text-gray-600 text-xs px-2 cursor-pointer hover:bg-gray-600 hover:text-white rounded-lg dark:bg-[#292b2f] dark:text-[#e2e2e3] dark:border-[#444] dark:hover:bg-[#444]">Drawing</span>
-            <span class=" text-gray-600 text-xs cursor-pointer rounded-lg dark:text-[#e2e2e3]">+4</span>
-        </div>
-        <div
-class="flex flex-col w-full justify-between items-start self-stretch flex-grow-0 flex-shrink-0 h-[50px] overflow-hidden border-t border-r-0 border-b-0 border-l-0 border-black/5"
->
-<div
-class="flex justify-between w-full items-center self-stretch flex-grow-0 flex-shrink-0 overflow-hidden gap-2.5 "
->
-<div class="flex justify-center w-full items-start  gap-[5px]">
-  <div
-    class="flex h-10 flex-col w-full justify-between items-center flex-grow overflow-hidden gap-2.5 p-2.5 pt-3 rounded-[5px] bg-[#baafea]"
-  >
-    <div
-      class="flex justify-center items-center  relative gap-[5px]"
-    >
-      <svg
-        width="11"
-        height="10"
-        viewBox="0 0 11 10"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        class="flex-grow-0 flex-shrink-0 w-4 h-4 relative"
-        preserveAspectRatio="xMidYMid meet"
-      >
-        <path
-          d="M7.87944 4.63867C7.38982 4.73242 6.86894 4.56836 6.49043 4.14258L5.82892 3.39844C5.56848 3.10547 5.42263 2.71094 5.42263 2.29688V2.06055L4.03883 1.21094C3.94681 1.1543 3.88951 1.04297 3.89472 0.923828C3.89993 0.804688 3.96244 0.699219 4.05967 0.650391L4.87918 0.240234C5.19866 0.0820312 5.54417 0 5.8949 0H6.20916C6.84637 0 7.45927 0.273437 7.92285 0.763672L8.69722 1.58398C9.1174 2.0293 9.27366 2.67188 9.15907 3.26367L9.4334 3.57422L9.5723 3.41797C9.73551 3.23438 9.99942 3.23438 10.1609 3.41797L10.5776 3.88672C10.7408 4.07031 10.7408 4.36719 10.5776 4.54883L9.04968 6.26758C8.88648 6.45117 8.62256 6.45117 8.46109 6.26758L8.04439 5.79883C7.88118 5.61523 7.88118 5.31836 8.04439 5.13672L8.18329 4.98047L7.87944 4.63867ZM1.17574 7.36523L5.22991 3.56641C5.29068 3.66211 5.36013 3.75391 5.43479 3.83984L6.0963 4.58398C6.20048 4.70117 6.3116 4.80273 6.42966 4.89062L3.04222 9.46484C2.79046 9.80469 2.41716 10 2.02477 10C1.29207 10 0.700001 9.33203 0.700001 8.50977C0.700001 8.06836 0.875363 7.64844 1.17574 7.36523Z"
-          fill="#713599"
-        ></path>
-      </svg>
-      <p class="flex-grow-0 flex-shrink-0 text-xs text-left text-[#713599]">24</p>
-    </div>
+        
+        
+
   </div>
-  <div
-    class="flex h-10 flex-col w-full justify-center items-center w-[62.4px] overflow-hidden gap-2.5 p-3 rounded-[5px] bg-[#afd9ea]"
-  >
-    <div
-      class="flex justify-center items-center h-2.5 relative gap-[5px]"
-    >
-      <svg
-        width="11"
-        height="10"
-        viewBox="0 0 11 10"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        class="flex-grow-0 flex-shrink-0 w-4 h-4 relative"
-        preserveAspectRatio="xMidYMid meet"
-      >
-        <path
-          d="M4.01112 0C3.49202 0 3.06147 0.400391 2.9382 0.941406C2.92431 0.941406 2.9139 0.9375 2.90001 0.9375C2.28716 0.9375 1.7889 1.49805 1.7889 2.1875C1.7889 2.28125 1.79931 2.37305 1.81841 2.46094C1.31147 2.69531 0.955565 3.25391 0.955565 3.90625C0.955565 4.15234 1.01112 4.38086 1.09966 4.58789C0.682995 4.85742 0.400009 5.35742 0.400009 5.9375C0.400009 6.58789 0.754176 7.14648 1.25765 7.38086C1.24202 7.4707 1.23334 7.5625 1.23334 7.65625C1.23334 8.43359 1.79237 9.0625 2.48334 9.0625C2.55452 9.0625 2.62397 9.05273 2.69168 9.03906C2.85834 9.5957 3.32015 10 3.87223 10C4.5632 10 5.12223 9.37109 5.12223 8.59375V1.25C5.12223 0.560547 4.62397 0 4.01112 0ZM10.4 5.9375C10.4 5.35742 10.117 4.85742 9.70036 4.58789C9.79064 4.38086 9.84445 4.15234 9.84445 3.90625C9.84445 3.25391 9.48855 2.69531 8.98161 2.46094C8.99897 2.37305 9.01112 2.28125 9.01112 2.1875C9.01112 1.49805 8.51286 0.9375 7.90001 0.9375C7.88612 0.9375 7.87397 0.941406 7.86181 0.941406C7.73855 0.400391 7.308 0 6.7889 0C6.17605 0 5.67779 0.558594 5.67779 1.25V8.59375C5.67779 9.37109 6.23681 10 6.92779 10C7.47987 10 7.94168 9.5957 8.10834 9.03906C8.17605 9.05273 8.2455 9.0625 8.31668 9.0625C9.00765 9.0625 9.56668 8.43359 9.56668 7.65625C9.56668 7.5625 9.55799 7.4707 9.54237 7.38086C10.0458 7.14648 10.4 6.58789 10.4 5.9375Z"
-          fill="#4187A2"
-        ></path>
-      </svg>
-      <p class="flex-grow-0 flex-shrink-0 text-xs text-left text-[#4187a2]">24</p>
-    </div>
-  </div>
-  <div
-    class="flex h-10 flex-col w-full justify-center items-center  w-[62.4px] overflow-hidden gap-2.5 p-2.5 rounded-[5px] bg-[#fdf099]"
-  >
-    <div
-      class="flex justify-center items-center  h-2.5 relative gap-[5px]"
-    >
-      <svg
-        width="11"
-        height="10"
-        viewBox="0 0 11 10"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        class="flex-grow-0 flex-shrink-0 w-4 h-4 relative"
-        preserveAspectRatio="xMidYMid meet"
-      >
-        <path
-          d="M2.98864 10L3.4858 6.5H1L5.47443 0H6.46875L5.97159 4H8.95455L3.98295 10H2.98864Z"
-          fill="#BFA600"
-        ></path>
-      </svg>
-      <p class="flex-grow-0 flex-shrink-0 text-xs text-left text-[#bfa600]">24</p>
-    </div>
-  </div>
-  <div
-    class="flex  h-10 flex-col w-full justify-center items-center  w-[62.4px] overflow-hidden gap-2.5 p-2.5 rounded-[5px] bg-[#afeac7]"
-  >
-    <div
-      class="flex justify-center items-center h-2.5 relative gap-[5px]"
-    >
-      <svg
-        width="11"
-        height="10"
-        viewBox="0 0 11 10"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        class="flex-grow-0 flex-shrink-0 w-4 h-4 relative"
-        preserveAspectRatio="xMidYMid meet"
-      >
-        <path
-          d="M5.47368 0C4.7486 0 4.05322 0.289731 3.54051 0.805456C3.0278 1.32118 2.73977 2.02065 2.73977 2.75C2.73977 3.47935 3.0278 4.17882 3.54051 4.69454C4.05322 5.21027 4.7486 5.5 5.47368 5.5C6.19876 5.5 6.89415 5.21027 7.40686 4.69454C7.91957 4.17882 8.2076 3.47935 8.2076 2.75C8.2076 2.02065 7.91957 1.32118 7.40686 0.805456C6.89415 0.289731 6.19876 0 5.47368 0ZM3.48538 6C2.82622 6 2.19405 6.26339 1.72795 6.73223C1.26185 7.20107 1 7.83696 1 8.5V10H9.94737V8.5C9.94737 7.83696 9.68552 7.20107 9.21942 6.73223C8.75332 6.26339 8.12115 6 7.46199 6H6.77503L5.47368 8.618L4.17234 6H3.48538Z"
-          fill="#31784E"
-        ></path>
-      </svg>
-      <p class="flex-grow-0 flex-shrink-0 text-xs text-left text-[#31784e]">24</p>
-    </div>
-  </div>
-  <div
-    class="flex h-10 flex-col w-full justify-center items-center  w-[62.4px] overflow-hidden gap-2.5 p-2.5 rounded-[5px] bg-[#eaafaf]"
-  >
-    <div
-      class="flex justify-center items-center  h-2.5 relative gap-[5px]"
-    >
-      <svg
-        width="12"
-        height="10"
-        viewBox="0 0 12 10"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        class="flex-grow-0 flex-shrink-0 w-4 h-4 relative"
-        preserveAspectRatio="xMidYMid meet"
-      >
-        <path
-          d="M1 8.52153C1 8.52153 1.57005 2.27204 3.28022 0L6.13049 0.55551L5.56043 2.27204H4.42032V6.24949H4.99038C6.13049 4.54407 8.49051 3.9219 9.91564 4.54407C11.7968 5.394 11.6258 7.95491 9.91564 9.08815C8.54751 9.99918 4.42032 10.7936 1 8.52153Z"
-          fill="#8D2E2E"
-        ></path>
-      </svg>
-      <p class="flex-grow-0 flex-shrink-0 text-xs text-left text-[#8d2e2e]">24</p>
-    </div>
-  </div>
-</div>
-
-</div>
-
-
-</div>
-<div class="pt-4">
-
-
-
-<div
-class="flex justify-between items-center self-stretch flex-grow-0 flex-shrink-0 h-[50px] relative overflow-hidden px-2.5 border-t border-r-0 border-b-0 border-l-0 border-black/5"
->
-  <!-- like button -->
-  <div class="flex justify-start items-center relative gap-[5px]">
-    <button id="like-button" data-liked="false">
-      <svg width="36" height="36" viewBox="0 0 24 24" fill="none">
-        <path
-          id="like-icon"
-          fill="#AAAAAA"
-          d="M4.536 5.77802C5.47364 4.84066 6.74518 4.31409 8.071 4.31409C9.39682 4.31409 10.6684 4.84066 11.606 5.77802C11.7893 5.96069 12.0253 6.18802 12.314 6.46002C12.602 6.18802 12.8377 5.96069 13.021 5.77802C13.9547 4.84869 15.2175 4.3254 16.5348 4.32188C17.8522 4.31835 19.1177 4.83486 20.0564 5.75918C20.9951 6.68349 21.531 7.94091 21.5478 9.25817C21.5646 10.5754 21.0608 11.8461 20.146 12.794L13.02 19.92C12.8325 20.1075 12.5782 20.2128 12.313 20.2128C12.0478 20.2128 11.7935 20.1075 11.606 19.92L4.48 12.795C3.56604 11.8524 3.05951 10.5882 3.0698 9.27525C3.08009 7.96235 3.60738 6.70618 4.536 5.77802Z"
-        ></path>
-      </svg>
-    </button>
-    <p id="like-count" class="text-sm text-gray-500 ml-2">0</p>
-  </div>
-  
-
-  <svg
-  width="36"
-  height="36"
-  viewBox="0 0 20 20"
-  fill="none"
-  xmlns="http://www.w3.org/2000/svg"
-  class="flex-grow-0 flex-shrink-0 w-5 h-5 relative text-black dark:text-[#fff]"
-  preserveAspectRatio="xMidYMid meet"
-  >
-  <path
-    d="M3.33334 10V16.6667C3.33334 17.1087 3.50894 17.5326 3.8215 17.8452C4.13406 18.1578 4.55798 18.3334 5.00001 18.3334H15C15.442 18.3334 15.866 18.1578 16.1785 17.8452C16.4911 17.5326 16.6667 17.1087 16.6667 16.6667V10M13.3333 5.00002L10 1.66669M10 1.66669L6.66668 5.00002M10 1.66669V12.5"
-    stroke="currentColor"
-    stroke-opacity="0.6"
-    stroke-width="2"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-  ></path>
+  <button id="add-custom-activity" class="flex items-center">
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 cursor-pointer">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
   </svg>
-</div>
+</button>
+  </div>
+<!-- Recent Searches showing activity -->
+<div class="flex flex-col gap-2 mt-8">
+  <p class="text-sm text-gray-500 mb-4">Recent Searches</p>
 
+  {% for activity in activities_table %}
 
-
-</div>
+    {% if activity.activity_type == "skill" %}
+    
+    <div class="bg-[#BAAFEA] activity-card p-4 rounded-xl cursor-pointer flex justify-between items-center">
+        <div class="flex gap-2 items-center">
+          {{aspect_colors.skill.iconbig|safe}}
+          <p class="text-[#713599]">{{activity.name}}</p>
+        </div>
+      
+        <svg onclick="duplicateActivity(this)"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 fill-black opacity-50 hover:opacity-60">
+          <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 9a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V15a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V9Z" clip-rule="evenodd" />
+        </svg>
     </div>
+
+    {% elif activity.activity_type == "creativity" %}
+
+    <div class="bg-[#AFD9EA] activity-card p-4 rounded-xl cursor-pointer flex justify-between items-center">
+      <div class="flex gap-2 items-center">
+        {{aspect_colors.creativity.iconbig|safe}}
+        <p class="text-[#4187A2]">{{activity.name}}</p>
+      </div>
+      <svg onclick="duplicateActivity(this)"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 fill-black opacity-50 hover:opacity-60">
+        <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 9a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V15a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V9Z" clip-rule="evenodd" />
+      </svg>
+     </div>
+
+     {% elif activity.activity_type == "social" %}
+
+     <div class="bg-[#AFEAC7] p-4 activity-card rounded-xl cursor-pointer flex justify-between items-center">
+      <div class="flex gap-2 items-center">
+        {{aspect_colors.social.iconbig|safe}}
+        <p class="text-[#31784E]">{{activity.name}}</p>
+      </div>
+      <svg onclick="duplicateActivity(this)"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 fill-black opacity-50 hover:opacity-60">
+        <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 9a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V15a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V9Z" clip-rule="evenodd" />
+      </svg>
+     </div>
+
+     {% elif activity.activity_type == "energy" %}
+
+     <div class="bg-[#FDF099] p-4 activity-card rounded-xl cursor-pointer flex justify-between items-center">
+      <div class="flex gap-2 items-center">
+        {{aspect_colors.energy.iconbig|safe}}
+        <p class="text-[#d0b400]">{{activity.name}}</p>
+      </div>
+      <svg onclick="duplicateActivity(this)"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 fill-black opacity-50 hover:opacity-60">
+        <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 9a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V15a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V9Z" clip-rule="evenodd" />
+      </svg>
+     </div>
+
+     {% elif activity.activity_type == "physique" %}
+
+     <div class="bg-[#EAAFAF] p-4 activity-card rounded-xl cursor-pointer flex justify-between items-center">
+      <div class="flex gap-2 items-center">
+        {{aspect_colors.physique.iconbig|safe}}
+        <p class="text-[#8D2E2E]">{{activity.name}}</p>
+      </div>
+      <svg onclick="duplicateActivity(this)"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 fill-black opacity-50 hover:opacity-60">
+        <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 9a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V15a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V9Z" clip-rule="evenodd" />
+      </svg>
+     </div>
+
+     {%endif%}
+
+    {%endfor%}
+
+</div>
 </div>
 
     
@@ -409,22 +358,100 @@ document.getElementById('end').addEventListener('input', function() {
     document.getElementById('duration-preview').textContent = `${hours}h ${minutes}m`;
 });
 
-  const likeBtn = document.getElementById('like-button');
-  const likeIcon = document.getElementById('like-icon');
-  const likeCount = document.getElementById('like-count');
-  const preLikedInput = document.getElementById('pre-liked-input');
 
-  likeBtn.addEventListener('click', (e) => {
-    e.preventDefault(); // prevent accidental form submission
-    const isLiked = likeBtn.dataset.liked === "true";
 
-    // Toggle like
-    likeBtn.dataset.liked = (!isLiked).toString();
-    likeIcon.setAttribute("fill", isLiked ? "#AAAAAA" : "#DC1E1E");
-    likeCount.textContent = isLiked ? "0" : "1";
-    preLikedInput.value = (!isLiked).toString();
+
+document.addEventListener('DOMContentLoaded', function() {
+    const addCustomActivityBtn = document.querySelector('#add-custom-activity');
+    addCustomActivityBtn.addEventListener('click', function() {
+        toggleActivityPopup();
+    });
   });
-
+  
+function toggleActivityPopup() {
+    const popup = document.getElementById('custom-activity-popup');
+    popup.classList.toggle('hidden');
+}
 
 </script>
+
+<script>
+  document.getElementById('create-activity').addEventListener('click', async function () {
+      const name = document.getElementById('activity-name').value;
+      const type = document.getElementById('activity-type').value;
+  
+      const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]')?.value;
+  
+      const response = await fetch("{% url 'create_custom_activity' %}", {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+              "X-CSRFToken": csrfToken
+          },
+          body: new URLSearchParams({
+              name: name,
+              activity_type: type
+          })
+      });
+  
+      const data = await response.json();
+  
+      if (data.status === "success") {
+          // Hide the popup
+          toggleActivityPopup();
+  
+          // Add the new activity to your recent activities list
+          const container = document.querySelector("#recent-activities");
+  
+          const colors = {
+              skill: ["#FFD1DC", "#841B2D"],
+              creativity: ["#AFD9EA", "#4187A2"],
+              social: ["#AFEAC7", "#31784E"],
+              energy: ["#FFF6A3", "#A69300"],
+              physique: ["#FFBDA0", "#953500"]
+          };
+  
+          const [bg, text] = colors[type] || ["#E0E0E0", "#333"];
+  
+          const html = `
+          <div class="bg-[${bg}] p-4 rounded-xl cursor-pointer flex justify-between items-center mt-2">
+              <p class="text-[${text}]">${name}</p>
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 fill-black opacity-50 hover:opacity-60" viewBox="0 0 24 24" fill="currentColor">
+                  <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 9a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V15a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V9Z" clip-rule="evenodd" />
+              </svg>
+          </div>`;
+
+          const html2 = `
+          <div class="bg-[${bg}] p-4 rounded-xl cursor-pointer flex justify-between items-center mt-2">
+              <p class="text-[${text}]">${name}</p>
+              <svg onclick="this.parentElement.remove()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"  stroke-width="1.5" stroke="currentColor" class="w-6 h-6 stroke-black opacity-50 hover:opacity-60">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+              </svg>
+              
+          </div>`;
+  
+          container.insertAdjacentHTML("beforeend", html);
+          document.querySelector('#activities-list').insertAdjacentHTML("beforeend", html2);
+      } else {
+          alert("Failed to add activity.");
+      }
+  });
+
+  function duplicateActivity(svgElement) {
+    const parentCard = svgElement.closest('.activity-card');
+    if (!parentCard) return;
+
+    const clone = parentCard.cloneNode(true);
+    clone.querySelectorAll('svg')[1].remove();
+
+    const html = `<svg onclick="this.parentElement.remove()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"  stroke-width="1.5" stroke="currentColor" class="w-6 h-6 stroke-black opacity-50 hover:opacity-60">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+              </svg>`
+
+    clone.insertAdjacentHTML("beforeend", html);
+    document.getElementById('activities-list').appendChild(clone);
+  }
+
+  
+  </script>
 {% endblock %}

@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
 
+
 urlpatterns = [
     path('', views.index, name='index'),
     path('user/<str:username>/', views.profile, name='profile'),
@@ -23,7 +24,10 @@ urlpatterns = [
     path('history/', views.history, name='history'),
     path('post/<int:post_id>/delete/', views.delete_post, name='delete_post'),
     path('post/<int:post_id>/report/', views.report_post, name='report_post'),
-    path('notifications/', views.notification_page, name='notification_page')
+    path('notifications/', views.notification_page, name='notification_page'),
+    path('create_custom_activity', views.create_custom_activity, name='create_custom_activity')
+
+
 ]
 
 

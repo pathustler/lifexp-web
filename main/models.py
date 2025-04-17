@@ -17,6 +17,22 @@ cloudinary.config(
 )
 
 # Create your models here.
+# from openai import OpenAI
+# def generateHeading(postContent):
+#     openai = OpenAI(
+#         api_key="$DEEPINFRA_TOKEN",
+#         base_url="https://api.deepinfra.com/v1/openai",
+#     )
+
+#     chat_completion = openai.chat.completions.create(
+#         model="Qwen/QwQ-32B",
+#         messages=[{"role": "user", "content": f"Generate Heading for this post: {postContent}"}],
+#     )
+
+#     print(chat_completion.choices[0].message.content)
+#     print(chat_completion.usage.prompt_tokens, chat_completion.usage.completion_tokens)
+#     return chat_completion.choices[0].message.content
+
 
 # Post model
 class Post(models.Model):
@@ -25,6 +41,7 @@ class Post(models.Model):
         on_delete=models.CASCADE, 
         related_name='posts'
     )
+    title = models.CharField(max_length=255, blank=True, null=True)
     content = models.TextField()
     post_image = CloudinaryField('image', blank=True, null=True)  # We'll handle public_id dynamically
     start_time = models.DateTimeField()
@@ -44,6 +61,8 @@ class Post(models.Model):
 
     def save(self, *args, **kwargs):
         # Only re-upload if a new image is added
+        if not self.title:
+            self.title = generateHeading(self.content)
         if self.pk is None and self.post_image:
             # Dynamically generate public_id based on user and post
             upload_result = cloudinary.uploader.upload(
@@ -128,3 +147,21 @@ class Like(models.Model):
 
     def __str__(self):
         return f"{self.liked_by.fullname} liked {self.post.content[:5]}"
+    
+    
+    
+class Activity(models.Model):
+    
+    
+    
+    
+    name = models.CharField(max_length=255)
+    activity_type = models.CharField(max_length=255, choices=[
+        ('physique', 'Physique'),
+        ('creativity', 'Creativity'),
+        ('social', 'Social'),
+        ('energy', 'Energy'),
+        ('skill', 'Skill')
+    ])
+    
+    
