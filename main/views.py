@@ -151,7 +151,7 @@ def fetch_posts(request):
     })
 
 def mark_notifications_read(request):
-    """Marks all unread notifications as read when user hovers."""
+    """Marks all unread notifications as read when user clicks."""
     
     if request.method == "POST":
         # Mark all unread notifications as read
@@ -184,6 +184,7 @@ def index(request):
        
     notifications = Notification.objects.filter(recipient=request.user).order_by('-created_at')
     unread_count = notifications.filter(is_read=False).count()
+    notifications = notifications.filter(is_read=False)
    
     return render(request, 'main/index.html',{
         "currentpage": currentpage,
@@ -601,6 +602,19 @@ def post_comment(request):
 
     return JsonResponse({"error": "Invalid request"}, status=400)
 
-@login_required
-def post_comments(request):
-    return JsonResponse({"this is baka":"this is faku"})
+def notification_page(request):
+    notifications = Notification.objects.filter(recipient=request.user).order_by('-created_at')
+    
+    userplayer = request.user.player
+    # Exclude users already being followed + self
+    following_ids = userplayer.following.values_list('id', flat=True)
+    suggested_users = Player.objects.exclude(
+        Q(id__in=following_ids) | Q(id=userplayer.id)
+    )[:10]
+    
+    
+    return render(request, 'main/notifications.html', {
+        'notifications': notifications,
+        'currentpage': 'notifications',
+        "suggested_users": suggested_users,
+    })
