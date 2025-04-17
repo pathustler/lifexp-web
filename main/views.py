@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from users.models import Player, UserSettings, Notification, SearchHistory
 import roman
 from .forms import PostForm
-from .models import Post, ActivityLog, Comment, Like
+from .models import Post, ActivityLog, Comment, Like, Activity
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.core.paginator import Paginator
@@ -25,6 +25,9 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib import messages
 
+
+
+
 # venv\Scripts\activate my ref. ok
 
 
@@ -35,6 +38,9 @@ from django.contrib import messages
 #     related_object_id = models.IntegerField(null=True, blank=True)  # ID of the related object (e.g., post, message)
 #     created_at = models.DateTimeField(default=now)
 #     is_read = models.BooleanField(default=False)
+
+# Create an OpenAI client with your deepinfra token and endpoint
+
 
 
 def hex_to_rgba(hex_color, opacity=1):
@@ -328,6 +334,8 @@ def new_post(request):
     currentpage= "new_post"
     player = Player.objects.get(username=request.user.username)
     print(player.fullname)
+    
+    activities_table = Activity.objects.all()
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
@@ -403,7 +411,8 @@ def new_post(request):
         "currentpage": currentpage,
         'form': form,
         'success': True,
-        'player':player
+        'player':player,
+
     })
     
 @login_required
@@ -518,8 +527,33 @@ def edit_profile(request):
         'player': player, 
         'currentpage': currentpage})
     
+
+
+@login_required
+@csrf_exempt  # if using fetch, you may need this for testing; better to handle CSRF token properly
+def create_custom_activity(request):
+    if request.method == "POST":
+        name = request.POST.get("name")
+        activity_type = request.POST.get("activity_type")
+
+        new_activity = Activity(
+            name=name,
+            activity_type=activity_type,
+        )
+        new_activity.save()
+
+        return JsonResponse({
+            "status": "success",
+            "name": new_activity.name,
+            "activity_type": new_activity.activity_type
+        })
+
+    return JsonResponse({"status": "error", "message": "Invalid request"}, status=400)
     
-    
+@login_required
+def create_activity(request):
+    return JsonResponse({"status": "error", "message": "Invalid request"}, status=400)
+
 @csrf_exempt
 @login_required
 def like_post(request, post_id):
@@ -618,3 +652,4 @@ def notification_page(request):
         'currentpage': 'notifications',
         "suggested_users": suggested_users,
     })
+

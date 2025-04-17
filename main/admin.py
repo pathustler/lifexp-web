@@ -19,3 +19,7 @@ class Comment(admin.ModelAdmin):
 class Like(admin.ModelAdmin):
     list_display = ("post", "liked_by")
 
+@admin.register(Activity)
+class Activity(admin.ModelAdmin):
+    list_display = ("name", "activity_type")
+
