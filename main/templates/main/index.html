@@ -813,7 +813,7 @@ async function showCommentsPopup(postId) {
   content.innerHTML = `<p class="text-sm text-gray-500">Loading...</p>`;
   modal.classList.remove("hidden");
   modal.classList.add("flex");
-  modal.querySelector("#submit-comment-btn").dataset.postId = postId;
+  // modal.querySelector("#submit-comment-btn").dataset.postId = postId;
   try {
     const response = await fetch(`/get_comments?post_id=${postId}`);
     const data = await response.json();
@@ -840,11 +840,11 @@ async function showCommentsPopup(postId) {
     content.innerHTML = `<p class="text-sm text-red-500">Error loading comments.</p>`;
     console.error(err);
   }
-}x
+}
 
 function closeCommentsPopup() {
   const modal = document.querySelector("#comments-modal");
-  modal.querySelector("#submit-comment-btn").dataset.postId = undefined;
+  // modal.querySelector("#submit-comment-btn").dataset.postId = undefined;
   modal.classList.add("hidden");
   modal.classList.remove("flex");
 }
