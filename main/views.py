@@ -53,30 +53,6 @@ def hex_to_rgba(hex_color, opacity=1):
     # Return the rgba value
     return f'rgba({r}, {g}, {b}, {opacity})'
 
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
-def post_comment(request):
-    serializer = CommentSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save(user=Player.objects.get(user=request.user))
-        # Notify the post owner about the new comment
-        post = serializer.validated_data['post']
-        post_owner = post.user
-        if post.user != request.user.player:
-            Notification.objects.create(
-                recipient=post_owner.user,
-                sender=request.user,
-                notification_type='comment',
-                message=f'commented on your post',
-                related_object_id=post.id
-            )
-        
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-
-
 @login_required
 def toggle_follow(request, username):
     """Follow or unfollow a player"""
@@ -486,8 +462,6 @@ def add_comment(request, post_id):
             parent_comment=parent_comment
         )
         return redirect('post_detail', post_id=post_id)
-    
-
 
 def post_detail(request, post_id):
     post = get_object_or_404(Post, id=post_id)
@@ -604,3 +578,29 @@ def delete_post(request, post_id):
 @login_required
 def report_post(request, post_id):
     pass
+
+@login_required
+def post_comment(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        post_id = data.get("post")
+        content = data.get("content")
+
+        post = get_object_or_404(Post, id=post_id)
+        user = request.user.player
+
+        comment = Comment.objects.create(post=post, user=user, content=content)
+
+        return JsonResponse({
+            "id": comment.id,
+            "content": comment.content,
+            "fullname": user.fullname,
+            "profile_picture": user.profile_picture.url,
+            "timestamp": "Just now"
+        })
+
+    return JsonResponse({"error": "Invalid request"}, status=400)
+
+@login_required
+def post_comments(request):
+    return JsonResponse({"this is baka":"this is faku"})

@@ -33,8 +33,8 @@
         class="w-full text-sm focus:outline-none resize-none bg-transparent placeholder:text-gray-400 dark:placeholder:text-gray-500"
       ></textarea>
     
-      <button
-        onclick="submitComment()"
+      <button id="submit-comment-btn"
+        onclick="submitComment(this)"
         class="text-blue-500 font-semibold text-sm hover:text-blue-600 whitespace-nowrap"
       >Post</button>
     </div>
@@ -569,7 +569,7 @@
                               placeholder="Add a comment..."
                               class="flex-1 text-sm focus:outline-none resize-none bg-transparent leading-[1.5rem]"
                             ></textarea>
-                              <button
+                              <button id="submit-comment-btn"
                                 data-post-id="${post.id}"
                                 onclick="submitComment(this)"
                                 class="ml-3 text-blue-500 font-semibold text-sm hover:text-blue-600"
@@ -747,8 +747,8 @@
 async function submitComment(button) {
   const parent = button.closest(".flex");
   const commentInput = parent.querySelector("#comment-input");
-  console.log("Comment input:", parent);
   const content = commentInput.value.trim();
+  console.log("comment: ",content)
   if (!content) return;
 
   const postId = button.dataset.postId; // Get post ID from data attribute
@@ -794,7 +794,9 @@ async function submitComment(button) {
   commentInput.value = "";
     
   } else {
-    console.error("Failed to submit comment", await response.json());
+    const errorText = await response.text();
+    console.error("Failed to submit comment", errorText);
+    return;
   }
 }
 
@@ -813,7 +815,7 @@ async function showCommentsPopup(postId) {
   content.innerHTML = `<p class="text-sm text-gray-500">Loading...</p>`;
   modal.classList.remove("hidden");
   modal.classList.add("flex");
-  // modal.querySelector("#submit-comment-btn").dataset.postId = postId;
+  modal.querySelector("#submit-comment-btn").dataset.postId = postId;
   try {
     const response = await fetch(`/get_comments?post_id=${postId}`);
     const data = await response.json();
@@ -844,7 +846,7 @@ async function showCommentsPopup(postId) {
 
 function closeCommentsPopup() {
   const modal = document.querySelector("#comments-modal");
-  // modal.querySelector("#submit-comment-btn").dataset.postId = undefined;
+  modal.querySelector("#submit-comment-btn").dataset.postId = undefined;
   modal.classList.add("hidden");
   modal.classList.remove("flex");
 }

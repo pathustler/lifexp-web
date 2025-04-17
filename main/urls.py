@@ -23,7 +23,6 @@ urlpatterns = [
     path('history/', views.history, name='history'),
     path('post/<int:post_id>/delete/', views.delete_post, name='delete_post'),
     path('post/<int:post_id>/report/', views.report_post, name='report_post'),
-
 ]
 
 
