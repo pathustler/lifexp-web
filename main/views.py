@@ -151,8 +151,6 @@ def fetch_posts(request):
             "created_at": post.created_at.strftime('%Y-%m-%d %H:%M:%S'),
             "post_image": post.post_image.url if post.post_image else None,
             "tags": post.tags if post.tags else None,  # Assuming tags are stored as a comma-separated string
-            "start_time": post.start_time.strftime('%Y-%m-%d %H:%M:%S') if post.start_time else None,
-            "end_time": post.end_time.strftime('%Y-%m-%d %H:%M:%S') if post.end_time else None,
             "user_id": post.user.id,
             "comments": comments_data,
             "likes":post.likes.count(),  
@@ -370,17 +368,14 @@ def new_post(request):
         # check whether it's valid:
         if form.is_valid():
             # Create a new Post object
-            start_time_obj = form.cleaned_data['start_time']
-            end_time_obj = form.cleaned_data['end_time']
+  
 
-            print(start_time_obj)
+
 
             new_post = Post(
                 user=player,  # Assign data from the form
                 content=form.cleaned_data['content'],
                 post_image=form.cleaned_data['post_image'],  # if this field exists
-                start_time=start_time_obj,  # if this field exists
-                end_time=end_time_obj,  # if this field exists
                 tags=form.cleaned_data['tags'],  # if this field exists
             )
             # Save the new post to the database
@@ -388,8 +383,11 @@ def new_post(request):
             
             if request.POST.get("pre_liked") == "true":
                 Like.objects.create(liked_by=player, post=new_post)
+                
+            print(form.cleaned_data['tags'])
+            if form.cleaned_data['tags']:
             
-            for tag in form.cleaned_data['tags'].split(','):
+             for tag in form.cleaned_data['tags'].split(','):
                 xpdict = dict()
                 if "skill" in tag:
                     xpdict["skill"] = random.randint(-50, 100)
@@ -578,9 +576,7 @@ def create_custom_activity(request):
 
     return JsonResponse({"status": "error", "message": "Invalid request"}, status=400)
     
-@login_required
-def create_activity(request):
-    return JsonResponse({"status": "error", "message": "Invalid request"}, status=400)
+
 
 @csrf_exempt
 @login_required

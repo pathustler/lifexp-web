@@ -37,7 +37,7 @@
       </div>
      <!-- submit button saying create activity -->
       <div class="mt-4">
-          <button id="create-activity" class="bg-blue-500 text-white py-2 px-4 rounded-lg w-full">Create Activity</button>
+          <span id="create-activity" class="bg-blue-500 cursor-pointer text-white py-2 px-4 rounded-lg w-full">Create Activity</span>
       </div>
     </form>
   </div>
@@ -83,20 +83,7 @@
 
     <!-- two fields in a flex, to record start and end time -->
 
-      <!-- Start Time -->
-      <div class="mb-4 w-1/2">
-        <label for="start" class="block text-gray-700 dark:text-[#999] mb-2">Start Time</label>
-                {{ form.start_time }}
-
-            
-      </div>
-      
-      <!-- End Time -->
-      <div class="mb-4 w-1/2">
-        <label for="end" class="block text-gray-700 dark:text-[#999] mb-2">End Time</label>
-        {{ form.end_time }}
-      </div>
-
+  
 
       <div  class="w-full mb-4 ">
         <!-- Acitivties -->
@@ -104,34 +91,13 @@
         <div id="activities-list" class="w-full mb-4 border border-gray-300 gap-2 p-4 rounded-lg flex flex-col gap-2 dark:bg-[#191a1c] dark:border-[#2f2f30]">
 
         </div>
-        
+        {{ form.tags }}
+
       </div>
 
 
 
-    <!--  field, that creates tags as you type and hit space or enter -->
-    <div x-data="tagInput()" class="w-full mb-4">
-        <label class="block text-gray-700 dark:text-[#999] mb-2">Tags</label>
-        <div class="flex flex-wrap items-center gap-2 border px-3 py-2 rounded-lg bg-white focus-within:ring-2 focus-within:ring-[{{ player.primary_accent_color }}80] dark:bg-[#1f2022] dark:border-[#444] dark:text-white dark:focus-within:ring-[{{ player.secondary_accent_color }}80] dark:placeholder-[#444]">
-            <!-- Display Added Tags -->
-            <template x-for="(tag, index) in tags" :key="index">
-                <div class="flex items-center bg-blue-500 text-white px-2 py-1 rounded-lg">
-                    <span x-text="tag"></span>
-                    <button type="button" @click="removeTag(index)" class="ml-2 text-white font-bold">×</button>
-                </div>
-            </template>
 
-            <!-- Input Field -->
-            <input type="text"  x-model="newTag" 
-                @keydown.enter.prevent="addTag()"
-                @keydown.space.prevent="addTag()"
-                class="flex-grow outline-none  w-full bg-transparent placeholder-[#444]" placeholder="Add Tags"
-                 />
-        </div>
-        
-        <!-- Hidden Input to Store Tags as CSV -->
-        {{ form.tags }}
-    </div>
 
       
       
@@ -185,8 +151,7 @@
 </button>
   </div>
 <!-- Recent Searches showing activity -->
-<div class="flex flex-col gap-2 mt-8">
-  <p class="text-sm text-gray-500 mb-4">Recent Searches</p>
+<div class="flex flex-col gap-2 mt-8 overflow-y-auto scrollbar-hide" id="recent-activities">
 
   {% for activity in activities_table %}
 
@@ -293,7 +258,6 @@
     function previewImage(event) {
         const input = event.target;
         const preview = document.getElementById('image-preview');
-        const previewbig = document.getElementById('image-preview-big');
         const placeholder = document.getElementById('upload-placeholder');
 
 
@@ -301,9 +265,7 @@
             const reader = new FileReader();
             reader.onload = function (e) {
                 preview.src = e.target.result;
-                previewbig.src = e.target.result;
                 preview.classList.remove('hidden');
-                previewbig.classList.remove('hidden');
                 placeholder.classList.add('hidden');
 
             };
@@ -317,47 +279,6 @@ document.getElementById('id_content').addEventListener('input', function() {
 });
 
 
-// I want to calculate the duration of the post
-document.getElementById('start').addEventListener('input', function() {
-    const start = this.value;
-    const end = document.getElementById('end').value;
-
-    const start_time = new Date(`01/01/2021 ${start}`);
-    const end_time = new Date(`01/01/2021 ${end}`);
-
-    const duration = end_time - start_time;
-    const hours = Math.floor(duration / 1000 / 60 / 60);
-    const minutes = Math.floor((duration / 1000 / 60) % 60);
-
-    if (hours < 0 || minutes < 0) {
-        document.getElementById('duration-preview').textContent = 'Invalid Time';
-        return;
-    } if (hours === 0 ){
-        document.getElementById('duration-preview').textContent = `${minutes}m`;
-        return;
-    }
-    document.getElementById('duration-preview').textContent = `${hours}h ${minutes}m`;
-});
-
-document.getElementById('end').addEventListener('input', function() {
-    const start = document.getElementById('start').value;
-    const end = this.value;
-
-    const start_time = new Date(`01/01/2021 ${start}`);
-    const end_time = new Date(`01/01/2021 ${end}`);
-
-    const duration = end_time - start_time;
-    const hours = Math.floor(duration / 1000 / 60 / 60);
-    const minutes = Math.floor((duration / 1000 / 60) % 60);
-    if (hours < 0 || minutes < 0) {
-        document.getElementById('duration-preview').textContent = 'Invalid Time';
-        return;
-    } if (hours === 0 ){
-        document.getElementById('duration-preview').textContent = `${minutes}m`;
-        return;
-    }
-    document.getElementById('duration-preview').textContent = `${hours}h ${minutes}m`;
-});
 
 
 
@@ -367,8 +288,36 @@ document.addEventListener('DOMContentLoaded', function() {
     addCustomActivityBtn.addEventListener('click', function() {
         toggleActivityPopup();
     });
+
+    function removeActivity(el) {
+    const parentCard = el.closest('.activity-card');
+    if (parentCard) {
+        parentCard.remove();
+    }
+}
+   
+
+
   });
-  
+
+
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('searchInput');
+    const activityCards = document.querySelectorAll('.activity-card');
+
+    if (searchInput) {
+        searchInput.addEventListener('input', function() {
+            const query = this.value.toLowerCase();
+            activityCards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                card.style.display = text.includes(query) ? '' : 'none';
+            });
+        });
+    }
+});
+
+
 function toggleActivityPopup() {
     const popup = document.getElementById('custom-activity-popup');
     popup.classList.toggle('hidden');
@@ -380,6 +329,13 @@ function toggleActivityPopup() {
   document.getElementById('create-activity').addEventListener('click', async function () {
       const name = document.getElementById('activity-name').value;
       const type = document.getElementById('activity-type').value;
+
+      toggleActivityPopup();
+      if (!name || !type) {
+          alert("Please fill in all fields.");
+          toggleActivityPopup();
+          return;
+      }
   
       const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]')?.value;
   
@@ -399,24 +355,34 @@ function toggleActivityPopup() {
   
       if (data.status === "success") {
           // Hide the popup
-          toggleActivityPopup();
-  
+          console.log(data)
           // Add the new activity to your recent activities list
           const container = document.querySelector("#recent-activities");
   
           const colors = {
-              skill: ["#FFD1DC", "#841B2D"],
-              creativity: ["#AFD9EA", "#4187A2"],
-              social: ["#AFEAC7", "#31784E"],
-              energy: ["#FFF6A3", "#A69300"],
-              physique: ["#FFBDA0", "#953500"]
+              skill: [`{{ aspect_colors.skill.primary }}`,`{{ aspect_colors.skill.secondary }}`],
+              creativity: [`{{ aspect_colors.creativity.primary }}`,`{{ aspect_colors.creativity.secondary }}`],
+              social: [`{{ aspect_colors.social.primary }}`,`{{ aspect_colors.social.secondary }}`],
+              energy: [`{{ aspect_colors.energy.primary }}`,`{{ aspect_colors.energy.secondary }}`],
+              physique: [`{{ aspect_colors.physique.primary }}`,`{{ aspect_colors.physique.secondary }}`]
           };
   
-          const [bg, text] = colors[type] || ["#E0E0E0", "#333"];
-  
+          const [text, bg] = colors[type] || ["#E0E0E0", "#333"];
+          
+          const icon = {
+            skill: `{{ aspect_colors.skill.iconbig|escapejs }}`,
+            creativity: `{{ aspect_colors.creativity.iconbig|escapejs }}`,
+            social: `{{ aspect_colors.social.iconbig|escapejs }}`,
+            energy: `{{ aspect_colors.energy.iconbig|escapejs }}`,
+            physique: `{{ aspect_colors.physique.iconbig|escapejs }}`
+          }[type];
+
           const html = `
           <div class="bg-[${bg}] p-4 rounded-xl cursor-pointer flex justify-between items-center mt-2">
-              <p class="text-[${text}]">${name}</p>
+              <div class="flex gap-2 items-center">
+                ${icon}
+                <p class="text-[${text}]">${name}</p>
+              </div>
               <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 fill-black opacity-50 hover:opacity-60" viewBox="0 0 24 24" fill="currentColor">
                   <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 9a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V15a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V9Z" clip-rule="evenodd" />
               </svg>
@@ -424,8 +390,12 @@ function toggleActivityPopup() {
 
           const html2 = `
           <div class="bg-[${bg}] p-4 rounded-xl cursor-pointer flex justify-between items-center mt-2">
-              <p class="text-[${text}]">${name}</p>
-              <svg onclick="this.parentElement.remove()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"  stroke-width="1.5" stroke="currentColor" class="w-6 h-6 stroke-black opacity-50 hover:opacity-60">
+              
+              <div class="flex gap-2 items-center">
+                ${icon}
+                <p class="text-[${text}]">${name}</p>
+                </div>
+              <svg onclick="removeActivity(this)" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"  stroke-width="1.5" stroke="currentColor" class="w-6 h-6 stroke-black opacity-50 hover:opacity-60">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
               </svg>
               
@@ -433,10 +403,21 @@ function toggleActivityPopup() {
   
           container.insertAdjacentHTML("beforeend", html);
           document.querySelector('#activities-list').insertAdjacentHTML("beforeend", html2);
+          updateActivitiesInput();
+          const mainframe = document.querySelector('#mainframe');
+          mainframe.scrollTo({
+            top: mainframe.scrollHeight,
+            behavior: 'smooth'
+          });
       } else {
+          toggleActivityPopup();
+          console.log("error")
           alert("Failed to add activity.");
       }
   });
+
+  
+
 
   function duplicateActivity(svgElement) {
     const parentCard = svgElement.closest('.activity-card');
@@ -445,18 +426,38 @@ function toggleActivityPopup() {
     const clone = parentCard.cloneNode(true);
     clone.querySelectorAll('svg')[1].remove();
 
-    const html = `<svg onclick="this.parentElement.remove()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"  stroke-width="1.5" stroke="currentColor" class="w-6 h-6 stroke-black opacity-50 hover:opacity-60">
+    const html = `<svg onclick="removeActivity(this)" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"  stroke-width="1.5" stroke="currentColor" class="w-6 h-6 stroke-black opacity-50 hover:opacity-60">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
               </svg>`
 
     clone.insertAdjacentHTML("beforeend", html);
     document.getElementById('activities-list').appendChild(clone);
     const mainframe = document.querySelector('#mainframe');
+
+    updateActivitiesInput();
     mainframe.scrollTo({
       top: mainframe.scrollHeight,
       behavior: 'smooth'
     });
 
+  }
+
+  function updateActivitiesInput() {
+    const activities = [];
+    document.querySelectorAll('#activities-list .activity-card').forEach(card => {
+        const name = card.querySelector('p').textContent;
+        activities.push(name);
+    });
+    document.getElementById('id_tags').value = activities.join(',');
+  }
+
+  function removeActivity(button) {
+    const parentCard = button.closest('.activity-card');
+    if (parentCard) {
+        parentCard.remove();
+        updateActivitiesInput();
+
+    }
   }
 
   

@@ -44,8 +44,7 @@ class Post(models.Model):
     title = models.CharField(max_length=255, blank=True, null=True)
     content = models.TextField()
     post_image = CloudinaryField('image', blank=True, null=True)  # We'll handle public_id dynamically
-    start_time = models.DateTimeField()
-    end_time = models.DateTimeField()
+    
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
     tags = models.CharField(max_length=255, blank=True, null=True) 
@@ -61,9 +60,8 @@ class Post(models.Model):
 
     def save(self, *args, **kwargs):
         # Only re-upload if a new image is added
-        if not self.title:
-            # self.title = generateHeading(self.content)
-            pass
+        # if not self.title:
+        #     self.title = generateHeading(self.content)
         if self.pk is None and self.post_image:
             # Dynamically generate public_id based on user and post
             upload_result = cloudinary.uploader.upload(
