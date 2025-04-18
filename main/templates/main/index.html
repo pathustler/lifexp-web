@@ -48,8 +48,8 @@
   <div id="content" style="width: 100%;" class="flex-1 py-6 pl-6 min-h-[100vh] flex-1 py-6 px-6 overflow-y-auto scrollbar-hide h-screen">
      <!-- top bar thing -->
     <div class="mb-8 flex gap-4 overflow-x-auto whitespace-nowrap scrollbar-hide">
-      <div class="bg-white overflow-x-hidden border border-gray-200 flex p-3 rounded-xl gap-3 min-w-[200px] max-w-[250px] items-center cursor-pointer flex-shrink-0 dark:bg-[#1f2022]">
-        <img src="{{ player.profile_picture.url }}" class="rounded-lg h-14 w-14" alt="User">
+      <div class="bg-white overflow-x-hidden border border-gray-200 dark:border-gray-900 flex p-3 rounded-xl gap-3 min-w-[200px] max-w-[250px] items-center cursor-pointer flex-shrink-0 dark:bg-[#1f2022]">
+        <img src="{{ player.profile_picture.url }}" class="rounded-full h-14 w-14" alt="User">
         <div class="flex flex-col justify-between">
             <h1 class="text-md font-semibold">{{ player.fullname|default:player.username }}</h1>
             <p class="text-xs font-medium text-black/40 dark:text-white/40">
@@ -71,8 +71,20 @@
     </div> 
 
       {% for followed in following_players %}
-      <div class="bg-white overflow-x-hidden border border-gray-200 flex p-3 rounded-xl gap-3 min-w-[200px] max-w-[250px] items-center cursor-pointer flex-shrink-0 dark:bg-[#1f2022]">
-                <img src="{{ followed.profile_picture.url }}" class="rounded-lg h-14 w-14" alt="User">
+      <div class="bg-white overflow-x-hidden border border-gray-200 dark:border-gray-900 flex p-3 rounded-xl gap-3 min-w-[200px] max-w-[250px] items-center cursor-pointer flex-shrink-0 dark:bg-[#1f2022]">
+                <img src="{{ followed.profile_picture.url }}" class='
+                {% if followed.masterytitle == "Prodigy" %}
+                border-4 border-[#713599] border-opacity-50
+                {% elif followed.masterytitle == "Maverick" %}
+                border-4 border-[#4187A2] border-opacity-50
+                {% elif followed.masterytitle == "Diplomat" %}
+                border-4 border-[#31784E] border-opacity-50
+                {% elif followed.masterytitle == "Protagonist" %}
+                border-4 border-[#d0b400] border-opacity-50
+                {% elif followed.masterytitle == "Warrior" %}
+                border-4 border-[#8D2E2E] border-opacity-70
+                {%endif%}
+                p-[1.5px] rounded-full h-14 w-14' alt="User">
                 <div class="flex flex-col justify-between">
                     <h1 class="text-md font-semibold">{{ followed.fullname|default:followed.username }}</h1>
                     <p class="text-xs font-medium text-black/40 dark:text-white/40">
