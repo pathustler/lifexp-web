@@ -46,7 +46,7 @@
 <main style="width: 100%;" class="flex  w-full" style="height: 100vh;">
 
 
-<div class="w-full overflow-y-auto scrollbar-hide">
+<div id="mainframe" class="w-full overflow-y-auto scrollbar-hide">
 <!-- a form containing all the fields for the post -->
 
 <form method="post" enctype="multipart/form-data" class="max-w-2xl mx-auto p-6">
@@ -246,6 +246,7 @@
         {{aspect_colors.physique.iconbig|safe}}
         <p class="text-[#8D2E2E]">{{activity.name}}</p>
       </div>
+      
       <svg onclick="duplicateActivity(this)"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 fill-black opacity-50 hover:opacity-60">
         <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 9a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V15a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V9Z" clip-rule="evenodd" />
       </svg>
@@ -450,6 +451,12 @@ function toggleActivityPopup() {
 
     clone.insertAdjacentHTML("beforeend", html);
     document.getElementById('activities-list').appendChild(clone);
+    const mainframe = document.querySelector('#mainframe');
+    mainframe.scrollTo({
+      top: mainframe.scrollHeight,
+      behavior: 'smooth'
+    });
+
   }
 
   
