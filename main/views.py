@@ -291,14 +291,6 @@ def profile(request, username):
     userprofile_secondary_color_rgba = hex_to_rgba(player.secondary_accent_color, 0.5)
     
     can_view_posts = (ownprofile or is_following or player.settings.account_type == "Public")
-    
-    if not can_view_posts:
-        return render(request, 'main/profile.html', {
-            'player': player,
-            'can_view_posts': False,
-            'is_following': is_following,
-            'ownprofile': ownprofile,
-        })
         
     
     return render(request, 'main/profile.html', {
@@ -314,6 +306,7 @@ def profile(request, username):
         "actlist": actlist,
         "ownprofile": ownprofile,
         "userprofile_secondary_color_rgba": userprofile_secondary_color_rgba,
+        'can_view_posts': can_view_posts,
     })
 
 @login_required
