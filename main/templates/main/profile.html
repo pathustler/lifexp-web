@@ -192,14 +192,16 @@
         </span>
         
         </div>
+        {% if can_view_posts %}
         <div class="w-1/2 p-4 xl:flex lg:hidden md:hidden sm:hidden xs:hidden flex-col items-end justify-end gap-4 p-6">
             <div   class="w-72 h-72">
                 <canvas id="radarChart"></canvas>
-
             </div>
         </div>
+        {% endif %}
         
     </div>
+    {% if can_view_posts %}
         <div class="my-4 flex justify-between text-sm gap-4">
             
             <!-- Streak count -->
@@ -451,6 +453,12 @@
             {% endfor %}
         </div>
         </div>
+    {% else %}
+        <div class="text-center mt-6 text-gray-400">
+          <p>This account is <strong>Private</strong> 🔒</p>
+          <p>Follow {{ player.username }} to view their posts and progress.</p>
+        </div>
+    {% endif %}
 </main>
 
 

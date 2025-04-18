@@ -99,7 +99,20 @@ def fetch_posts(request):
     page = int(request.GET.get('page', 1))  # Get the requested page number
     per_page = 5  # Number of posts to load per request
 
-    posts = Post.objects.select_related('user').order_by('-created_at')  # Adjust order as needed
+    # Get all posts
+    all_posts = Post.objects.select_related('user', 'user__settings')
+
+    # Get people you follow + yourself
+    following_ids = player.following.values_list('id', flat=True)
+    allowed_ids = list(following_ids) + [player.id]
+
+    # Filter posts based on user privacy
+    posts = all_posts.filter(
+        Q(user__settings__account_type='Public') |
+        Q(user__id__in=allowed_ids)
+    )
+    
+    
     paginator = Paginator(posts, per_page)
     
     page_obj = paginator.get_page(page)
@@ -170,7 +183,19 @@ def mark_notifications_read(request):
 def index(request):
     currentpage = "index"
     player = Player.objects.get(username=request.user.username)
-    posts = Post.objects.select_related('user').all()
+    # Get all posts
+    all_posts = Post.objects.select_related('user', 'user__settings')
+
+    # Get people you follow + yourself
+    following_ids = player.following.values_list('id', flat=True)
+    allowed_ids = list(following_ids) + [player.id]
+
+    # Filter posts based on user privacy
+    posts = all_posts.filter(
+        Q(user__settings__account_type='Public') |
+        Q(user__id__in=allowed_ids)
+    )
+
     activities = ActivityLog.objects.select_related('user').all()
     rom = roman.toRoman(player.masterlevel)
     nextrom = roman.toRoman(player.masterlevel+1)
@@ -217,7 +242,6 @@ def profile(request, username):
     is_following = request.user.player.following.filter(id=player.id).exists() if request.user.is_authenticated else False
     ownprofile = request.user.username == username
 
-    # 🧠 Build dynamic XP data for past 7 days
     today = now().date()
     start_date = today - timedelta(days=6)
 
@@ -265,7 +289,18 @@ def profile(request, username):
 
     actlist.sort(key=lambda x: x["total_xp"], reverse=True)
     userprofile_secondary_color_rgba = hex_to_rgba(player.secondary_accent_color, 0.5)
-
+    
+    can_view_posts = (ownprofile or is_following or player.settings.account_type == "Public")
+    
+    if not can_view_posts:
+        return render(request, 'main/profile.html', {
+            'player': player,
+            'can_view_posts': False,
+            'is_following': is_following,
+            'ownprofile': ownprofile,
+        })
+        
+    
     return render(request, 'main/profile.html', {
         'player': player,
         "is_following": is_following,
