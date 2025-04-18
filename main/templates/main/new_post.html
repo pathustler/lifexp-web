@@ -144,14 +144,12 @@
         
 
   </div>
-  <button id="add-custom-activity" class="flex items-center">
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 cursor-pointer">
-    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-  </svg>
-</button>
+  
   </div>
 <!-- Recent Searches showing activity -->
-<div class="flex flex-col gap-2 mt-8 overflow-y-auto scrollbar-hide" id="recent-activities">
+<div class="flex flex-col gap-2 mt-4 overflow-y-auto scrollbar-hide" id="recent-activities">
+
+  
 
   {% for activity in activities_table %}
 
@@ -220,6 +218,17 @@
      {%endif%}
 
     {%endfor%}
+    <div id="add-custom-activity" class="bg-gray-300 dark:bg-gray-800 p-4 rounded-xl cursor-pointer flex justify-between items-center">
+      <div class="flex gap-2 items-center">
+        <p class="text-gray-800 ">Create Custom Activity</p>
+      </div>
+    
+      <button  class="flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 cursor-pointer">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+        </svg>
+      </button>
+  </div>
 
 </div>
 </div>
@@ -313,7 +322,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 const text = card.textContent.toLowerCase();
                 card.style.display = text.includes(query) ? '' : 'none';
             });
+
+
+            const activity_name_field = document.getElementById('activity-name');
+            activity_name_field.value = query.charAt(0).toUpperCase() + query.slice(1);
+
         });
+
     }
 });
 
