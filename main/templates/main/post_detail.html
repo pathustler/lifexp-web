@@ -65,7 +65,12 @@
 
         <!-- tags -->
         <div class="flex flex-wrap text-sm text-gray-500 gap-2 mb-3 dark:text-[#242729] dark:text-white/50">  
-          <p class="mr-2"><strong>1h 31m</strong> Duration</p>
+          <div class="flex items-center space-x-1">
+            <svg xmlns="http://www.w3.org/2000/svg" height="16" viewBox="0 -960 960 960" width="16" fill="currentColor">
+              <path d="m612-292 56-56-148-148v-184h-80v216l172 172ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-400Zm0 320q133 0 226.5-93.5T800-480q0-133-93.5-226.5T480-800q-133 0-226.5 93.5T160-480q0 133 93.5 226.5T480-160Z"/>
+            </svg>
+            <strong>1h 31m</strong>
+          </div>
           {% if post.tags %}
             {% for tag in post.tags|split:"," %}
               <span class="border-2 border-gray-600 text-gray-600 text-xs px-2 mb-1 cursor-pointer hover:bg-gray-600 hover:text-white rounded-lg dark:text-[#dfdfe0] dark:border-[#5b6161] dark:hover:bg-[#5b616d]">

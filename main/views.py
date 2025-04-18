@@ -679,10 +679,10 @@ def notification_page(request):
 
 @login_required
 def delete_account(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         user = request.user
-        logout(request)
         user.delete()
-        return redirect('index')  # or home page
+        messages.success(request, "Your account has been deleted successfully.")
+        return redirect("index")  # or login page
+    return redirect("settings")  # fallback
 
-    return render(request, 'users/delete_account.html')

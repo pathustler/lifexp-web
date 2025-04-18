@@ -104,11 +104,11 @@
                     </button>
                   </a>                  
 
-                  <a href="{% url 'delete_account' %}">
-                    <button class="text-l font-semibold text-left text-gray-800 dark:text-[#b8b8b8]">
-                      Delete Account
-                    </button>
-                  </a>
+                  <!-- ✅ No more anchor tag wrapping this -->
+                <button onclick="openDeleteModal()" class="text-l font-semibold text-left text-red-500 hover:text-red-600">
+                    Delete Account
+                </button>
+
                   
                 
             </div>
@@ -124,4 +124,48 @@
         </aside>
 </main>
 
+<!-- Delete Account Modal -->
+<div id="deleteAccountModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden items-center justify-center z-50">
+    <div class="bg-white dark:bg-[#1f2022] p-6 rounded-xl shadow-lg max-w-md w-full border border-gray-300 dark:border-[#444] relative">
+      <h2 class="text-lg font-semibold mb-3 text-black dark:text-white">Delete Account</h2>
+      <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">Are you sure you want to delete your account? This action is permanent</p>
+  
+      <!-- Delete form -->
+      <form id="deleteAccountForm" method="POST" action="{% url 'delete_account' %}">
+        {% csrf_token %}
+        <div class="flex justify-end gap-3 mt-4">
+          <!-- Cancel Button (no form submission) -->
+          <button type="button" onclick="closeDeleteModal()" class="px-4 py-2 text-sm bg-gray-200 dark:bg-[#333] dark:text-white rounded-md">
+            Cancel
+          </button>
+  
+          <!-- Delete Button (submits the form) -->
+          <button type="submit" class="px-4 py-2 text-sm bg-red-600 text-white rounded-md hover:bg-red-700">
+            Delete
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  
 {% endblock %}
+
+{% block scripts %}
+<script>
+    function openDeleteModal() {
+      document.getElementById("deleteAccountModal").classList.remove("hidden");
+      document.getElementById("deleteAccountModal").classList.add("flex");
+    }
+  
+    function closeDeleteModal() {
+      document.getElementById("deleteAccountModal").classList.remove("flex");
+      document.getElementById("deleteAccountModal").classList.add("hidden");
+    }
+  
+    // Close modal on Esc
+    document.addEventListener("keydown", function(e) {
+      if (e.key === "Escape") closeDeleteModal();
+    });
+  </script>
+{% endblock %}  
