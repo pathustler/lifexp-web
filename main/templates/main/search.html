@@ -8,7 +8,7 @@
 
 {% block content %}
 
-<main class="flex h-screen overflow-hidden bg-gray-100">
+<main class="flex h-screen overflow-hidden bg-gray-100 w-full">
     <!-- Search Sidebar -->
     <div class="w-96 bg-white p-6 border-r border-gray-200 dark:bg-[#191a1c] dark:border-[#333]">
         <h2 class="font-semibold text-xl mb-6">Search</h2>
@@ -62,7 +62,7 @@
     </div>
 
     <!-- Content Section -->
-    <div class="flex-1 overflow-y-auto p-6 dark:border-[#00000000] dark:bg-[#191a1c] max-w-full">
+    <div class="flex-1 overflow-y-auto p-6 dark:border-[#00000000] dark:bg-[#191a1c] w-full">
         <!-- Search Results Summary -->
         {% if request.GET.q %}
         <div class="mb-6">

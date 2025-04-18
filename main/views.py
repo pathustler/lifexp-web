@@ -307,24 +307,12 @@ def profile(request, username):
         'can_view_posts': can_view_posts,
     })
 
-from django.db.models import Q
-from django.utils.timezone import now
-from main.models import Post, ActivityLog
-from users.models import Player, SearchHistory
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
-
-
 @login_required
 def search(request):
     currentpage = "search"
     query = request.GET.get('q', '').strip()
     player = Player.objects.get(user=request.user)
-
-    posts = Post.objects.none()
-    users = Player.objects.none()
-    activities = ActivityLog.objects.none()
-
+    
     if query:
         # Filter posts by tags, content, or related activity name
         posts = Post.objects.filter(
@@ -332,18 +320,18 @@ def search(request):
             Q(content__icontains=query) |
             Q(activity_logs__name__icontains=query)
         ).distinct()
-
+        
         # Filter users by username or fullname
         users = Player.objects.filter(
             Q(username__icontains=query) |
             Q(fullname__icontains=query)
         )
-
+        
         # Filter activities globally by name
         activities = ActivityLog.objects.filter(
             Q(name__icontains=query)
         ).select_related('user')
-
+        
         # Store in history
         SearchHistory.objects.create(
             user=player,
@@ -351,11 +339,13 @@ def search(request):
             search_type='general',
         )
     else:
-        # Default: show user's recent activities
+        # No query: show recent posts, some users, and user's recent activities
+        posts = Post.objects.all().order_by('-created_at')[:12]  # Show 12 most recent posts
+        users = Player.objects.all().order_by('?')[:6]  # Show 6 random users
         activities = ActivityLog.objects.filter(user=player).order_by('-created_at')[:10]
-
+    
     recent_searches = SearchHistory.objects.filter(user=player).order_by('-searched_at')[:5]
-
+    
     context = {
         'currentpage': currentpage,
         'query': query,
@@ -365,9 +355,7 @@ def search(request):
         'recent_searches': recent_searches,
         'player': player
     }
-
     return render(request, 'main/search.html', context)
-
 @login_required
 @require_POST
 def delete_search_history(request, id):
