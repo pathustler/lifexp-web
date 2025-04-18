@@ -1,5 +1,6 @@
 {% extends 'main/layout.html' %}
 {% load static %}
+{% load custom_filters %}
 
 {% block title %}
     Search 
@@ -66,7 +67,7 @@
         {% if request.GET.q %}
         <div class="mb-6">
             <h1 class="text-2xl font-semibold">Results for "{{ request.GET.q }}"</h1>
-            <p class="text-gray-500">Found {{ posts|length }} posts and {{ users|length }} users</p>
+            <p class="text-gray-500">Found {{ posts|length }} posts, {{ users|length }} users, and {{ activities|length }} activities</p>
         </div>
         {% endif %}
         
@@ -107,18 +108,34 @@
         </div>
 
         <!-- Tags and Others (placeholder) -->
-        {% if not request.GET.q %}
+        {% if activities %}
         <div>
-            <h2 class="text-xl font-medium mb-4">Activities</h2>
-            <ul class="space-y-3">
-                {% for _ in dummy_range %}
-                <li class="flex items-center gap-3">
-                    <div class="w-10 h-10 bg-gray-300 rounded-full"></div>
-                    <div class="h-4 bg-gray-300 rounded w-40"></div>
+            <h2 class="text-xl font-medium mb-4 text-black dark:text-white">Activities</h2>
+            <ul class="space-y-4">
+              {% for activity in activities %}
+                <li class="flex items-center gap-4">
+                  <!-- Icon/Avatar -->
+                  <div class="w-10 h-10 bg-[{{ activity.user.primary_accent_color }}] text-white flex items-center justify-center rounded-full text-sm font-semibold uppercase">
+                    {{ activity.name|default:"A" |slice:":1" }}
+                  </div>
+                  
+                  <!-- Activity details -->
+                  <div class="flex flex-col">
+                    <p class="text-sm text-gray-800 dark:text-gray-200">
+                      <strong>{{ activity.name }}</strong>
+                      — +{{ activity.xp_distribution|total_xp }} XP
+                    </p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">
+                      {{ activity.created_at|timesince }} ago
+                    </p>
+                  </div>
                 </li>
-                {% endfor %}
+              {% empty %}
+                <li class="text-sm text-gray-500 italic">No activities yet.</li>
+              {% endfor %}
             </ul>
-        </div>
+          </div>
+          
         {% endif %}
     </div>
 </main>

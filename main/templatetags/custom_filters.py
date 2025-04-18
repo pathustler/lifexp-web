@@ -30,3 +30,10 @@ def roman(value):
 def dict_get(d, key):
     return d.get(key)
 
+from django import template
+
+register = template.Library()
+
+@register.filter
+def total_xp(xp_dict):
+    return sum(xp_dict.values())

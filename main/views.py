@@ -307,40 +307,65 @@ def profile(request, username):
         'can_view_posts': can_view_posts,
     })
 
+from django.db.models import Q
+from django.utils.timezone import now
+from main.models import Post, ActivityLog
+from users.models import Player, SearchHistory
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
+
+
 @login_required
 def search(request):
-    currentpage= "search"
-    query = request.GET.get('q', '')
-    posts = Post.objects.filter(Q(tags__icontains=query) | Q(content__icontains=query))
-    users = Player.objects.filter(username__icontains=query)
+    currentpage = "search"
+    query = request.GET.get('q', '').strip()
     player = Player.objects.get(user=request.user)
-    
+
+    posts = Post.objects.none()
+    users = Player.objects.none()
+    activities = ActivityLog.objects.none()
+
     if query:
-        # Search for posts and users
+        # Filter posts by tags, content, or related activity name
         posts = Post.objects.filter(
-            Q(content__icontains=query) | 
-            Q(user__username__icontains=query)
+            Q(tags__icontains=query) |
+            Q(content__icontains=query) |
+            Q(activity_logs__name__icontains=query)
+        ).distinct()
+
+        # Filter users by username or fullname
+        users = Player.objects.filter(
+            Q(username__icontains=query) |
+            Q(fullname__icontains=query)
         )
-        users = Player.objects.filter(username__icontains=query)
-        
-        # Record search history if user is logged in
-        if request.user.is_authenticated:
-            SearchHistory.objects.create(
-                user=player,
-                search_query=query,
-                search_type='general'
-            )
-    
-    # Get recent searches for logged-in user
+
+        # Filter activities globally by name
+        activities = ActivityLog.objects.filter(
+            Q(name__icontains=query)
+        ).select_related('user')
+
+        # Store in history
+        SearchHistory.objects.create(
+            user=player,
+            search_query=query,
+            search_type='general',
+        )
+    else:
+        # Default: show user's recent activities
+        activities = ActivityLog.objects.filter(user=player).order_by('-created_at')[:10]
+
     recent_searches = SearchHistory.objects.filter(user=player).order_by('-searched_at')[:5]
 
     context = {
+        'currentpage': currentpage,
+        'query': query,
         'posts': posts,
         'users': users,
-        'recent_searches': recent_searches,  # Fetch recent search from user model later
-        'query': query,
-        "currentpage": currentpage,
+        'activities': activities,
+        'recent_searches': recent_searches,
+        'player': player
     }
+
     return render(request, 'main/search.html', context)
 
 @login_required
@@ -370,9 +395,6 @@ def new_post(request):
         # check whether it's valid:
         if form.is_valid():
             # Create a new Post object
-  
-
-
 
             new_post = Post(
                 user=player,  # Assign data from the form
