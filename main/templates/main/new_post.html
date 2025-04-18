@@ -157,10 +157,10 @@
 
     {% if activity.activity_type == "skill" %}
     
-    <div class="bg-[#BAAFEA] activity-card p-4 rounded-xl cursor-pointer flex justify-between items-center">
+    <div class="bg-[#BAAFEA] dark:bg-[#713599] dark:bg-opacity-30  activity-card p-4 rounded-xl cursor-pointer flex justify-between items-center">
         <div class="flex gap-2 items-center">
           {{aspect_colors.skill.iconbig|safe}}
-          <p class="text-[#713599]">{{activity.name}}</p>
+          <p class="text-[#713599] ">{{activity.name}}</p>
         </div>
       
         <svg onclick="duplicateActivity(this)"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 fill-black opacity-50 hover:opacity-60">
@@ -170,7 +170,7 @@
 
     {% elif activity.activity_type == "creativity" %}
 
-    <div class="bg-[#AFD9EA] activity-card p-4 rounded-xl cursor-pointer flex justify-between items-center">
+    <div class="bg-[#AFD9EA] dark:bg-[#4187A2] dark:bg-opacity-30  activity-card p-4 rounded-xl cursor-pointer flex justify-between items-center">
       <div class="flex gap-2 items-center">
         {{aspect_colors.creativity.iconbig|safe}}
         <p class="text-[#4187A2]">{{activity.name}}</p>
@@ -182,7 +182,7 @@
 
      {% elif activity.activity_type == "social" %}
 
-     <div class="bg-[#AFEAC7] p-4 activity-card rounded-xl cursor-pointer flex justify-between items-center">
+     <div class="bg-[#AFEAC7] dark:bg-[#31784E] dark:bg-opacity-30  p-4 activity-card rounded-xl cursor-pointer flex justify-between items-center">
       <div class="flex gap-2 items-center">
         {{aspect_colors.social.iconbig|safe}}
         <p class="text-[#31784E]">{{activity.name}}</p>
@@ -194,10 +194,10 @@
 
      {% elif activity.activity_type == "energy" %}
 
-     <div class="bg-[#FDF099] p-4 activity-card rounded-xl cursor-pointer flex justify-between items-center">
+     <div class="bg-[#FDF099] dark:bg-[#d0b400] dark:opacity-70 dark:bg-opacity-30  p-4 activity-card rounded-xl cursor-pointer flex justify-between items-center">
       <div class="flex gap-2 items-center">
         {{aspect_colors.energy.iconbig|safe}}
-        <p class="text-[#d0b400]">{{activity.name}}</p>
+        <p class="text-[#d0b400] ">{{activity.name}}</p>
       </div>
       <svg onclick="duplicateActivity(this)"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 fill-black opacity-50 hover:opacity-60">
         <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 9a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V15a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V9Z" clip-rule="evenodd" />
@@ -206,10 +206,10 @@
 
      {% elif activity.activity_type == "physique" %}
 
-     <div class="bg-[#EAAFAF] p-4 activity-card rounded-xl cursor-pointer flex justify-between items-center">
+     <div class="bg-[#EAAFAF] dark:bg-[#8D2E2E] dark:bg-opacity-30  p-4 activity-card rounded-xl cursor-pointer flex justify-between items-center">
       <div class="flex gap-2 items-center">
         {{aspect_colors.physique.iconbig|safe}}
-        <p class="text-[#8D2E2E]">{{activity.name}}</p>
+        <p class="text-[#8D2E2E] ">{{activity.name}}</p>
       </div>
       
       <svg onclick="duplicateActivity(this)"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 fill-black opacity-50 hover:opacity-60">
