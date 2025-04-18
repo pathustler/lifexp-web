@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -25,7 +25,12 @@ urlpatterns = [
     path('post/<int:post_id>/delete/', views.delete_post, name='delete_post'),
     path('post/<int:post_id>/report/', views.report_post, name='report_post'),
     path('notifications/', views.notification_page, name='notification_page'),
-    path('create_custom_activity', views.create_custom_activity, name='create_custom_activity')
+    path('create_custom_activity', views.create_custom_activity, name='create_custom_activity'),
+    path('change-password/', auth_views.PasswordChangeView.as_view(
+        template_name='users/change_password.html',
+        success_url='/settings/'
+    ), name='change_password'),
+    path('delete-account/', views.delete_account, name='delete_account'),
 
 
 ]

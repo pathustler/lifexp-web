@@ -97,15 +97,20 @@
                         Edit Profile
                     </button>
                 </a>
-                <button class="text-l font-semibold text-left text-gray-800  dark:text-[#b8b8b8]">
-                    Change Password
-                </button>
-                <button class="text-l font-semibold text-left text-gray-800 dark:text-[#b8b8b8]">
-                    Delete Account
-                </button>
-                
-                
 
+                <a href="{% url 'change_password' %}">
+                    <button class="text-l font-semibold text-left text-gray-800 dark:text-[#b8b8b8]">
+                      Change Password
+                    </button>
+                  </a>                  
+
+                  <a href="{% url 'delete_account' %}">
+                    <button class="text-l font-semibold text-left text-gray-800 dark:text-[#b8b8b8]">
+                      Delete Account
+                    </button>
+                  </a>
+                  
+                
             </div>
             <div class="bg-white p-6 mb-4 rounded-xl border-2 border-gray-200 flex flex-col gap-4 dark:bg-[#1f2022] dark:border-[#333]">
                 <button class="text-l font-semibold text-left text-gray-800  dark:text-[#b8b8b8]">

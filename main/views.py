@@ -21,9 +21,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from django.utils.timezone import now, timedelta
 from django.db import models
-from django.shortcuts import get_object_or_404, redirect
 from django.contrib import messages
-
+from django.contrib.auth import logout
 
 
 
@@ -682,3 +681,12 @@ def notification_page(request):
         "suggested_users": suggested_users,
     })
 
+@login_required
+def delete_account(request):
+    if request.method == 'POST':
+        user = request.user
+        logout(request)
+        user.delete()
+        return redirect('index')  # or home page
+
+    return render(request, 'users/delete_account.html')
