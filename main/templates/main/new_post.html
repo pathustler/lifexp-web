@@ -12,7 +12,7 @@
 <div id="custom-activity-popup" class="z-50 hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
   <div class="bg-white dark:bg-[#1f2022] p-6 overflow-y-auto rounded-lg shadow-lg w-96 relative">
       <!-- Close Button -->
-      <div class="w-full flex justify-between pb-3 border-b">
+      <div class="w-full flex justify-between pb-3 border-b dark:border-[#444]">
           <p></p>
           <h2 class="text-lg font-semibold">Add Custom Activity</h2>
           <button onclick="toggleActivityPopup()" class="text-xl text-gray-600">&times;</button>
@@ -36,8 +36,8 @@
           </select>
       </div>
      <!-- submit button saying create activity -->
-      <div class="mt-4">
-          <span id="create-activity" class="bg-blue-500 cursor-pointer text-white py-2 px-4 rounded-lg w-full">Create Activity</span>
+      <div class="mt-8 w-full">
+          <span id="create-activity" class="bg-blue-500 w-full cursor-pointer text-white py-2 px-4 rounded-lg w-full">Create Activity</span>
       </div>
     </form>
   </div>

@@ -185,6 +185,7 @@ def index(request):
     # Get people you follow + yourself
     following_ids = player.following.values_list('id', flat=True)
     allowed_ids = list(following_ids) + [player.id]
+    following_players = request.user.player.following.filter(streak_count__gt=0).order_by('-streak_count')
 
     # Filter posts based on user privacy
     posts = all_posts.filter(
@@ -224,6 +225,7 @@ def index(request):
         "notifications": notifications,
         "unread_count": unread_count,
         "suggested_users": suggested_users,
+        'following_players': following_players,
     })
     
 @login_required

@@ -156,6 +156,12 @@ class Player(AbstractBaseUser):
     def get_following_count(self):
         """Get the number of players this player is following"""
         return self.following.count()
+    
+    def get_latest_activity(self):
+        """Get the latest activity of the player"""
+        from main.models import ActivityLog
+        latest_activity = ActivityLog.objects.filter(user=self).order_by('-created_at').first()
+        return latest_activity
 
     def __str__(self):
         return self.username
