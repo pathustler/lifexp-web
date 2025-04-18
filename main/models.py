@@ -62,7 +62,8 @@ class Post(models.Model):
     def save(self, *args, **kwargs):
         # Only re-upload if a new image is added
         if not self.title:
-            self.title = generateHeading(self.content)
+            # self.title = generateHeading(self.content)
+            pass
         if self.pk is None and self.post_image:
             # Dynamically generate public_id based on user and post
             upload_result = cloudinary.uploader.upload(

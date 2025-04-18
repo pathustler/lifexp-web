@@ -21,7 +21,6 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from django.utils.timezone import now, timedelta
 from django.db import models
-from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib import messages
 
@@ -418,6 +417,8 @@ def new_post(request):
                 )
                 
                 new_activity.save()
+                
+                player.update_streak()
                 
             # Redirect to the index view, not main/new_post
             return redirect('index')
