@@ -23,7 +23,8 @@ from django.utils.timezone import now, timedelta
 from django.db import models
 from django.contrib import messages
 from django.contrib.auth import logout
-
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 
 # venv\Scripts\activate my ref. ok
@@ -433,7 +434,8 @@ def new_post(request):
                 
                 
             # Redirect to the index view, not main/new_post
-            return redirect('index')
+            return HttpResponseRedirect(reverse('index') + '?confetti=true')
+
             
         else:
             #print the error

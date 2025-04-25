@@ -309,7 +309,7 @@
             <div class="flex hover:bg-gray-100 cursor-pointer justify-start items-center w-full gap-2 p-2 rounded-lg bg-white dark:bg-[#292b2f00] dark:hover:bg-[#2d2f32]">
                 
               <a href="{% url 'profile' user.username %}" class="w-full">
-                <div class="flex hover:bg-gray-100 cursor-pointer justify-start items-center w-full gap-2 p-2 rounded-lg ">
+                <div class="flex cursor-pointer justify-start items-center w-full gap-2 p-2 rounded-lg ">
                 <img src="{{ user.profile_picture.url }}" class="h-12 w-12 rounded-full" alt="{{ user.username }}">
                 <div class="flex flex-col w-full ml-2">
                     <p class="text-sm text-black dark:text-white">{{ user.fullname }}</p>
@@ -964,5 +964,73 @@ document.addEventListener("keydown", function (e) {
     return cookieValue ? cookieValue.pop() : '';
   }
 </script>
+
+{% if request.GET.confetti == "true" %}
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    fireConfetti();
+  });
+
+  var count = 150;
+  var defaults = {
+    origin: { y: 0.7 }
+  };
+
+  function fireConfetti() {
+    fire(0.25, {
+      spread: 26,
+      startVelocity: 55,
+    });
+    fire(0.2, {
+      spread: 60,
+    });
+    fire(0.35, {
+      spread: 100,
+      decay: 0.91,
+      scalar: 0.8
+    });
+    fire(0.1, {
+      spread: 120,
+      startVelocity: 25,
+      decay: 0.92,
+      scalar: 1.2
+    });
+    fire(0.1, {
+      spread: 120,
+      startVelocity: 45,
+    });
+  }
+
+  function fire(particleRatio, opts) {
+    confetti({
+      ...defaults,
+      ...opts,
+      particleCount: Math.floor(count * particleRatio),
+      angle: 60,
+      spread: 55,
+      origin: { x: 0 },
+      gravity: 1.5,
+      ticks: 100,
+    });
+    confetti({
+      ...defaults,
+      ...opts,
+      particleCount: Math.floor(count * particleRatio),
+      angle: 120,
+      spread: 55,
+      origin: { x: 1 },
+      gravity: 1.5,
+      ticks: 100,
+    });
+  }
+
+  if (window.location.search.includes("confetti=true")) {
+  const url = new URL(window.location);
+  url.searchParams.delete("confetti");
+  window.history.replaceState({}, document.title, url.pathname);
+}
+</script>
+{% endif %}
 
 {% endblock %}
