@@ -185,7 +185,7 @@ def index(request):
     # Get people you follow + yourself
     following_ids = player.following.values_list('id', flat=True)
     allowed_ids = list(following_ids) + [player.id]
-    following_players = request.user.player.following.filter(streak_count__gt=0).order_by('-streak_count')
+    following_players = request.user.player.following.filter(streak_active=True).order_by('-streak_count')
 
     # Filter posts based on user privacy
     posts = all_posts.filter(
@@ -425,9 +425,12 @@ def new_post(request):
                     }
                 )
                 
+                player.update_streak()
+                
                 new_activity.save()
                 
-                player.update_streak()
+                
+                
                 
             # Redirect to the index view, not main/new_post
             return redirect('index')

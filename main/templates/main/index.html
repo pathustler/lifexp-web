@@ -48,7 +48,19 @@
      <!-- top bar thing -->
     <div class="mb-8 flex gap-4 overflow-x-auto whitespace-nowrap scrollbar-hide">
       <div class="bg-white overflow-x-hidden border border-gray-200 dark:border-gray-900 flex p-3 rounded-xl gap-3 min-w-[200px] max-w-[250px] items-center cursor-pointer flex-shrink-0 dark:bg-[#1f2022]">
-        <img src="{{ player.profile_picture.url }}" class="rounded-full h-14 w-14" alt="User">
+        <img src="{{ player.profile_picture.url }}" class='
+                {% if player.masterytitle == "Prodigy" %}
+                border-4 border-[#713599] border-opacity-50
+                {% elif player.masterytitle == "Maverick" %}
+                border-4 border-[#4187A2] border-opacity-50
+                {% elif player.masterytitle == "Diplomat" %}
+                border-4 border-[#31784E] border-opacity-50
+                {% elif player.masterytitle == "Protagonist" %}
+                border-4 border-[#d0b400] border-opacity-50
+                {% elif player.masterytitle == "Warrior" %}
+                border-4 border-[#8D2E2E] border-opacity-70
+                {%endif%}
+                p-[1.5px] rounded-full h-14 w-14' alt="User">
         <div class="flex flex-col justify-between">
             <h1 class="text-md font-semibold">{{ player.fullname|default:player.username }}</h1>
             <p class="text-xs font-medium text-black/40 dark:text-white/40">
@@ -60,10 +72,11 @@
               <p class="text-xs mr-1">{{player.get_latest_activity.name}}</p>
               
             
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#ffc05b" class="w-4">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {% if player.streak_active %} fill="#ffc05b" {% else %} fill="#BBBBBB" {%endif%} class="w-4">
                 <path fill-rule="evenodd" d="M12.963 2.286a.75.75 0 0 0-1.071-.136 9.742 9.742 0 0 0-3.539 6.176 7.547 7.547 0 0 1-1.705-1.715.75.75 0 0 0-1.152-.082A9 9 0 1 0 15.68 4.534a7.46 7.46 0 0 1-2.717-2.248ZM15.75 14.25a3.75 3.75 0 1 1-7.313-1.172c.628.465 1.35.81 2.133 1a5.99 5.99 0 0 1 1.925-3.546 3.75 3.75 0 0 1 3.255 3.718Z" clip-rule="evenodd" />
               </svg>
-              <p class="font-semibold text-xs ml-1">{{player.streak_count}}</p>
+              <p class="font-semibold text-xs {% if player.streak_active %}text-black dark:text-white{%else%}text-gray-400 dark:text-gray-600{%endif%} ml-1">{{player.streak_count}}</p>
+              
 
             </div>
         </div>
@@ -95,10 +108,10 @@
                       <p class="text-xs mr-1">{{followed.get_latest_activity.name}}</p>
                       
                     
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#ffc05b" class="w-4">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {% if player.streak_active %} fill="#ffc05b" {% else %} fill="#BBBBBB" {%endif%} class="w-4">
                         <path fill-rule="evenodd" d="M12.963 2.286a.75.75 0 0 0-1.071-.136 9.742 9.742 0 0 0-3.539 6.176 7.547 7.547 0 0 1-1.705-1.715.75.75 0 0 0-1.152-.082A9 9 0 1 0 15.68 4.534a7.46 7.46 0 0 1-2.717-2.248ZM15.75 14.25a3.75 3.75 0 1 1-7.313-1.172c.628.465 1.35.81 2.133 1a5.99 5.99 0 0 1 1.925-3.546 3.75 3.75 0 0 1 3.255 3.718Z" clip-rule="evenodd" />
                       </svg>
-                      <p class="font-semibold text-xs ml-1">{{followed.streak_count}}</p>
+                      <p class="font-semibold {% if player.streak_active %}text-black dark:text-white{%else%}text-gray-400 dark:text-gray-600{%endif%} text-xs ml-1">{{followed.streak_count}}</p>
 
                     </div>
                 </div>
@@ -207,12 +220,12 @@
             <div class="bg-gray-100 w-full flex flex-col rounded-md items-center justify-between p-4 dark:bg-[#292b2f] dark:border-[#2d2f32]">
                 <p class="text-sm ">Streak Count</p>
                 <div class="flex gap-2 items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#ffc05b" class="size-6">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {% if player.streak_active %} fill="#ffc05b" {% else %} fill="#BBBBBB" {%endif%} class="size-6">
                         <path fill-rule="evenodd" d="M12.963 2.286a.75.75 0 0 0-1.071-.136 9.742 9.742 0 0 0-3.539 6.176 7.547 7.547 0 0 1-1.705-1.715.75.75 0 0 0-1.152-.082A9 9 0 1 0 15.68 4.534a7.46 7.46 0 0 1-2.717-2.248ZM15.75 14.25a3.75 3.75 0 1 1-7.313-1.172c.628.465 1.35.81 2.133 1a5.99 5.99 0 0 1 1.925-3.546 3.75 3.75 0 0 1 3.255 3.718Z" clip-rule="evenodd" />
                       </svg>
                       
                     
-                    <p class="text-black text-lg font-bold dark:text-white">{{player.streak_count}}</p>
+                      <p class="text-lg font-bold {% if player.streak_active %}text-black dark:text-white{%else%}text-gray-400 dark:text-gray-600{%endif%} ">{{player.streak_count}}</p>
                 </div>
                 
             </div>
@@ -231,11 +244,11 @@
             <p class="flex-grow-0 flex-shrink-0 text-md text-left text-black dark:text-white">Notifications</p>
             
             {% if unread_count  %}
-          <span id="notification-badge" class=" h-5 w-5 bg-red-600 text-white text-xs font-bold flex items-center justify-center rounded-full">
+          <span id="notification-badge" class="animate-buzz mr-2 h-5 w-5 bg-red-600 text-white text-xs font-bold flex items-center justify-center rounded-full">
             {{ unread_count }}
           </span>
           {%else%}
-          <a href="{% url 'notification_page' %}" target="_blank">
+          <a href="{% url 'notification_page' %}">
             <button class="py-2 text-sm text-blue-500 rounded-lg hover:text-blue-600 transition-all duration-200">
               See all 
             </button>
@@ -296,7 +309,7 @@
             <div class="flex hover:bg-gray-100 cursor-pointer justify-start items-center w-full gap-2 p-2 rounded-lg bg-white dark:bg-[#292b2f00] dark:hover:bg-[#2d2f32]">
                 
               <a href="{% url 'profile' user.username %}" class="w-full">
-                <div class="flex hover:bg-gray-100 cursor-pointer justify-start items-center w-full gap-2 p-2 rounded-lg bg-white dark:bg-[#292b2f00] dark:hover:bg-[#2d2f32]">
+                <div class="flex hover:bg-gray-100 cursor-pointer justify-start items-center w-full gap-2 p-2 rounded-lg ">
                 <img src="{{ user.profile_picture.url }}" class="h-12 w-12 rounded-full" alt="{{ user.username }}">
                 <div class="flex flex-col w-full ml-2">
                     <p class="text-sm text-black dark:text-white">{{ user.fullname }}</p>

@@ -77,8 +77,10 @@ class Player(AbstractBaseUser):
     title = models.CharField(max_length=150, blank=True, null=True)
     bio = models.TextField(blank=True, null=True)
     streak_count = models.IntegerField(default=0)
+    streak_active = models.BooleanField(default=False)
     last_visit = models.DateField(null=True, blank=True)
     totalxp = models.IntegerField(default=0)
+    
     
     #i want this to be the sum of xp from all the ActivityLog objects related to this user for each category
     categoryxp = models.JSONField(default=default_xp) # A way to store the xp in each category like physique, creativity, social, energy, skill 
@@ -167,16 +169,19 @@ class Player(AbstractBaseUser):
         return self.username
 
     def update_streak(self):
+        from main.models import Post
+        
         today = now().date()
-        
-        if self.last_visit == today:
-            return  # Already updated today, no change needed
-        
-        if self.last_visit == today - timedelta(days=1):
-            self.streak_count += 1  # Continue streak
+
+        latest_post = Post.objects.filter(user=self).order_by('-created_at').first()
+
+        if latest_post and latest_post.created_at.date() == today:
+            return  # Already posted today — no update
+
         else:
-            self.streak_count = 1  # Reset streak to 1 (new start)
-        
+            self.streak_count += 1  # Continue streak
+       
+
         self.last_visit = today
         self.save()
     

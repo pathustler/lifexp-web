@@ -3,7 +3,7 @@ from .models import Player, SearchHistory, UserSettings, Notification
 
 @admin.register(Player)
 class PlayerAdmin(admin.ModelAdmin):
-    list_display = ("username","fullname", "email",'masterytitle', "lifelevel", "is_active")
+    list_display = ("username","fullname", "email",'masterytitle', "lifelevel", "is_active","last_visit","joined_date", "streak_count", "streak_active")
     
     
 @admin.register(SearchHistory)

@@ -80,7 +80,7 @@
 
             </div>
             
-            <button type="submit" class="mt-4 bg-[{{player.primary_accent_color}}] text-white py-2 px-4 rounded ">Save</button>
+            <button type="submit" class="mt-4 {% if player.masterytitle == 'Rookie' %} bg-[#5793f8]{%else%}bg-[{{player.primary_accent_color}}]{% endif %} text-white py-2 px-4 rounded ">Save</button>
         </form>
         </div>
         
@@ -105,7 +105,7 @@
                   </a>                  
 
                   <!-- ✅ No more anchor tag wrapping this -->
-                <button onclick="openDeleteModal()" class="text-l font-semibold text-left text-red-500 hover:text-red-600">
+                <button onclick="openDeleteModal()" class="text-l font-semibold text-left text-red-700 hover:text-red-800">
                     Delete Account
                 </button>
 
