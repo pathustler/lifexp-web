@@ -7,6 +7,7 @@
 {% endblock %}
 
 {% block content %}
+<input type="hidden" id="csrf-token" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
 <div id="comments-modal" class="fixed  inset-0 bg-black/50 z-50 hidden items-center justify-center">
   <div class="bg-white p-6 rounded-xl shadow-lg w-full max-w-md relative flex flex-col justify-between dark:bg-[#1f2022] dark:border-[#27292c]">
     <button onclick="closeCommentsPopup()" class="absolute top-2 right-2 text-gray-500 hover:text-red-500 text-xl">&times;</button>
@@ -964,6 +965,42 @@ document.addEventListener("keydown", function (e) {
     return cookieValue ? cookieValue.pop() : '';
   }
 </script>
+<script>
+async function deletePost(postId, buttonElement) {
+  if (!confirm("Are you sure you want to delete this post?")) return;
+
+  const csrfToken = document.getElementById('csrf-token')?.value;
+
+  if (!csrfToken || csrfToken.length < 32) {
+    console.error("Invalid CSRF token!", csrfToken);
+    alert("Couldn't delete post due to invalid CSRF token.");
+    return;
+  }
+
+  try {
+    const response = await fetch(`/post/${postId}/delete/`, {
+      method: 'POST',
+      headers: {
+        'X-CSRFToken': csrfToken
+      }
+    });
+
+    if (response.redirected) {
+      window.location.href = response.url;
+    } else if (response.ok) {
+      const postCard = buttonElement.closest('.post-card');
+      if (postCard) postCard.remove();
+      alert("Post deleted successfully.");
+    } else {
+      alert("Failed to delete post.");
+    }
+  } catch (err) {
+    console.error("Error deleting post:", err);
+    alert("Error deleting post.");
+  }
+}
+</script>
+  
 
 {% if request.GET.confetti == "true" %}
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
