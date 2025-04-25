@@ -44,7 +44,7 @@ class Post(models.Model):
     title = models.CharField(max_length=255, blank=True, null=True)
     content = models.TextField()
     post_image = CloudinaryField('image', blank=True, null=True)  # We'll handle public_id dynamically
-    
+    duration = models.DurationField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
     tags = models.CharField(max_length=255, blank=True, null=True) 
