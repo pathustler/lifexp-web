@@ -16,6 +16,7 @@ from django.urls import reverse
 
 # from .models import Player
 
+
 cloudinary.config( 
   cloud_name = settings.CLOUDINARY_STORAGE['CLOUD_NAME'], 
   api_key = settings.CLOUDINARY_STORAGE['API_KEY'], 

@@ -8,6 +8,15 @@ import cloudinary.api
 from users.models import Player
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
+import google.generativeai as genai
+
+
+def clean_summary(text):
+    # Find last period, exclamation, or question mark
+    for end in [".", "!", "?"]:
+        if end in text:
+            return text[:text.rfind(end)+1]
+    return text  # fallback if no punctuation found
 
 cloudinary.config( 
   cloud_name = settings.CLOUDINARY_STORAGE['CLOUD_NAME'], 
@@ -62,6 +71,25 @@ class Post(models.Model):
         # Only re-upload if a new image is added
         # if not self.title:
         #     self.title = generateHeading(self.content)
+        
+        
+
+
+        
+        
+
+
+
+        
+        if not self.title:
+            genai.configure(api_key="AIzaSyC5uY5Tlk8eVY42bL8ESvdxbj2vYBSGUik")
+            # Load the Gemini model
+            model = genai.GenerativeModel('gemini-2.5-flash-preview-04-17')
+            prompt = f"This is the content of a post by a user who shows something productive they did. Give exactly one suitable title of around 1-6 words, do not output anything other than the title:\n\n{self.content}"
+            response = model.generate_content(prompt)
+            self.title = response.text.strip()
+        
+        
         if self.pk is None and self.post_image:
             # Dynamically generate public_id based on user and post
             upload_result = cloudinary.uploader.upload(

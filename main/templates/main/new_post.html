@@ -306,10 +306,6 @@
         }
     }
 
-// When #id_content is being edited, i want #preview-content to be updated
-document.getElementById('id_content').addEventListener('input', function() {
-    document.getElementById('preview-content').textContent = this.value;
-});
 
 
 
@@ -582,6 +578,67 @@ document.querySelector("#duration-hours").addEventListener("input", function () 
       }
     }
   }
+
+
+  document.addEventListener('DOMContentLoaded', function () {
+    const fileInput = document.querySelector('input[type="file"]');  // Select the file input element
+    const imagePreview = document.getElementById('image-preview');  // Select the preview element
+
+    // Function to preview image
+    function previewImageFromFile(file) {
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+            imagePreview.src = e.target.result;
+            imagePreview.classList.remove('hidden');
+            document.getElementById('upload-placeholder').classList.add('hidden');
+        };
+
+        reader.readAsDataURL(file);
+    }
+
+    // Paste image event listener
+    window.addEventListener('paste', (e) => {
+        const clipboardItems = e.clipboardData.items;
+        for (let i = 0; i < clipboardItems.length; i++) {
+            const item = clipboardItems[i];
+            if (item.type.indexOf("image") !== -1) {
+                const file = item.getAsFile();
+                if (file) {
+                    // Create a new DataTransfer to assign file to input
+                    const dataTransfer = new DataTransfer();
+                    dataTransfer.items.add(file);
+                    fileInput.files = dataTransfer.files;
+
+                    // Preview the image
+                    previewImageFromFile(file);
+                }
+            }
+        }
+    });
+
+    // Optional: Handle drag and drop
+    const imagePreviewContainer = document.getElementById('image-preview-container');
+    imagePreviewContainer.addEventListener('drop', (e) => {
+        e.preventDefault();
+        const file = e.dataTransfer.files[0];
+        if (file && file.type.indexOf("image") !== -1) {
+            // Assign file to input
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add(file);
+            fileInput.files = dataTransfer.files;
+
+            // Preview the image
+            previewImageFromFile(file);
+        }
+    });
+
+    // Prevent default behavior of dragover for file drop to work
+    imagePreviewContainer.addEventListener('dragover', (e) => {
+        e.preventDefault();
+    });
+});
+
 </script>
 
 

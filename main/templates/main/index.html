@@ -48,6 +48,7 @@
   <div id="content" style="width: 100%;" class="flex-1 py-6 pl-6 min-h-[100vh] flex-1 py-6 px-6 overflow-y-auto scrollbar-hide h-screen">
      <!-- top bar thing -->
     <div class="mb-8 flex gap-4 overflow-x-auto whitespace-nowrap scrollbar-hide">
+      <a href="{% url 'profile' player.username %}">
       <div class="bg-white overflow-x-hidden border border-gray-200 dark:border-gray-900 flex p-3 rounded-xl gap-3 min-w-[200px] max-w-[250px] items-center cursor-pointer flex-shrink-0 dark:bg-[#1f2022]">
         <img src="{{ player.profile_picture.url }}" class='
                 {% if player.masterytitle == "Prodigy" %}
@@ -82,8 +83,10 @@
             </div>
         </div>
     </div> 
+  </a>
 
       {% for followed in following_players %}
+      <a href="{% url 'profile' followed.username %}">
       <div class="bg-white overflow-x-hidden border border-gray-200 dark:border-gray-900 flex p-3 rounded-xl gap-3 min-w-[200px] max-w-[250px] items-center cursor-pointer flex-shrink-0 dark:bg-[#1f2022]">
                 <img src="{{ followed.profile_picture.url }}" class='
                 {% if followed.masterytitle == "Prodigy" %}
@@ -116,7 +119,8 @@
 
                     </div>
                 </div>
-      </div>  
+      </div> 
+    </a> 
       {%endfor%}
       
       
@@ -440,7 +444,8 @@
                         <div class="w-full mb-4">
                             <img class="w-full" style="aspect-ratio: 4 / 3; object-fit: cover;" src="${ post.post_image }">
                         </div>
-
+                      
+                        <h3 class="text-lg font-semibold mb-2 dark:text-[#dfdfe0]">${ post.title ? post.title : ""  }</h3>
                         <p class="text-gray-700 mb-3 dark:text-[#dfdfe0]">${ post.content }</p>
 
                         <div class="flex text-sm text-gray-500 space-x-4 mb-3 dark:text-[#dfdfe0]">

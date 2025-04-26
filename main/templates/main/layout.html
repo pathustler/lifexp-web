@@ -135,17 +135,12 @@
                 </a>
 
                 {% if currentpage == "leaderboard" %}
-                {% if mastery == 'rookie' %}
-                    <a href="{% url 'leaderboard' 'prodigy' %}" class="flex items-center p-2 rounded-lg {% if userplayer.masterytitle == 'Rookie' %} bg-blue-500/20 text-blue-500 {% else %} bg-[{{ useruserplayer.secondary_accent_color }}]/80 text-[{{ useruserplayer.primary_accent_color }}]{% endif %} dark:text-[{{ useruserplayer.secondary_accent_color }}] dark:bg-[{{ useruserplayer.primary_accent_color }}30]">
-                {% else %}
+             
                     <a href="{% url 'leaderboard' mastery %}" class="flex items-center p-2 rounded-lg {% if userplayer.masterytitle == 'Rookie' %} bg-blue-500/20 text-blue-500 {% else %} bg-[{{ useruserplayer.secondary_accent_color }}]/80 text-[{{ useruserplayer.primary_accent_color }}]{% endif %} dark:text-[{{ useruserplayer.secondary_accent_color }}] dark:bg-[{{ useruserplayer.primary_accent_color }}30]">
-                {% endif %}
+            
             {% else %}
-                {% if userplayer.masterytitle == 'Rookie' %}
-                    <a href="{% url 'leaderboard' 'prodigy' %}" class="flex items-center p-2 rounded-lg text-gray-700 hover:bg-gray-200 dark:text-[#838992] dark:hover:bg-[#292b2f]">
-                {% else %}
+               
                     <a href="{% url 'leaderboard' mastery %}" class="flex items-center p-2 rounded-lg text-gray-700 hover:bg-gray-200 dark:text-[#838992] dark:hover:bg-[#292b2f]">
-                {% endif %}
             {% endif %}
                     <span class="ml-2 flex gap-3 items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"  class="h-6 w-6">

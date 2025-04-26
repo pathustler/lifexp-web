@@ -19,7 +19,7 @@
                 <img id="profilePreview" src="{{ user.player.profile_picture.url }}" 
                      alt="Profile Picture" class="w-20 h-20 rounded-full object-cover border-2 border-gray-400 dark:border-gray-600">
                 <div class="flex flex-col">
-                     <label class="cursor-pointer bg-[{{player.primary_accent_color}}]  text-white  py-2 px-4 rounded-md">
+                     <label class="cursor-pointer {% if player.masterytitle == 'Rookie' %} bg-[#5793f8]{%else%}bg-[{{player.primary_accent_color}}]{% endif %}  text-white  py-2 px-4 rounded-md">
                         Change Photo
                         <input type="file" name="profile_picture" accept="image/*" class="hidden" onchange="previewImage(event)">
                     </label>
@@ -55,7 +55,7 @@
     
             <!-- Save Button -->
             <div class="text-right">
-                <button type="submit" class="mt-4 bg-[{{player.primary_accent_color}}] text-white py-2 px-4 rounded ">Save</button>
+                <button type="submit" class="mt-4 {% if player.masterytitle == 'Rookie' %} bg-[#5793f8]{%else%}bg-[{{player.primary_accent_color}}]{% endif %}  text-white py-2 px-4 rounded ">Save</button>
             </div>
         </form>
     </div>

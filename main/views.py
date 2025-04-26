@@ -145,6 +145,7 @@ def fetch_posts(request):
             
         post_list.append({
             "id": post.id,
+            "title": post.title,
             "content": post.content,  # Adjust fields as per your model
             "profile_picture": post.user.profile_picture.url if post.user.profile_picture else None,
             "fullname": post.user.fullname,
@@ -247,13 +248,26 @@ def profile(request, username):
     recent_activities = ActivityLog.objects.filter(user=player, created_at__date__gte=start_date)
     daily_xp_map = defaultdict(int)
 
+    self_daily_xp_map = defaultdict(int)
+    
+    
     for activity in recent_activities:
         day = activity.created_at.strftime('%A')  # e.g., 'Monday'
         daily_xp_map[day] += sum(activity.xp_distribution.values())
+        
+    
+        
+    for activity in ActivityLog.objects.filter(user=request.user.player, created_at__date__gte=start_date):
+        day = activity.created_at.strftime('%A')
+        self_daily_xp_map[day] += sum(activity.xp_distribution.values())
 
     # Preserve order of weekdays
     weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
     xp_data = [{"day": day, "xp": daily_xp_map.get(day, 0)} for day in weekdays]
+    
+    # Add self's xp data
+    self_xp_data= [{"day": day, "xp": self_daily_xp_map.get(day, 0)} for day in weekdays]
+    
 
     total_xp_week = sum(item["xp"] for item in xp_data)
     activities = ActivityLog.objects.filter(user=player)
@@ -275,7 +289,12 @@ def profile(request, username):
                 act["total_xp"] += totalxp
                 for key in act["xp_distribution"]:
                     act["xp_distribution"][key] += activity.xp_distribution[key]
-                act['max_xp_label'] = max(act["xp_distribution"], key=act["xp_distribution"].get)
+                
+                actitem =Activity.objects.filter(name=activity.name)
+                if actitem.exists():
+                    act['max_xp_label'] = actitem[0].activity_type
+                else:
+                    act['max_xp_label'] = max(act["xp_distribution"], key=act["xp_distribution"].get)
                 break
         else:
             actlist.append({
@@ -298,6 +317,7 @@ def profile(request, username):
         'username': username,
         'title': title,
         "xp_data": xp_data,
+        "self_xp_data":self_xp_data,
         "total_xp_week": total_xp_week,
         "total_xp_all_time": total_xp_all_time,
         "currentpage": currentpage,
@@ -306,6 +326,7 @@ def profile(request, username):
         "ownprofile": ownprofile,
         "userprofile_secondary_color_rgba": userprofile_secondary_color_rgba,
         'can_view_posts': can_view_posts,
+        
     })
 
 @login_required
@@ -403,26 +424,26 @@ def new_post(request):
              for tag in form.cleaned_data['tags'].split(','):
                 xpdict = dict()
                 if "skill" in tag:
-                    xpdict["skill"] = random.randint(-50, 100)
+                    xpdict["skill"] = random.randint(-20, 100)
                 if "physique" in tag:
-                    xpdict["physique"] = random.randint(-50, 100)
+                    xpdict["physique"] = random.randint(-20, 100)
                 if "creativity" in tag:
-                    xpdict["creativity"] = random.randint(-50, 100)
+                    xpdict["creativity"] = random.randint(-20, 100)
                 if "social" in tag:
-                    xpdict["social"] = random.randint(-50, 100)
+                    xpdict["social"] = random.randint(-20, 100)
                 if "energy" in tag:
-                    xpdict["energy"] = random.randint(-50, 100)
+                    xpdict["energy"] = random.randint(-20, 100)
 
                 new_activity = ActivityLog(
                     post=new_post,
                     user=player,
                     name=tag,
                     xp_distribution={
-                        "physique": random.randint(-5, 10) + xpdict.get("physique", 0),
-                        "creativity": random.randint(-5, 10)+ xpdict.get("creativity", 0),
-                        "social": random.randint(-5, 10)+   xpdict.get("social", 0),
-                        "energy": random.randint(-5, 10)+   xpdict.get("energy", 0),
-                        "skill": random.randint(-5, 10)+   xpdict.get("skill", 0)
+                        "physique": random.randint(-5, 20) + xpdict.get("physique", 0),
+                        "creativity": random.randint(-5, 20)+ xpdict.get("creativity", 0),
+                        "social": random.randint(-5, 20)+   xpdict.get("social", 0),
+                        "energy": random.randint(-5, 20)+   xpdict.get("energy", 0),
+                        "skill": random.randint(-5, 20)+   xpdict.get("skill", 0)
                     }
                 )
                 
@@ -468,9 +489,31 @@ def leaderboard(request, type):
             "diplomat":  ["31784E","AFEAC7"],
             "maverick":  ["4187A2","AFD9EA"],
             "prodigy":  ["713599","BAAFEA"],
+            "rookie":  ["A2A2A2","EAEAEA"],
         }
     
     label = type.capitalize()
+    
+    if request.user.player.masterytitle == "Rookie" and type == "rookie":
+        rookie_users = Player.objects.filter(masterytitle="Rookie").order_by('totalxp').reverse()
+        paginator = Paginator(rookie_users, 10)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+
+        return render(request, 'main/rookieleaderboard.html',{
+            "currentpage": currentpage,
+            "type": type,
+            "trophyurl": trophyurl,
+            "primaryaccent": primseckey[type][0],
+            "secondaryaccent": primseckey[type][1],
+            "label": label,
+            "rookie_users": rookie_users,
+            "paginator": paginator,
+            "page_obj": page_obj,
+        })
+    elif request.user.player.masterytitle == "Rookie" and type != "rookie":
+        redirect("leaderboard", type="rookie")
+    
     
     return render(request, 'main/leaderboard.html',{
         "currentpage": currentpage,

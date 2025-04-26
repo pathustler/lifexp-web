@@ -30,7 +30,7 @@
   class="flex flex-col my-6 justify-end items-start self-stretch flex-grow-0 flex-shrink-0 relative overflow-hidden gap-2.5 px-[25px] py-6 rounded-[10px] bg-white"
 >
   <p class="flex-grow-0 flex-shrink-0 w-[284px] text-lg font-medium text-left text-black">
-    {{ post.content }}
+    {{ post.title }}
   </p>
   <div
     class="flex justify-start items-center self-stretch flex-grow-0 flex-shrink-0 relative overflow-hidden gap-[5px]"
@@ -104,10 +104,18 @@
             {% endwith %}
             {% elif value < 0%}
             {% with aspect_colors|dict_get:key as aspect %}
-            <div class="flex justify-center  items-center flex-grow-0 relative overflow-hidden gap-1 px-2 py-[5px] rounded-[1000px]" style="background-color: #eeeeee;">
+            <div class="flex justify-center grayscale
+
+            
+            
+            items-center flex-grow-0 relative overflow-hidden gap-1 px-2 py-[5px] rounded-[1000px]" style="background-color: #eeeeee;">
                 <p class="flex-grow-0 text-xs text-left" style="color: #777777;">{{ value }}</p>
                 
+                <span>
+
+                
                 {{ aspect.icon|safe }}
+              </span>
             
                 </div>
             {% endwith %}

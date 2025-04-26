@@ -634,7 +634,10 @@
         const ctx = document.getElementById("xpChart").getContext("2d");
         const xpData = {{ xp_data | safe }};
 
-            const ownprofile = "{{ ownprofile }}";
+        const selfxpData = {{self_xp_data | safe}};
+
+
+        const ownprofile = "{{ ownprofile }}";
 
         console.log(ownprofile);
         if (ownprofile == "True") {
@@ -676,7 +679,7 @@
                 },
                 {
                     label: "You",
-                    data: xpData.map(item => item.xp),
+                    data: selfxpData.map(item => item.xp),
                     borderColor: "#777",
                     backgroundColor: "rgba(150,150,150,0.5)",
                     borderWidth: 2,

@@ -8,226 +8,43 @@
 
 {% block content %}
 <!-- popup with all leaderboard names -->
-<div id="leaderboard-popup" class="bg-white hidden z-40 overflow-hidden  rounded-lg shadow-lg absolute top-24 right-8 dark:bg-[#1f2022] dark:border-[#2f2f30] border-2 border-gray-200 w-[400px] ">
-    <ul >
-        <a href="{% url 'leaderboard' 'warrior' %}">
-        <li {% if type == "warrior"%} class="bg-gray-100 cursor-pointer dark:bg-[#292b2f]" {% else %} class="hover:bg-gray-100 cursor-pointer dark:hover:bg-[#292b2f]" {% endif %}>
-            <div class="flex justify-between items-center px-5 py-2">
-                <div
-                  class="flex justify-start items-center flex-grow-0 flex-shrink-0  relative gap-[15px]"
-                >
-                  <img
-                  src="{% static 'images/leaderboard/Warrior.png' %}"
-                    class=" w-[42px] h-[50px] object-cover"
-                  />
-                  <p class="text-l font-medium text-left">
-                    Warrior XXII Leaderboard
-                  </p>
-                </div>
-                
-                  
-              </div>
-        </li>
-    </a>
-    <a href="{% url 'leaderboard' 'protagonist' %}">
-        <li {% if type == "protagonist" %} class="bg-gray-100 cursor-pointer dark:bg-[#292b2f]" {% else %} class="hover:bg-gray-100 cursor-pointer dark:hover:bg-[#292b2f]" {% endif %}>
-            <div class="flex justify-between items-center px-5 py-2">
-                <div
-                  class="flex justify-start items-center flex-grow-0 flex-shrink-0  relative gap-[15px]"
-                >
-                  <img
-                  src="{% static 'images/leaderboard/Protagonist.png' %}"
-                    class=" w-[42px] h-[50px] object-cover"
-                  />
-                  <p class="text-l font-medium text-left">
-                    Protagonist XXII Leaderboard
-                  </p>
-                </div>
-                
-                  
-              </div>
-        </li>
-    </a>
-    <a href="{% url 'leaderboard' 'diplomat' %}">
-        <li {% if type == "diplomat" %} class="bg-gray-100 cursor-pointer dark:bg-[#292b2f]" {% else %} class="hover:bg-gray-100 cursor-pointer dark:hover:bg-[#292b2f]" {% endif %}>
-            <div class="flex justify-between items-center px-5 py-2">
-                <div
-                  class="flex justify-start items-center flex-grow-0 flex-shrink-0  relative gap-[15px]"
-                >
-                  <img
-                  src="{% static 'images/leaderboard/Diplomat.png' %}"
-                    class=" w-[42px] h-[50px] object-cover"
-                  />
-                  <p class="text-l font-medium text-left">
-                    Diplomat XXII Leaderboard
-                  </p>
-                </div>
-                
-                  
-              </div>
-        </li>
-    </a>
-    <a href="{% url 'leaderboard' 'maverick' %}">
-        <li {% if type == "maverick" %} class="bg-gray-100 cursor-pointer dark:bg-[#292b2f]" {% else %} class="hover:bg-gray-100 cursor-pointer dark:hover:bg-[#292b2f]" {% endif %}>
-            <div class="flex justify-between items-center px-5 py-2">
-                <div
-                  class="flex justify-start items-center flex-grow-0 flex-shrink-0  relative gap-[15px]"
-                >
-                  <img
-                  src="{% static 'images/leaderboard/maverick.png' %}"
-                    class=" w-[42px] h-[50px] object-cover"
-                  />
-                  <p class="text-l font-medium text-left">
-                    Maverick XXII Leaderboard
-                  </p>
-                </div>
-                
-                  
-              </div>
-        </li>
-    </a>
-    <a href="{% url 'leaderboard' 'prodigy' %}">
-        <li {% if type == "prodigy" %} class="bg-gray-100 cursor-pointer dark:bg-[#292b2f]" {% else %} class="hover:bg-gray-100 cursor-pointer dark:hover:bg-[#292b2f]" {% endif %}>
-        
 
-            <div class="flex justify-between items-center px-5 py-2">
-                <div
-                  class="flex justify-start items-center flex-grow-0 flex-shrink-0  relative gap-[15px]"
-                >
-                  <img
-                  src="{% static 'images/leaderboard/prodigy.png' %}"
-                    class=" w-[42px] h-[50px] object-cover"
-                  />
-                  <p class="text-l font-medium text-left">
-                    Prodigy XXII Leaderboard
-                  </p>
-                </div>
-                
-                  
-              </div>
-        </li>
-    </a>
-    </ul>
-</div>
 
 <main style="width: 100%;" class="flex  w-full" style="height: 100vh;">
     <div style="width: 80%;" class="flex-1 overflow-y-auto py-8 px-12 scrollbar-hide">
 
 
         <div class="flex justify-between items-center w-full mb-6 relative">
-            <p class="flex-grow-0 flex-shrink-0 text-xs font-bold text-left">{{label}} XXII</p>
-            <p class="flex-grow-0 flex-shrink-0 text-xs font-bold text-left">3000-5000 XP</p>
+            <p class="flex-grow-0 flex-shrink-0 text-xs font-bold text-left">{{label}}s</p>
+            <p class="flex-grow-0 flex-shrink-0 text-xs font-bold text-left">0-999 XP</p>
         </div>
-
-        <div class="flex hover:bg-gray-50 cursor-pointer justify-between items-center w-full overflow-hidden px-4 rounded-md dark:hover:bg-[#292b2f]">
+<!-- loop through rookie_users with a counter -->
+        {%for user in rookie_users %}
+        <a href="{% url 'profile' user.username %}">
+        <div class="flex hover:bg-gray-50 cursor-pointer justify-between items-center w-full overflow-hidden px-4 py-2 rounded-md dark:hover:bg-[#292b2f]">
             <div class="flex justify-start items-center flex-grow relative overflow-hidden gap-3 py-2.5">
-                <p class=" w-[17px] text-md font-bold text-left">1</p>
-                <img class="h-8 w-8 rounded-full" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPTWoRaFjpvrdYcgZQnj1WgD-G274FIBzlR6jTkBwWLu0c8dqWgf9bLHdb5BedBW-ixZ0&usqp=CAU"/>
-                <p class=" text-md font-medium text-left">Eric Firstman</p>
+               
+                    {% if forloop.counter == 1 %}
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-[17px] fill-[#D4AF37]" viewBox="0 0 576 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M309 106c11.4-7 19-19.7 19-34c0-22.1-17.9-40-40-40s-40 17.9-40 40c0 14.4 7.6 27 19 34L209.7 220.6c-9.1 18.2-32.7 23.4-48.6 10.7L72 160c5-6.7 8-15 8-24c0-22.1-17.9-40-40-40S0 113.9 0 136s17.9 40 40 40c.2 0 .5 0 .7 0L86.4 427.4c5.5 30.4 32 52.6 63 52.6l277.2 0c30.9 0 57.4-22.1 63-52.6L535.3 176c.2 0 .5 0 .7 0c22.1 0 40-17.9 40-40s-17.9-40-40-40s-40 17.9-40 40c0 9 3 17.3 8 24l-89.1 71.3c-15.9 12.7-39.5 7.5-48.6-10.7L309 106z"/></svg>
+                    {% elif forloop.counter == 2 %}
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-[17px] fill-[#C0C0C0]" viewBox="0 0 576 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M309 106c11.4-7 19-19.7 19-34c0-22.1-17.9-40-40-40s-40 17.9-40 40c0 14.4 7.6 27 19 34L209.7 220.6c-9.1 18.2-32.7 23.4-48.6 10.7L72 160c5-6.7 8-15 8-24c0-22.1-17.9-40-40-40S0 113.9 0 136s17.9 40 40 40c.2 0 .5 0 .7 0L86.4 427.4c5.5 30.4 32 52.6 63 52.6l277.2 0c30.9 0 57.4-22.1 63-52.6L535.3 176c.2 0 .5 0 .7 0c22.1 0 40-17.9 40-40s-17.9-40-40-40s-40 17.9-40 40c0 9 3 17.3 8 24l-89.1 71.3c-15.9 12.7-39.5 7.5-48.6-10.7L309 106z"/></svg>
+                    {% elif forloop.counter == 3 %}
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-[17px] fill-[#CD7F32]" viewBox="0 0 576 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M309 106c11.4-7 19-19.7 19-34c0-22.1-17.9-40-40-40s-40 17.9-40 40c0 14.4 7.6 27 19 34L209.7 220.6c-9.1 18.2-32.7 23.4-48.6 10.7L72 160c5-6.7 8-15 8-24c0-22.1-17.9-40-40-40S0 113.9 0 136s17.9 40 40 40c.2 0 .5 0 .7 0L86.4 427.4c5.5 30.4 32 52.6 63 52.6l277.2 0c30.9 0 57.4-22.1 63-52.6L535.3 176c.2 0 .5 0 .7 0c22.1 0 40-17.9 40-40s-17.9-40-40-40s-40 17.9-40 40c0 9 3 17.3 8 24l-89.1 71.3c-15.9 12.7-39.5 7.5-48.6-10.7L309 106z"/></svg>
+                    {%else%}
+                    <p class=" w-[17px] text-md font-bold text-left">{{ forloop.counter }}</p>
+                    {%endif%}
+                
+                
+                <img class="h-8 w-8 rounded-full" src="{{ user.profile_picture.url }}"/>
+                <p class=" text-md font-medium text-left">{{ user.fullname }}</p>
             </div>
             <div class="flex flex-col justify-center items-end  relative overflow-hidden gap-2.5 p-2.5">
-                <p class=" text-md font-medium text-left">4869 XP</p>
+                <p class=" text-md font-medium text-left">{{ user.totalxp }} XP</p>
             </div>
         </div>
-        <div class="flex hover:bg-gray-50 cursor-pointer justify-between items-center w-full overflow-hidden px-4 rounded-md dark:hover:bg-[#292b2f]">
-            <div class="flex justify-start items-center flex-grow relative overflow-hidden gap-3 py-2.5">
-                <p class=" w-[17px] text-md font-bold text-left">1</p>
-                <img class="h-8 w-8 rounded-full" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPTWoRaFjpvrdYcgZQnj1WgD-G274FIBzlR6jTkBwWLu0c8dqWgf9bLHdb5BedBW-ixZ0&usqp=CAU"/>
-                <p class=" text-md font-medium text-left">Eric Firstman</p>
-            </div>
-            <div class="flex flex-col justify-center items-end  relative overflow-hidden gap-2.5 p-2.5">
-                <p class=" text-md font-medium text-left">4869 XP</p>
-            </div>
-        </div>
-        <div class="flex hover:bg-gray-50 cursor-pointer justify-between items-center w-full overflow-hidden px-4 rounded-md dark:hover:bg-[#292b2f]">
-            <div class="flex justify-start items-center flex-grow relative overflow-hidden gap-3 py-2.5">
-                <p class=" w-[17px] text-md font-bold text-left">1</p>
-                <img class="h-8 w-8 rounded-full" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPTWoRaFjpvrdYcgZQnj1WgD-G274FIBzlR6jTkBwWLu0c8dqWgf9bLHdb5BedBW-ixZ0&usqp=CAU"/>
-                <p class=" text-md font-medium text-left">Eric Firstman</p>
-            </div>
-            <div class="flex flex-col justify-center items-end  relative overflow-hidden gap-2.5 p-2.5">
-                <p class=" text-md font-medium text-left">4869 XP</p>
-            </div>
-        </div>
-
-
-        <div class="flex justify-center items-center self-stretch flex-grow-0 flex-shrink-0 h-[19px] relative overflow-hidden px-[30px] py-2.5 bg-black/5">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 cursor-pointer">
-                <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-              </svg>
-        </div>
-
-        <div class="flex hover:bg-gray-50 cursor-pointer justify-between items-center w-full overflow-hidden px-4 rounded-md dark:hover:bg-[#292b2f]">
-            <div class="flex justify-start items-center flex-grow relative overflow-hidden gap-3 py-2.5">
-                <p class=" w-[17px] text-md font-bold text-left">1</p>
-                <img class="h-8 w-8 rounded-full" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPTWoRaFjpvrdYcgZQnj1WgD-G274FIBzlR6jTkBwWLu0c8dqWgf9bLHdb5BedBW-ixZ0&usqp=CAU"/>
-                <p class=" text-md font-medium text-left">Eric Firstman</p>
-            </div>
-            <div class="flex flex-col justify-center items-end  relative overflow-hidden gap-2.5 p-2.5">
-                <p class=" text-md font-medium text-left">4869 XP</p>
-            </div>
-        </div>
-        <div class="flex hover:bg-gray-50 cursor-pointer justify-between items-center w-full overflow-hidden px-4 rounded-md dark:hover:bg-[#292b2f]">
-            <div class="flex justify-start items-center flex-grow relative overflow-hidden gap-3 py-2.5">
-                <p class=" w-[17px] text-md font-bold text-left">1</p>
-                <img class="h-8 w-8 rounded-full" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPTWoRaFjpvrdYcgZQnj1WgD-G274FIBzlR6jTkBwWLu0c8dqWgf9bLHdb5BedBW-ixZ0&usqp=CAU"/>
-                <p class=" text-md font-medium text-left">Eric Firstman</p>
-            </div>
-            <div class="flex flex-col justify-center items-end  relative overflow-hidden gap-2.5 p-2.5">
-                <p class=" text-md font-medium text-left">4869 XP</p>
-            </div>
-        </div>
-
-
-        <div class="flex bg-white cursor-pointer justify-between items-center w-full overflow-hidden px-4 rounded-md dark:bg-[#292b2f]">
-            <div class="flex justify-start items-center flex-grow relative overflow-hidden gap-3 py-2.5">
-                <p class=" w-[17px] text-md font-bold text-left" {% if dark_mode %} style="color: #{{secondaryaccent}};" {% else %} style="color: #{{primaryaccent}};" {% endif %}>56</p>
-                <img class="h-8 w-8 rounded-full" src="{{player.profile_picture.url}}"/>
-                <p class=" text-md font-medium text-left ">{{player.fullname}}</p>
-            </div>
-            <div class="flex flex-col justify-center items-end  relative overflow-hidden gap-2.5 p-2.5">
-                <p class=" text-md font-medium text-left">4234 XP</p>
-            </div>
-        </div>
-
-        <div class="flex hover:bg-gray-50 cursor-pointer justify-between items-center w-full overflow-hidden px-4 rounded-md dark:hover:bg-[#292b2f]">
-            <div class="flex justify-start items-center flex-grow relative overflow-hidden gap-3 py-2.5">
-                <p class=" w-[17px] text-md font-bold text-left">1</p>
-                <img class="h-8 w-8 rounded-full" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPTWoRaFjpvrdYcgZQnj1WgD-G274FIBzlR6jTkBwWLu0c8dqWgf9bLHdb5BedBW-ixZ0&usqp=CAU"/>
-                <p class=" text-md font-medium text-left">Eric Firstman</p>
-            </div>
-            <div class="flex flex-col justify-center items-end  relative overflow-hidden gap-2.5 p-2.5">
-                <p class=" text-md font-medium text-left">4869 XP</p>
-            </div>
-        </div>
-
-        <div class="flex justify-center items-center self-stretch flex-grow-0 flex-shrink-0 h-[19px] relative overflow-hidden px-[30px] py-2.5 bg-black/5">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 cursor-pointer">
-                <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-              </svg>
-        </div>
-
-
-        <div class="flex hover:bg-gray-50 cursor-pointer justify-between items-center w-full overflow-hidden px-4 rounded-md dark:hover:bg-[#292b2f]">
-            <div class="flex justify-start items-center flex-grow relative overflow-hidden gap-3 py-2.5">
-                <p class=" w-[17px] text-md font-bold text-left">1</p>
-                <img class="h-8 w-8 rounded-full" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPTWoRaFjpvrdYcgZQnj1WgD-G274FIBzlR6jTkBwWLu0c8dqWgf9bLHdb5BedBW-ixZ0&usqp=CAU"/>
-                <p class=" text-md font-medium text-left">Eric Firstman</p>
-            </div>
-            <div class="flex flex-col justify-center items-end  relative overflow-hidden gap-2.5 p-2.5">
-                <p class=" text-md font-medium text-left">4869 XP</p>
-            </div>
-        </div>
-        <div class="flex hover:bg-gray-50 cursor-pointer justify-between items-center w-full overflow-hidden px-4 rounded-md dark:hover:bg-[#292b2f]">
-            <div class="flex justify-start items-center flex-grow relative overflow-hidden gap-3 py-2.5">
-                <p class=" w-[17px] text-md font-bold text-left">1</p>
-                <img class="h-8 w-8 rounded-full" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPTWoRaFjpvrdYcgZQnj1WgD-G274FIBzlR6jTkBwWLu0c8dqWgf9bLHdb5BedBW-ixZ0&usqp=CAU"/>
-                <p class=" text-md font-medium text-left">Eric Firstman</p>
-            </div>
-            <div class="flex flex-col justify-center items-end  relative overflow-hidden gap-2.5 p-2.5">
-                <p class=" text-md font-medium text-left">4869 XP</p>
-            </div>
-        </div>
+        </a>
+        {% endfor %}
+        
 
 
     </div>
@@ -237,19 +54,17 @@
 
         <div id="leaderboard-dropdown" class="flex justify-between items-center mb-8 cursor-pointer">
             <div
-              class="flex justify-start items-center flex-grow-0 flex-shrink-0  relative gap-[15px]"
+              class="flex justify-center items-center w-full flex-grow-0 flex-shrink-0  relative gap-[15px]"
             >
               <img
               src="{% static trophyurl %}"
                 class=" w-[42px] h-[50px] object-cover"
               />
               <p class="text-xl font-medium text-left">
-                {{label}} XXII Leaderboard
+                Rookie Leaderboard
               </p>
             </div>
-            <svg  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 cursor-pointer">
-                <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-              </svg>
+          
               
           </div>
 
@@ -283,7 +98,7 @@
                   </div>
               </div>
               <div class="mt-4 flex justify-between text-sm gap-4">
-                  <div class="bg-gray-100 w-full flex flex-col rounded-md items-center justify-between p-4 dark:bg-[#2f2f30]">
+                  <div class="bg-gray-100 w-full flex flex-col rounded-md items-center justify-between py-4 dark:bg-[#2f2f30]">
                       
                     <span class="flex items-center justify-center gap-1">
                       <p style="color: {{player.primary_accent_color}};"  class=" text-lg font-bold ">
@@ -326,10 +141,8 @@
                           </svg>
   
                   </span>
-                      <span class="flex items-center justify-center gap-1">
-                          <p style="font-size: 11px;" class=" text-gray-500">{{player.masterytitle}} {{nextrom}} at 300000</p> 
-                          
-                      </span>
+                  
+                <p style="font-size: 12px;" class=" text-gray-400">Mastery unlocks at 1K</p>
                      
                   </div>
   
