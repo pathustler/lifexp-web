@@ -71,16 +71,6 @@ class Post(models.Model):
         # Only re-upload if a new image is added
         # if not self.title:
         #     self.title = generateHeading(self.content)
-        
-        
-
-
-        
-        
-
-
-
-        
         if not self.title:
             genai.configure(api_key="AIzaSyC5uY5Tlk8eVY42bL8ESvdxbj2vYBSGUik")
             # Load the Gemini model

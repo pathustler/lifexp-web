@@ -247,9 +247,13 @@ def fetch_posts(request):
             'energy': 0,
             'logic': 0
         }
+        xp_type_mapping = {
+            "skill": "logic"  # skill was old, now treated as logic
+        }
         for activity in post_activities:
             for xp_type, value in activity.xp_distribution.items():
-                xp_data[xp_type] += value
+                real_xp_type = xp_type_mapping.get(xp_type, xp_type)
+                xp_data[real_xp_type] = xp_data.get(real_xp_type, 0) + value
             
         post_list.append({
             "id": post.id,
