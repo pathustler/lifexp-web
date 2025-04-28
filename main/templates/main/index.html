@@ -174,7 +174,7 @@
               <span class="flex items-center justify-center gap-1">
                 <p style="color: {{player.primary_accent_color}};"  class=" text-lg font-bold ">
                     {% if player.masterytitle == "Prodigy" %}
-                    {{player.categoryxp.skill}}
+                    {{player.categoryxp.logic}}
                     {% elif player.masterytitle == "Maverick" %}
                     {{player.categoryxp.creativity}}
                     {% elif player.masterytitle == "Diplomat" %}
@@ -562,7 +562,7 @@
 
 
                               <!-- Skill -->
-                              <div class="${post.xp_data.skill<=0 ? "grayscale opacity-50" : "bg-[#baafea]"} flex h-10 flex-col w-full justify-center items-center overflow-hidden gap-2.5 p-3 rounded-[5px] bg-[#baafea]">
+                              <div class="${post.xp_data.logic<=0 ? "grayscale opacity-50" : "bg-[#baafea]"} flex h-10 flex-col w-full justify-center items-center overflow-hidden gap-2.5 p-3 rounded-[5px] bg-[#baafea]">
                                 <div class="flex justify-center items-center h-2.5 relative gap-[5px]">
                                   <svg
                                     width="11"
@@ -578,7 +578,7 @@
                                       fill="#713599"
                                     ></path>
                                   </svg>
-                                  <p class="flex-grow-0 flex-shrink-0 text-xs text-left text-[#713599]">${post.xp_data.skill}</p>
+                                  <p class="flex-grow-0 flex-shrink-0 text-xs text-left text-[#713599]">${post.xp_data.logic}</p>
                                 </div>
                               </div>
 

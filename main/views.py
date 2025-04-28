@@ -92,6 +92,114 @@ def get_comments(request):
     } for comment in comments]
     return JsonResponse({"comments": comment_list})
 
+
+import google.generativeai as genai
+
+
+from transformers import BlipProcessor, BlipForConditionalGeneration
+from PIL import Image
+import torch
+
+
+
+
+@require_POST
+@login_required
+def validate_post(request):
+    try:
+        # Get the uploaded image
+        uploaded_file = request.FILES.get('image')
+        if not uploaded_file:
+            return JsonResponse({"status": "error", "message": "No image uploaded."}, status=400)
+
+        # Open the image
+        image = Image.open(uploaded_file).convert('RGB')
+
+        # Load BLIP model and processor
+        processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-base")
+        model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-base")
+        model = model.to("cpu")
+        # Prepare inputs
+        inputs = processor(image, return_tensors="pt")
+
+        # Generate description
+        with torch.no_grad():
+            output = model.generate(**inputs)
+        
+        caption = processor.decode(output[0], skip_special_tokens=True)
+
+        # Get the other form data
+        content = request.POST.get('content', '')
+        activities = request.POST.get('activities').split(',')  # activities sent as an array
+
+        if not content or not activities:
+            return JsonResponse({"status": "error", "message": "Missing content or activities."}, status=400)
+
+        # Setup Gemini
+        genai.configure(api_key="AIzaSyC5uY5Tlk8eVY42bL8ESvdxbj2vYBSGUik")
+        g_model = genai.GenerativeModel('gemini-2.5-flash-preview-04-17')
+
+        # Create validation prompt
+        prompt = f"""
+You are a validation engine. The user is making a post about what they are doing (something productive). Your job is to verify if the image, content, and activities are logically related.
+
+Image Description:
+{caption}
+
+Post Content:
+{content}
+
+Activities:
+{', '.join(activities)}
+
+Task:
+- If the image, content, and activities are consistent and make sense together, respond exactly with: VALID
+- If there are mismatches or unrelated elements (only if they are strictly unrelated, if they are related in some way, mark VALID), provide an error message with the format '<Error title in 2-10 words>|<Error Summary in 10-20 words>|<possible solution> in 10-20 words'.
+- Error message example:
+    Input: Picture : 'a road', Content: 'Just practiced by breaststroke in the pool, feeling very energetic', Activities: 'swimming, running'
+    Ouput: 'That is not a pool...|You can't do breaststroke on a road, and that is definitely a road|Take a picture of the pool, or talk about running in the content'.
+- Do not provide any other text or explanation.
+
+Only reply with "VALID" or an error messages with the defined template.
+"""
+
+        # Send to Gemini
+        response = g_model.generate_content(prompt)
+        result = response.text.strip()
+
+        # Return the validation result
+        if result == "VALID":
+            return JsonResponse({"status": "success", "message": "Post is valid"})
+        else:
+            return JsonResponse({"status": "error", "message": result})
+
+    except Exception as e:
+        return JsonResponse({"status": "error", "message": str(e)}, status=500)
+from django.views.decorators.csrf import csrf_exempt
+
+@login_required
+def fetch_activity_info(request):
+
+    try:
+        activity_id = request.GET.get("activity_id") 
+        activity = get_object_or_404(Activity, id=activity_id)
+        
+
+        activity_info = {
+            'name': activity.name,
+            'type': activity.activity_type,
+            'created_at': activity.created_at.strftime('%d %B %Y'),
+            'total_xp':activity.total_xp,
+            'description': activity.description,
+            'created_by': activity.created_by.username if activity.created_by else "In built",
+            
+            'xp_distribution': activity.xp_distribution
+        }
+        return JsonResponse({"status": "success", "message": activity_info})
+        
+    except Exception as e:
+        return JsonResponse({"status": "error", "message": str(e)}, status=500)
+
 @login_required
 def fetch_posts(request):
     player = Player.objects.get(username=request.user.username)
@@ -137,7 +245,7 @@ def fetch_posts(request):
             'creativity': 0,
             'social': 0,
             'energy': 0,
-            'skill': 0
+            'logic': 0
         }
         for activity in post_activities:
             for xp_type, value in activity.xp_distribution.items():
@@ -423,8 +531,8 @@ def new_post(request):
             
              for tag in form.cleaned_data['tags'].split(','):
                 xpdict = dict()
-                if "skill" in tag:
-                    xpdict["skill"] = random.randint(-20, 100)
+                if "logic" in tag:
+                    xpdict["logic"] = random.randint(-20, 100)
                 if "physique" in tag:
                     xpdict["physique"] = random.randint(-20, 100)
                 if "creativity" in tag:
@@ -443,7 +551,7 @@ def new_post(request):
                         "creativity": random.randint(-5, 20)+ xpdict.get("creativity", 0),
                         "social": random.randint(-5, 20)+   xpdict.get("social", 0),
                         "energy": random.randint(-5, 20)+   xpdict.get("energy", 0),
-                        "skill": random.randint(-5, 20)+   xpdict.get("skill", 0)
+                        "logic": random.randint(-5, 20)+   xpdict.get("logic", 0)
                     }
                 )
                 
@@ -620,19 +728,85 @@ def edit_profile(request):
 def create_custom_activity(request):
     if request.method == "POST":
         name = request.POST.get("name")
-        activity_type = request.POST.get("activity_type")
 
-        new_activity = Activity(
-            name=name,
-            activity_type=activity_type,
-        )
-        new_activity.save()
+        
+        act = Activity.objects.filter(name=name.capitalize())
+        if act.exists():
+            return JsonResponse({"status": "error", "message": "Activity already exists"}, status=400)
 
-        return JsonResponse({
-            "status": "success",
-            "name": new_activity.name,
-            "activity_type": new_activity.activity_type
-        })
+
+        genai.configure(api_key="AIzaSyC5uY5Tlk8eVY42bL8ESvdxbj2vYBSGUik")
+        g_model = genai.GenerativeModel('gemini-2.5-flash-preview-04-17')
+
+        # Create validation prompt
+        prompt = f"""
+You are a validation engine for activity names.
+
+Given an activity name, perform the following checks:
+
+1. Check if it represents an actual, real-world activity (e.g., "Running", "Painting", "Programming").
+2. Check if the activity would reasonably result in a positive score for at least one of the following aspects: physique, energy, social, creativity, or logic.
+3. Check if it is a fundamental activity — it should not include explanations, durations (e.g., "for 2 hours"), combinations of multiple distinct actions (e.g., "running and cooking"), or overly detailed variations. It should be a basic, atomic action.
+
+Respond according to the following rules:
+- If all three checks pass, reply exactly with: VALID|<single activity type from Physique/Energy/Social/Creativity/Logic>|<a short 20-25 word descrition of the activity>|<comma seperated list of xp distribution for each type when the activity is done without additional context for 1 hour>
+  - Example: if the input is "Running", you could reply: VALID|Physique|A form of terrestrial locomotion where a person moves rapidly on foot, helps in building a good physique.|80,-20,0,-10,0
+- If only checks 1 and 2 pass, but check 3 fails, reply with: WARNING|<one to three fundamentalized versions of the activity name separated by "|"> 
+  - Example: if the input is "Running for 2 hours and lifting weights", you could reply: WARNING|Running|Weightlifting
+- If either check 1 or check 2 fails, reply exactly with: INVALID
+
+Only respond with VALID|...|..., WARNING|..., or INVALID — no additional explanations.
+
+Activity to validate: "{name}"
+"""
+
+        # Send to Gemini
+    
+        response = g_model.generate_content(prompt)
+        result = response.text.strip()
+        print(result)
+        
+        
+        if result.startswith("VALID|"):
+            # Extract the activity type
+            resultlist = result.split("|")
+
+            print(resultlist)
+            print(resultlist[1].lower())
+            new_activity = Activity(
+                name=name.capitalize(),
+                activity_type=resultlist[1].lower(),
+                description= resultlist[2],
+                xp_distribution={
+                    "physique": int(resultlist[3].split(",")[0]),
+                    "creativity": int(resultlist[3].split(",")[1]),
+                    "social": int(resultlist[3].split(",")[2]),
+                    "energy": int(resultlist[3].split(",")[3]),
+                    "logic": int(resultlist[3].split(",")[4])
+                },
+                created_by=request.user.player,  # Assuming you want to set the creator
+            )
+            new_activity.save()
+
+            return JsonResponse({
+                "status": "success",
+                "name": new_activity.name,
+                "activity_type": new_activity.activity_type
+            })
+            
+        elif result.startswith("WARNING|"):
+            # Extract the fundamentalized versions
+            _, *fundamentalized_versions = result.split("|")
+            return JsonResponse({
+                "status": "warning",
+                "message": "Activity name is too complex",
+                "fundamentalized_versions": fundamentalized_versions
+            })
+        elif result == "INVALID":
+            return JsonResponse({
+                "status": "error",
+                "message": "Activity name is invalid"
+            })
 
     return JsonResponse({"status": "error", "message": "Invalid request"}, status=400)
     

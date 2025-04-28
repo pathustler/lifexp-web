@@ -16,6 +16,10 @@ cloudinary==1.43.0
 django-cloudinary-storage==0.3.0
 python-dotenv==1.0.1
 djangorestframework==3.15.2
+transformers==4.51.3
+tensorflow==2.16.2
+tf_keras==2.16.0
+torch==2.2.2
 google-ai-generativelanguage==0.6.15
 google-api-core==2.24.2
 google-api-python-client==2.168.0

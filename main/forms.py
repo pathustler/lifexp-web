@@ -13,7 +13,7 @@ class PostForm(forms.ModelForm):
             'content': forms.Textarea(attrs={
                 'class': 'w-full h-36 px-4 py-2 border rounded-lg focus:outline-none dark:bg-[#1f2022] dark:border-[#444] dark:text-white dark:placeholder-[#444] dynamic-focus',
                 'rows': 5,
-                'id':'image',
+                'id':'content',
                 'placeholder': 'Describe your post...'
             }),
             'post_image': forms.FileInput(attrs={

@@ -31,6 +31,8 @@ urlpatterns = [
         success_url='/settings/'
     ), name='change_password'),
     path('delete-account/', views.delete_account, name='delete_account'),
+    path('validate_post/', views.validate_post, name='validate_post'),
+    path('fetch_activity_info/', views.fetch_activity_info, name='fetch_activity_info'),
 
 
 ]

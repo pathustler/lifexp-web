@@ -9,6 +9,113 @@
 
 {% block content %}
 
+<div id="activity-info-popup" class="z-50 fixed inset-0 flex items-center justify-center bg-black bg-opacity-60">
+  <div class="bg-white dark:bg-[#292c31]  rounded-3xl shadow-2xl w-[500px] relative border-2 border-[#333] overflow-hidden">
+    
+    <!-- Top Bar (Title) -->
+    <div style="background-color: #222"  class="bg-gray-700 dark:bg-[#373a41] px-6 py-3 rounded-t-2xl flex justify-between items-center">
+      <p></p>
+      <h2 id="activity-info-name" class="text-xl font-extrabold text-white  uppercase tracking-wide">Chess</h2>
+      <button onclick="toggleActivityInfoPopup()" class="text-3xl text-gray-300 hover:text-gray-400 transition">&times;</button>
+    </div>
+    <div class="p-6 space-y-6 text-gray-300">
+      <div class="flex w-full gap-4 ">
+        <span id="activity-info-icon" style="background: #000000;background: linear-gradient(0deg,rgba(0, 0, 0, 1) 1%, {{aspect_colors.logic.primary}} 99%); border: 4px solid#333333;
+border-color: linear-gradient(0deg,rgba(51, 51, 51, 1) 1%, rgba(176, 176, 176, 1) 99%, rgba(255, 255, 255, 1) 96%);"  class="rounded-md border-4 border-gray-700 h-16 w-16 flex items-center justify-center">
+          {{aspect_colors.logic.iconprofile|safe}}
+        </span>
+        <div  class="flex gap-2 w-3/4 rounded-lg px-4 py-2" >
+          <div class="w-full">
+            <p  class="text-sm text-black font-bold opacity-70 dark:text-gray-400">Type</p>
+        <p id="activity-info-type" class="text-md text-black font-bold " style="color: {{aspect_colors.logic.primary}};">Logic</p>
+
+
+          </div>
+          <div class="w-full pl-1">
+            <p class="text-sm text-black font-bold opacity-70 dark:text-gray-400">Total XP</p>
+        <p id="activity-infi-total-xp" class="text-md text-black font-bold ">0</p>
+
+          </div>
+          <div class="w-full">
+            <p class="text-sm text-black font-bold opacity-70 dark:text-gray-400">Difficulty</p>
+            
+            <p class="text-md text-black font-bold ">BASIC</p>
+
+          </div>
+
+        </div>
+        
+      </div>
+      <p id="activity-info-description" class="text-gray-700 font-semibold">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec aliquam, libero tincidunt finibus ultricies, augue velit suscipit dolor, a aliquet tellus ipsum id est.  </p>
+
+
+    </div>
+    <!-- Body -->
+    <div id="activity-info-content" class=" p-6 bg-gray-200  text-gray-300">
+      
+      <div class="flex justify-between space-y-3">
+        <div class="w-full">
+      <div class="dark:bg-[#1f2125] rounded-lg p-2">
+        <p class="text-xs text-gray-600 dark:text-gray-400">Created On</p>
+        <p id="activity-info-created-at" class="text-sm text-gray-800 font-semibold ">26 February 2025</p>
+      </div>
+
+      <div class="dark:bg-[#1f2125] rounded-lg p-2 ">
+        <p class="text-xs text-gray-600 dark:text-gray-400">Created By</p>
+        <p id="activity-info-created-by" class="text-sm text-gray-800 font-semibold ">Inbuilt</p>
+      </div>
+
+      <div class="dark:bg-[#1f2125] rounded-lg p-2 ">
+        <p class="text-xs text-gray-600 dark:text-gray-400">Used By</p>
+        <p id="activity-info-created-by" class="text-sm text-gray-800 font-semibold ">102 Players</p>
+      </div>
+      <div class="dark:bg-[#1f2125] rounded-lg p-2 ">
+        <p class="text-xs text-gray-600 dark:text-gray-400">Used By</p>
+        <p id="activity-info-created-by" class="text-sm text-gray-800 font-semibold ">Inbuilt</p>
+      </div>
+      
+
+      </div>
+      <div class="w-full">
+        <div id="activity-info-xp">
+          <canvas id="xpRadarChart" width="150" height="150"></canvas>
+        </div>
+      </div>
+      </div>
+      <div class="mt-4 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 rounded">
+        <p class="text-xs p-2">
+          <b>Note</b>: The XP shown is based on completing the activity for one hour. Actual XP will scale depending on duration and the post description you mention!
+        </p>
+      </div>
+
+    </div>
+    
+    
+
+  </div>
+</div>
+
+
+<div id="error-popup" class="z-50 hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+
+  <div class="bg-white dark:bg-[#1f2022]  overflow-y-auto rounded-lg shadow-lg w-96 relative">
+    <div class="flex items-center gap-2 bg-red-800 p-6">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" class="size-6">
+        <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm-1.72 6.97a.75.75 0 1 0-1.06 1.06L10.94 12l-1.72 1.72a.75.75 0 1 0 1.06 1.06L12 13.06l1.72 1.72a.75.75 0 1 0 1.06-1.06L13.06 12l1.72-1.72a.75.75 0 1 0-1.06-1.06L12 10.94l-1.72-1.72Z" clip-rule="evenodd" />
+      </svg>
+      
+      
+      <h2  id="error-title" class="text-md font-semibold text-white">Something sounds wrong</h2>
+    </div>
+    <div class="p-6">
+      <p id="error-message" class="text-gray-700 dark:text-[#999]">❌ Some fields are missing</p>
+      <p id="solution-message" class="text-gray-700 mt-2 dark:text-[#999]">✅ Please fill in all the fields</p>
+      <button onclick="toggleErrorPopup()" class="my-4 bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded-lg float-right">Close</button>
+    </div>
+  </div>
+
+</div>
+
 <div id="custom-activity-popup" class="z-50 hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
   <div class="bg-white dark:bg-[#1f2022] p-6 overflow-y-auto rounded-lg shadow-lg w-96 relative">
       <!-- Close Button -->
@@ -25,16 +132,8 @@
           <label for="activity-name" class="block text-gray-700 dark:text-[#999] mb-2">Activity Name</label>
           <input type="text" id="activity-name" name="activity_name" class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[{{ player.primary_accent_color }}80] dark:bg-[#1f2022] dark:border-[#444] dark:focus:ring-[{{ player.secondary_accent_color }}80]" placeholder="Enter activity name">
       </div>
-      <div class="mt-4">
-          <label for="activity-type" class="block text-gray-700 dark:text-[#999] mb-2">Activity Type</label>
-          <select id="activity-type" name="activity_type" class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[{{ player.primary_accent_color }}80] dark:bg-[#1f2022] dark:border-[#444] dark:focus:ring-[{{ player.secondary_accent_color }}80]">
-              <option value="skill">Skill</option>
-              <option value="creativity">Creativity</option>
-              <option value="social">Social</option>
-              <option value="energy">Energy</option>
-              <option value="physique">Physique</option>
-          </select>
-      </div>
+    
+     
      <!-- submit button saying create activity -->
       <div class="mt-8 w-full">
           <span id="create-activity" class="bg-blue-500 w-full cursor-pointer text-white py-2 px-4 rounded-lg w-full">Create Activity</span>
@@ -121,7 +220,7 @@
     <input type="hidden" name="pre_liked" id="pre-liked-input" value="false">
  
     <!-- Submit Button -->
-    <button type="submit"
+    <button type="button" onclick="validateAndSubmit(this.form)"
     {% if player.masterytitle == "Rookie" %}
     class="w-full bg-[#5793f8] text-white py-2 px-4 rounded-lg transition"
             
@@ -167,13 +266,13 @@
 
   {% for activity in activities_table %}
 
-    {% if activity.activity_type == "skill" %}
+    {% if activity.activity_type == "logic" %}
     
-    <div class="bg-[#BAAFEA] dark:bg-[#713599] dark:bg-opacity-30  activity-card p-4 rounded-xl cursor-pointer flex justify-between items-center" draggable="true"
+    <div onclick="activityInfo(this)"  class="bg-[#BAAFEA] dark:bg-[#713599] dark:bg-opacity-30  activity-card p-4 rounded-xl cursor-pointer flex justify-between items-center" draggable="true"
     ondragstart="handleDragStart(event)"
     data-id="{{ activity.id }}">
         <div class="flex gap-2 items-center">
-          {{aspect_colors.skill.iconbig|safe}}
+          {{aspect_colors.logic.iconbig|safe}}
           <p class="text-[#713599] ">{{activity.name}}</p>
         </div>
       
@@ -184,7 +283,7 @@
 
     {% elif activity.activity_type == "creativity" %}
 
-    <div class="bg-[#AFD9EA] dark:bg-[#4187A2] dark:bg-opacity-30  activity-card p-4 rounded-xl cursor-pointer flex justify-between items-center" draggable="true"
+    <div  onclick="activityInfo(this)" class="bg-[#AFD9EA] dark:bg-[#4187A2] dark:bg-opacity-30  activity-card p-4 rounded-xl cursor-pointer flex justify-between items-center" draggable="true"
     ondragstart="handleDragStart(event)"
     data-id="{{ activity.id }}">
       <div class="flex gap-2 items-center">
@@ -196,9 +295,9 @@
       </svg>
      </div>
 
-     {% elif activity.activity_type == "social" %}
+     {% elif  activity.activity_type == "social" %}
 
-     <div class="bg-[#AFEAC7] dark:bg-[#31784E] dark:bg-opacity-30  p-4 activity-card rounded-xl cursor-pointer flex justify-between items-center" draggable="true"
+     <div  onclick="activityInfo(this)" class="bg-[#AFEAC7] dark:bg-[#31784E] dark:bg-opacity-30  p-4 activity-card rounded-xl cursor-pointer flex justify-between items-center" draggable="true"
      ondragstart="handleDragStart(event)"
      data-id="{{ activity.id }}">
       <div class="flex gap-2 items-center">
@@ -212,7 +311,7 @@
 
      {% elif activity.activity_type == "energy" %}
 
-     <div class="bg-[#FDF099] dark:bg-[#d0b400] dark:opacity-70 dark:bg-opacity-30  p-4 activity-card rounded-xl cursor-pointer flex justify-between items-center" draggable="true"
+     <div  onclick="activityInfo(this)" class="bg-[#FDF099] dark:bg-[#d0b400] dark:opacity-70 dark:bg-opacity-30  p-4 activity-card rounded-xl cursor-pointer flex justify-between items-center" draggable="true"
      ondragstart="handleDragStart(event)"
      data-id="{{ activity.id }}">
       <div class="flex gap-2 items-center">
@@ -226,7 +325,7 @@
 
      {% elif activity.activity_type == "physique" %}
 
-     <div class="bg-[#EAAFAF] dark:bg-[#8D2E2E] dark:bg-opacity-30  p-4 activity-card rounded-xl cursor-pointer flex justify-between items-center" draggable="true"
+     <div  onclick="activityInfo(this)" class="bg-[#EAAFAF] dark:bg-[#8D2E2E] dark:bg-opacity-30  p-4 activity-card rounded-xl cursor-pointer flex justify-between items-center" draggable="true"
      ondragstart="handleDragStart(event)"
      data-id="{{ activity.id }}">
       <div class="flex gap-2 items-center">
@@ -242,7 +341,7 @@
      {%endif%}
 
     {%endfor%}
-    <div id="add-custom-activity" class="bg-gray-300 dark:bg-gray-800 p-4 rounded-xl cursor-pointer flex justify-between items-center">
+    <div  onclick="activityInfo(this)" id="add-custom-activity" class="bg-gray-300 dark:bg-gray-800 p-4 rounded-xl cursor-pointer flex justify-between items-center">
       <div class="flex gap-2 items-center">
         <p class="text-gray-800 ">Create Custom Activity</p>
       </div>
@@ -288,6 +387,7 @@
 
 
 <script>
+   let xpRadarChart = null;
     function previewImage(event) {
         const input = event.target;
         const preview = document.getElementById('image-preview');
@@ -363,10 +463,10 @@ function toggleActivityPopup() {
 <script>
   document.getElementById('create-activity').addEventListener('click', async function () {
       const name = document.getElementById('activity-name').value;
-      const type = document.getElementById('activity-type').value;
+
 
       toggleActivityPopup();
-      if (!name || !type) {
+      if (!name) {
           alert("Please fill in all fields.");
           toggleActivityPopup();
           return;
@@ -382,7 +482,7 @@ function toggleActivityPopup() {
           },
           body: new URLSearchParams({
               name: name,
-              activity_type: type
+
           })
       });
   
@@ -395,7 +495,7 @@ function toggleActivityPopup() {
           const container = document.querySelector("#recent-activities");
   
           const colors = {
-              skill: [`{{ aspect_colors.skill.primary }}`,`{{ aspect_colors.skill.secondary }}`],
+              logic: [`{{ aspect_colors.logic.primary }}`,`{{ aspect_colors.logic.secondary }}`],
               creativity: [`{{ aspect_colors.creativity.primary }}`,`{{ aspect_colors.creativity.secondary }}`],
               social: [`{{ aspect_colors.social.primary }}`,`{{ aspect_colors.social.secondary }}`],
               energy: [`{{ aspect_colors.energy.primary }}`,`{{ aspect_colors.energy.secondary }}`],
@@ -405,23 +505,14 @@ function toggleActivityPopup() {
           const [text, bg] = colors[type] || ["#E0E0E0", "#333"];
           
           const icon = {
-            skill: `{{ aspect_colors.skill.iconbig|escapejs }}`,
+            logic: `{{ aspect_colors.logic.iconbig|escapejs }}`,
             creativity: `{{ aspect_colors.creativity.iconbig|escapejs }}`,
             social: `{{ aspect_colors.social.iconbig|escapejs }}`,
             energy: `{{ aspect_colors.energy.iconbig|escapejs }}`,
             physique: `{{ aspect_colors.physique.iconbig|escapejs }}`
-          }[type];
+          }[data.activity_type.toLowerCase()];
 
-          const html = `
-          <div class="bg-[${bg}] p-4 rounded-xl cursor-pointer flex justify-between items-center mt-2">
-              <div class="flex gap-2 items-center">
-                ${icon}
-                <p class="text-[${text}]">${name}</p>
-              </div>
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 fill-black opacity-50 hover:opacity-60" viewBox="0 0 24 24" fill="currentColor">
-                  <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 9a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V15a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V9Z" clip-rule="evenodd" />
-              </svg>
-          </div>`;
+       
 
           const html2 = `
           <div class="bg-[${bg}] p-4 rounded-xl cursor-pointer flex justify-between items-center mt-2">
@@ -436,7 +527,6 @@ function toggleActivityPopup() {
               
           </div>`;
   
-          container.insertAdjacentHTML("beforeend", html);
           document.querySelector('#activities-list').insertAdjacentHTML("beforeend", html2);
           updateActivitiesInput();
           const mainframe = document.querySelector('#mainframe');
@@ -444,7 +534,24 @@ function toggleActivityPopup() {
             top: mainframe.scrollHeight,
             behavior: 'smooth'
           });
-      } else {
+      } else if (data.message==="Activity already exists"){
+          const searchInput = document.getElementById('searchInput');
+          searchInput.value = name;
+          searchInput.dispatchEvent(new Event('input'));
+
+      } else if (data.status === "warning") {
+        if (data.fundamentalized_versions.length === 1) {
+          const suggestion = "Change the name to just '" + data.fundamentalized_versions[0] + "' you can explain the details in the post description";
+          toggleErrorPopup(`${data.message}|The activity name seems to include irrelavant informations|${suggestion}`)
+        } else {
+          const suggestion = "Keep it simple! Try breaking them down into multiple activities like - " + data.fundamentalized_versions.join(", ");
+          toggleErrorPopup(`${data.message}|The activity name seems to include irrelavant informations|${suggestion}`)
+        }
+
+      } else if (data.status === "error") {
+          toggleErrorPopup(`${data.message}|Failed to add ${name} : The name you entered is invalid|Custom activity should be something reasonably productive`)
+      }
+      else {
           toggleActivityPopup();
           console.log("error")
           alert("Failed to add activity.");
@@ -455,6 +562,13 @@ function toggleActivityPopup() {
 
 
   function duplicateActivity(svgElement) {
+    const tagsinput = document.getElementById('id_tags').value
+    // check if there are more than 3 tags after splitting by comma, if so, alert and return
+    const tags = tagsinput.split(',');
+    if (tags.length > 2) {
+      alert("You can only add 3 activities.");
+      return;
+    }
     const parentCard = svgElement.closest('.activity-card');
     if (!parentCard) return;
 
@@ -468,7 +582,7 @@ function toggleActivityPopup() {
     clone.insertAdjacentHTML("beforeend", html);
     document.getElementById('activities-list').appendChild(clone);
     const mainframe = document.querySelector('#mainframe');
-
+    parentCard.remove();
     updateActivitiesInput();
     mainframe.scrollTo({
       top: mainframe.scrollHeight,
@@ -489,6 +603,23 @@ function toggleActivityPopup() {
   function removeActivity(button) {
     const parentCard = button.closest('.activity-card');
     if (parentCard) {
+        const clone = parentCard.cloneNode(true);
+        clone.querySelectorAll('svg')[1].remove();
+
+        const html = `<svg onclick="duplicateActivity(this)"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 fill-black opacity-50 hover:opacity-60">
+        <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 9a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V15a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V9Z" clip-rule="evenodd" />
+      </svg>`
+        clone.insertAdjacentHTML("beforeend", html);
+        // append as first child
+        document.getElementById('recent-activities').insertAdjacentElement("afterbegin", clone);
+        const mainframe = document.querySelector('#recent-activities');
+        // scroll to the top
+        mainframe.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+
+
         parentCard.remove();
         updateActivitiesInput();
 
@@ -560,6 +691,7 @@ document.querySelector("#duration-hours").addEventListener("input", function () 
 </script>
 
 <script>
+  
   function handleDragStart(e) {
     const id = e.target.dataset.id;
     e.dataTransfer.setData('text/plain', id);
@@ -638,6 +770,211 @@ document.querySelector("#duration-hours").addEventListener("input", function () 
         e.preventDefault();
     });
 });
+
+
+
+async function activityInfo(activity){
+  // Get the id from the data-id attribute
+  const id = activity.dataset.id;
+  console.log(id)
+
+
+  try {
+    const response = await fetch(`/fetch_activity_info?activity_id=${id}`);
+
+    const data = await response.json();
+
+    if (data.status === 'success') {
+      toggleActivityInfoPopup(data.message);
+      updateActivityPopup(data.message);
+    } 
+  } catch (error) {
+    console.error('Error fetching activity info:', error);
+    alert('Error fetching activity info. Please try again.');
+  }
+}
+
+
+async function validateAndSubmit(form) {
+  // Collect your form data (adjust these selectors to match your form)
+  const content = document.querySelector('#content').value;
+  const activities = document.querySelector('#id_tags').value;
+  const imageFile = document.querySelector('#image').files[0];
+
+  // Prepare form data
+  const formData = new FormData();
+  formData.append('content', content);
+  formData.append('activities', activities);
+  formData.append('image', imageFile);
+
+  if (!content.value || !activities.value || !imageFile) {
+    toggleErrorPopup("Missing Fields|There are some missing fields, please make sure to fill in all fields");
+    return;
+  }
+
+  try {
+    const response = await fetch('/validate_post/', {
+      method: 'POST',
+      headers: {
+        'X-CSRFToken': '{{ csrf_token }}' // Django needs CSRF token!
+      },
+      body: formData,
+    });
+
+    const data = await response.json();
+
+    if (data.status === 'success') {
+      // If VALID, submit the original form
+      form.submit();
+    } else {
+      // If not valid, show an alert with the error message
+      toggleErrorPopup(data.message);
+    }
+  } catch (error) {
+    console.error('Validation failed:', error);
+    alert('Validation failed. Please try again.');
+  }
+}
+
+function toggleErrorPopup(msg) {
+    const popup = document.getElementById('error-popup');
+    popup.classList.toggle('hidden');
+
+    // split message with | 
+    const parts = msg.split('|');
+ 
+
+    const title = document.getElementById('error-title');
+    const message = document.getElementById('error-message');
+  const solution = document.getElementById('solution-message');
+    title.innerText = parts[0];
+    if (parts[1]!= "There are some missing fields, please make sure to fill in all fields"){
+      message.innerText = "❌ "+parts[1];
+
+    }
+    else{
+      message.innerText = parts[1];
+    }
+    if (parts[2]){
+      solution.innerText = "✅ "+parts[2];
+    }
+    else{
+      solution.innerText = "";
+    }
+    
+    
+
+
+}
+
+function toggleActivityInfoPopup() {
+    const popup = document.getElementById('activity-info-popup');
+    popup.classList.toggle('hidden');
+    
+
+}
+
+function hexToRgba(hex, opacity) {
+  // Remove the '#' if present
+  hex = hex.replace(/^#/, '');
+
+  // Handle short form (#abc)
+  if (hex.length === 3) {
+    hex = hex.split('').map(c => c + c).join('');
+  }
+
+  // Parse r, g, b values
+  const bigint = parseInt(hex, 16);
+  const r = (bigint >> 16) & 255;
+  const g = (bigint >> 8) & 255;
+  const b = bigint & 255;
+
+  return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+}
+
+function updateActivityPopup(data) {
+  // Declare outside so it can be reused
+
+  const xp = data.xp_distribution; 
+
+  const ctx = document.getElementById('xpRadarChart').getContext('2d');
+
+  const title = document.getElementById('activity-info-name');
+  const createdAt = document.getElementById('activity-info-created-at');
+  const createdBy = document.getElementById('activity-info-created-by');
+  const typelabel = document.getElementById('activity-info-type');
+  const iconprofile = document.getElementById('activity-info-icon');
+
+  const type = data.type.toLowerCase();
+  const colors = {
+    logic: [`{{ aspect_colors.logic.primary }}`,`{{ aspect_colors.logic.secondary }}`, `{{ aspect_colors.logic.iconprofile|safe}}`],
+    creativity: [`{{ aspect_colors.creativity.primary }}`,`{{ aspect_colors.creativity.secondary }}`, `{{ aspect_colors.creativity.iconprofile|safe}}`],
+    social: [`{{ aspect_colors.social.primary }}`,`{{ aspect_colors.social.secondary }}`, `{{ aspect_colors.social.iconprofile|safe}}`],
+    energy: [`{{ aspect_colors.energy.primary }}`,`{{ aspect_colors.energy.secondary }}`, `{{ aspect_colors.energy.iconprofile|safe}}`],
+    physique: [`{{ aspect_colors.physique.primary }}`,`{{ aspect_colors.physique.secondary }}`, `{{ aspect_colors.physique.iconprofile|safe}}`],
+  };
+
+  title.innerText = data.name;
+  createdAt.innerText = data.created_at;
+  createdBy.innerText = data.created_by;
+  
+  // If there's already a chart, destroy it first (important when reusing the popup!)
+  if (xpRadarChart) {
+    xpRadarChart.destroy();
+  }
+
+  xpRadarChart = new Chart(ctx, {
+    type: 'radar',
+    data: {
+      labels: Object.keys(xp).map(label => label.charAt(0).toUpperCase() + label.slice(1)),
+      datasets: [{
+        label: 'XP Distribution',
+        data: Object.values(xp),
+        backgroundColor: hexToRgba(colors[type][1], 0.5),
+        borderColor: colors[type][0],
+        borderWidth: 2,
+        pointBackgroundColor: colors[type][0],
+        pointBorderColor: '#fff',
+      }]
+    },
+    options: {
+      scales: {
+        r: {
+          
+          pointLabels: {
+            
+            font: {
+              size: 8
+            }
+          },
+          ticks: {
+            backdropColor: 'transparent',
+            
+            beginAtZero: true
+          }
+        }
+      },
+      plugins: {
+        legend: {
+          display: false
+        }
+      }
+    }
+  });
+//  add activity description
+  document.querySelector('#activity-info-description').innerText = data.description;
+  document.querySelector('#activity-infi-total-xp').innerText = data.total_xp;
+
+  typelabel.innerText = type.charAt(0).toUpperCase() + type.slice(1);
+  typelabel.style.color = colors[type][0];
+
+  iconprofile.style.background = `linear-gradient(0deg, rgba(0, 0, 0, 1) 10%, ${colors[type][0]} 100%)`;
+  iconprofile.innerHTML = colors[type][2];
+
+
+}
+
+
 
 </script>
 

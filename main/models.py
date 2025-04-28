@@ -110,7 +110,7 @@ class ActivityLog(models.Model):
             "creativity": 0,
             "social": 0,
             "energy": 0,
-            "skill": 0
+            "logic": 0
         }
     
     user = models.ForeignKey(
@@ -179,7 +179,14 @@ class Like(models.Model):
     
 class Activity(models.Model):
     
-    
+    def default_xp():
+        return {
+            "physique": 0,
+            "creativity": 0,
+            "social": 0,
+            "energy": 0,
+            "logic": 0
+        }
     
     
     name = models.CharField(max_length=255)
@@ -188,7 +195,29 @@ class Activity(models.Model):
         ('creativity', 'Creativity'),
         ('social', 'Social'),
         ('energy', 'Energy'),
-        ('skill', 'Skill')
+        ('logic', 'Logic')
     ])
     
+    used_posts = models.ManyToManyField(Post, blank=True, related_name='activities')
+    description = models.TextField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey(Player,null=True, blank=True, on_delete=models.CASCADE, related_name='activities')
+    total_xp = models.IntegerField(blank=True, null=True)
+    xp_distribution = models.JSONField(default=default_xp)
     
+    
+    
+    def save(self, *args, **kwargs):
+    # First time saving (new object)
+        if not self.pk or not self.total_xp:
+            self.total_xp = sum(self.xp_distribution.values())
+        else:
+            try:
+                old = self.__class__.objects.get(pk=self.pk)
+                if old.xp_distribution != self.xp_distribution:
+                    self.total_xp = sum(self.xp_distribution.values())
+            except self.__class__.DoesNotExist:
+                # In case somehow the pk is set but object not found
+                self.total_xp = sum(self.xp_distribution.values())
+
+        super().save(*args, **kwargs)

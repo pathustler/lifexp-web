@@ -44,7 +44,7 @@ class Player(AbstractBaseUser):
             "creativity": 0,
             "social": 0,
             "energy": 0,
-            "skill": 0
+            "logic": 0
         }
 
     def default_category_levels():
@@ -53,7 +53,7 @@ class Player(AbstractBaseUser):
             "creativity": 1,
             "social": 1,
             "energy": 1,
-            "skill": 1
+            "logic": 1
     }
     
     
@@ -84,7 +84,7 @@ class Player(AbstractBaseUser):
     
     
     #i want this to be the sum of xp from all the ActivityLog objects related to this user for each category
-    categoryxp = models.JSONField(default=default_xp) # A way to store the xp in each category like physique, creativity, social, energy, skill 
+    categoryxp = models.JSONField(default=default_xp) # A way to store the xp in each category like physique, creativity, social, energy, logic 
     categorylevels = models.JSONField(default=default_category_levels)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)  # Cannot log into admin
@@ -125,7 +125,7 @@ class Player(AbstractBaseUser):
             creativity_xp=Sum(Cast(F('xp_distribution__creativity'), IntegerField())),
             social_xp=Sum(Cast(F('xp_distribution__social'), IntegerField())),
             energy_xp=Sum(Cast(F('xp_distribution__energy'), IntegerField())),
-            skill_xp=Sum(Cast(F('xp_distribution__skill'), IntegerField()))
+            logic_xp=Sum(Cast(F('xp_distribution__logic'), IntegerField()))
         )
 
         # Construct the category XP dictionary
@@ -134,7 +134,7 @@ class Player(AbstractBaseUser):
             "creativity": xp_distribution['creativity_xp'] or 0,
             "social": xp_distribution['social_xp'] or 0,
             "energy": xp_distribution['energy_xp'] or 0,
-            "skill": xp_distribution['skill_xp'] or 0
+            "logic": xp_distribution['logic_xp'] or 0
         }
         
         
@@ -191,7 +191,7 @@ class Player(AbstractBaseUser):
         max_category = max(self.categoryxp, key=self.categoryxp.get)
         if max(self.categoryxp.values()) < 1000:
             self.masterytitle = "Rookie"
-        elif max(self.categoryxp.values()) >= 1000 and max_category == "skill":
+        elif max(self.categoryxp.values()) >= 1000 and max_category == "logic":
             self.masterytitle = "Prodigy"
         elif max(self.categoryxp.values()) >= 1000 and max_category == "physique":
             self.masterytitle = "Warrior"
@@ -218,7 +218,7 @@ class Player(AbstractBaseUser):
         self.totalxp = sum(self.categoryxp.values())
         self.masterlevel = max(self.categorylevels.values())
         
-        # Mastery title should update based on the max value in categoryxp, if max value is less than 600, it should be rookie, if the max value is above 600, and the category with max value is skill, then mastery title would be prodigy and so on
+        # Mastery title should update based on the max value in categoryxp, if max value is less than 600, it should be rookie, if the max value is above 600, and the category with max value is logic, then mastery title would be prodigy and so on
         
         
         super().save(*args, **kwargs)
