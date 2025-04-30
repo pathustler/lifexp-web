@@ -9,8 +9,18 @@
 
 {% block content %}
 
-<div id="activity-info-popup" class="z-50 fixed inset-0 flex items-center justify-center bg-black bg-opacity-60">
-  <div class="bg-white dark:bg-[#292c31]  rounded-3xl shadow-2xl w-[500px] relative border-2 border-[#333] overflow-hidden">
+<div id="activity-loading-popup" class="fixed inset-0 z-50 hidden bg-black bg-opacity-50 flex items-center justify-center ">
+  <div class="bg-white dark:bg-[#1f2022] flex flex-col items-center justify-center gap-4 p-6 rounded-xl shadow-xl flex flex-col items-center gap-4 h-48 w-56">
+    <div class="relative w-16 h-16">
+      <!-- Circular progress -->
+      <svg class="w-12 h-12 animate-spin" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path fill="#c2c2c2" d="M304 48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zm0 416a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM48 304a48 48 0 1 0 0-96 48 48 0 1 0 0 96zm464-48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM142.9 437A48 48 0 1 0 75 369.1 48 48 0 1 0 142.9 437zm0-294.2A48 48 0 1 0 75 75a48 48 0 1 0 67.9 67.9zM369.1 437A48 48 0 1 0 437 369.1 48 48 0 1 0 369.1 437z"/></svg>
+    </div>
+    <p id="loading-message" class="text-md font-medium text-gray-600 dark:text-white">Generating Activity...</p>
+  </div>
+</div>
+
+<div id="activity-info-popup" class="z-50 hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-60">
+  <div id="activity-popup-inside" class="bg-white dark:bg-[#292c31]  rounded-3xl shadow-2xl w-[500px] relative border-2 border-[#333] overflow-hidden">
     
     <!-- Top Bar (Title) -->
     <div style="background-color: #222"  class="bg-gray-700 dark:bg-[#373a41] px-6 py-3 rounded-t-2xl flex justify-between items-center">
@@ -18,7 +28,7 @@
       <h2 id="activity-info-name" class="text-xl font-extrabold text-white  uppercase tracking-wide">Chess</h2>
       <button onclick="toggleActivityInfoPopup()" class="text-3xl text-gray-300 hover:text-gray-400 transition">&times;</button>
     </div>
-    <div class="p-6 space-y-6 text-gray-300">
+    <div class="p-6 space-y-6 text-gray-300 dark:bg-black">
       <div class="flex w-full gap-4 ">
         <span id="activity-info-icon" style="background: #000000;background: linear-gradient(0deg,rgba(0, 0, 0, 1) 1%, {{aspect_colors.logic.primary}} 99%); border: 4px solid#333333;
 border-color: linear-gradient(0deg,rgba(51, 51, 51, 1) 1%, rgba(176, 176, 176, 1) 99%, rgba(255, 255, 255, 1) 96%);"  class="rounded-md border-4 border-gray-700 h-16 w-16 flex items-center justify-center">
@@ -33,56 +43,60 @@ border-color: linear-gradient(0deg,rgba(51, 51, 51, 1) 1%, rgba(176, 176, 176, 1
           </div>
           <div class="w-full pl-1">
             <p class="text-sm text-black font-bold opacity-70 dark:text-gray-400">Total XP</p>
-        <p id="activity-infi-total-xp" class="text-md text-black font-bold ">0</p>
+        <p id="activity-infi-total-xp" class="text-md text-black dark:text-white font-bold ">0</p>
 
           </div>
           <div class="w-full">
-            <p class="text-sm text-black font-bold opacity-70 dark:text-gray-400">Difficulty</p>
+            <p class="text-sm text-black font-bold opacity-70 dark:text-gray-400">Productivity</p>
             
-            <p class="text-md text-black font-bold ">BASIC</p>
+            <span class="flex gap1" id="activity-info-rating">
+             
+              
+              
+            </span>
 
           </div>
 
         </div>
         
       </div>
-      <p id="activity-info-description" class="text-gray-700 font-semibold">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec aliquam, libero tincidunt finibus ultricies, augue velit suscipit dolor, a aliquet tellus ipsum id est.  </p>
+      <p id="activity-info-description" class="text-gray-700 dark:text-gray-300  font-semibold">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec aliquam, libero tincidunt finibus ultricies, augue velit suscipit dolor, a aliquet tellus ipsum id est.  </p>
 
 
     </div>
     <!-- Body -->
-    <div id="activity-info-content" class=" p-6 bg-gray-200  text-gray-300">
+    <div id="activity-info-content" class=" p-6 bg-gray-200 dark:bg-[#111]  text-gray-300 dark:text-gray-700">
       
       <div class="flex justify-between space-y-3">
         <div class="w-full">
-      <div class="dark:bg-[#1f2125] rounded-lg p-2">
+      <div class=" rounded-lg p-2">
         <p class="text-xs text-gray-600 dark:text-gray-400">Created On</p>
-        <p id="activity-info-created-at" class="text-sm text-gray-800 font-semibold ">26 February 2025</p>
+        <p id="activity-info-created-at" class="text-sm text-gray-800 dark:text-gray-200 font-semibold ">26 February 2025</p>
       </div>
 
-      <div class="dark:bg-[#1f2125] rounded-lg p-2 ">
+      <div class=" rounded-lg p-2 ">
         <p class="text-xs text-gray-600 dark:text-gray-400">Created By</p>
-        <p id="activity-info-created-by" class="text-sm text-gray-800 font-semibold ">Inbuilt</p>
+        <p id="activity-info-created-by" class="text-sm text-gray-800 dark:text-gray-200 font-semibold ">Inbuilt</p>
       </div>
 
-      <div class="dark:bg-[#1f2125] rounded-lg p-2 ">
+      <div class="rounded-lg p-2 ">
         <p class="text-xs text-gray-600 dark:text-gray-400">Used By</p>
-        <p id="activity-info-created-by" class="text-sm text-gray-800 font-semibold ">102 Players</p>
+        <p id="activity-info-created-by" class="text-sm text-gray-800 dark:text-gray-200 font-semibold ">0 Players</p>
       </div>
-      <div class="dark:bg-[#1f2125] rounded-lg p-2 ">
-        <p class="text-xs text-gray-600 dark:text-gray-400">Used By</p>
-        <p id="activity-info-created-by" class="text-sm text-gray-800 font-semibold ">Inbuilt</p>
+      <div class="rounded-lg p-2 ">
+        <p class="text-xs text-gray-600 dark:text-gray-400">Life Level Rating</p>
+        <p id="activity-info-recommended-for" class="text-sm text-gray-800 dark:text-gray-200  font-semibold ">Any</p>
       </div>
       
 
       </div>
       <div class="w-full">
         <div id="activity-info-xp">
-          <canvas id="xpRadarChart" width="150" height="150"></canvas>
+          <canvas id="xpRadarChart" width="300" height="200"></canvas>
         </div>
       </div>
       </div>
-      <div class="mt-4 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 rounded">
+      <div class="mt-4 bg-yellow-100 dark:bg-yellow-500 dark:bg-opacity-10 border-l-4 border-yellow-500 text-yellow-700 dark:text-yellow-300 rounded">
         <p class="text-xs p-2">
           <b>Note</b>: The XP shown is based on completing the activity for one hour. Actual XP will scale depending on duration and the post description you mention!
         </p>
@@ -125,6 +139,11 @@ border-color: linear-gradient(0deg,rgba(51, 51, 51, 1) 1%, rgba(176, 176, 176, 1
           <button onclick="toggleActivityPopup()" class="text-xl text-gray-600">&times;</button>
       
       </div>
+      <div class="mt-4 bg-yellow-100 dark:bg-yellow-500 dark:bg-opacity-10 border-l-4 border-yellow-500 text-yellow-700 dark:text-yellow-300 rounded">
+        <p class="text-xs p-2">
+          <b>Note</b>: Keep it simple! Just type in the name of the activty, we will take care of the rest. Any additional information can be added in the post description. 
+        </p>
+      </div>
       <form>
         <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
       
@@ -136,7 +155,7 @@ border-color: linear-gradient(0deg,rgba(51, 51, 51, 1) 1%, rgba(176, 176, 176, 1
      
      <!-- submit button saying create activity -->
       <div class="mt-8 w-full">
-          <span id="create-activity" class="bg-blue-500 w-full cursor-pointer text-white py-2 px-4 rounded-lg w-full">Create Activity</span>
+          <span id="create-activity" class="bg-blue-500 w-full cursor-pointer text-white py-2 px-4 rounded-lg w-full">Generate Activity</span>
       </div>
     </form>
   </div>
@@ -182,7 +201,7 @@ border-color: linear-gradient(0deg,rgba(51, 51, 51, 1) 1%, rgba(176, 176, 176, 1
 
 
     <div class="mb-4">
-      <label class="block text-sm font-medium mb-1">Duration</label>
+      <label class="block  text-gray-700 dark:text-[#999] font-medium mb-1">Duration</label>
       <div class="flex space-x-2 items-center">
         <input type="number" id="duration-hours" placeholder="HH" min="0" max="23" maxlength="2"
               class="w-16 px-2 py-1 border rounded text-sm dark:bg-[#1f2022] dark:border-[#444] dark:text-white" />
@@ -251,7 +270,7 @@ border-color: linear-gradient(0deg,rgba(51, 51, 51, 1) 1%, rgba(176, 176, 176, 1
                 </svg>
               
             </div>
-            <input type="text" name="q" id="searchInput" placeholder="Search Activity" class="bg-transparent outline-none ml-2 w-full text-gray-600" value="{{ request.GET.q }}"/>
+            <input type="text" name="q" id="searchInput" placeholder="Search Activity" class="bg-transparent outline-none ml-2 w-full text-gray-600 dark:text-white" value="{{ request.GET.q }}"/>
         </div>
         
         
@@ -268,72 +287,72 @@ border-color: linear-gradient(0deg,rgba(51, 51, 51, 1) 1%, rgba(176, 176, 176, 1
 
     {% if activity.activity_type == "logic" %}
     
-    <div onclick="activityInfo(this)"  class="bg-[#BAAFEA] dark:bg-[#713599] dark:bg-opacity-30  activity-card p-4 rounded-xl cursor-pointer flex justify-between items-center" draggable="true"
+    <div onclick="activityInfo(this)"  class="bg-[#BAAFEA] dark:bg-[#713599] dark:bg-opacity-50  activity-card p-4 rounded-xl cursor-pointer flex justify-between items-center" draggable="true"
     ondragstart="handleDragStart(event)"
     data-id="{{ activity.id }}">
         <div class="flex gap-2 items-center">
           {{aspect_colors.logic.iconbig|safe}}
-          <p class="text-[#713599] ">{{activity.name}}</p>
+          <p class="text-[#713599] dark:text-[{{aspect_colors.logic.secondary}}]">{{activity.name}}</p>
         </div>
       
-        <svg onclick="duplicateActivity(this)"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 fill-black opacity-50 hover:opacity-60">
+        <svg onclick="duplicateActivity(event,this)"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 fill-black dark:fill-[{{aspect_colors.logic.secondary}}] opacity-50 hover:opacity-60">
           <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 9a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V15a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V9Z" clip-rule="evenodd" />
         </svg>
     </div>
 
     {% elif activity.activity_type == "creativity" %}
 
-    <div  onclick="activityInfo(this)" class="bg-[#AFD9EA] dark:bg-[#4187A2] dark:bg-opacity-30  activity-card p-4 rounded-xl cursor-pointer flex justify-between items-center" draggable="true"
+    <div  onclick="activityInfo(this)" class="bg-[#AFD9EA] dark:bg-[#4187A2] dark:bg-opacity-50  activity-card p-4 rounded-xl cursor-pointer flex justify-between items-center" draggable="true"
     ondragstart="handleDragStart(event)"
     data-id="{{ activity.id }}">
       <div class="flex gap-2 items-center">
         {{aspect_colors.creativity.iconbig|safe}}
-        <p class="text-[#4187A2]">{{activity.name}}</p>
+        <p class="text-[#4187A2] dark:text-[{{aspect_colors.creativity.secondary}}]">{{activity.name}}</p>
       </div>
-      <svg onclick="duplicateActivity(this)"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 fill-black opacity-50 hover:opacity-60">
+      <svg onclick="duplicateActivity(event,this)"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 fill-black dark:fill-[{{aspect_colors.creativity.secondary}}] opacity-50 hover:opacity-60">
         <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 9a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V15a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V9Z" clip-rule="evenodd" />
       </svg>
      </div>
 
      {% elif  activity.activity_type == "social" %}
 
-     <div  onclick="activityInfo(this)" class="bg-[#AFEAC7] dark:bg-[#31784E] dark:bg-opacity-30  p-4 activity-card rounded-xl cursor-pointer flex justify-between items-center" draggable="true"
+     <div  onclick="activityInfo(this)" class="bg-[#AFEAC7] dark:bg-[#31784E] dark:bg-opacity-50  p-4 activity-card rounded-xl cursor-pointer flex justify-between items-center" draggable="true"
      ondragstart="handleDragStart(event)"
      data-id="{{ activity.id }}">
       <div class="flex gap-2 items-center">
         {{aspect_colors.social.iconbig|safe}}
-        <p class="text-[#31784E]">{{activity.name}}</p>
+        <p class="text-[#31784E] dark:text-[{{aspect_colors.social.secondary}}]">{{activity.name}}</p>
       </div>
-      <svg onclick="duplicateActivity(this)"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 fill-black opacity-50 hover:opacity-60">
+      <svg onclick="duplicateActivity(event,this)"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 fill-black dark:fill-[{{aspect_colors.social.secondary}}] opacity-50 hover:opacity-60">
         <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 9a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V15a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V9Z" clip-rule="evenodd" />
       </svg>
      </div>
 
      {% elif activity.activity_type == "energy" %}
 
-     <div  onclick="activityInfo(this)" class="bg-[#FDF099] dark:bg-[#d0b400] dark:opacity-70 dark:bg-opacity-30  p-4 activity-card rounded-xl cursor-pointer flex justify-between items-center" draggable="true"
+     <div  onclick="activityInfo(this)" class="bg-[#FDF099] dark:bg-[#d0b400] dark:opacity-70 dark:bg-opacity-50  p-4 activity-card rounded-xl cursor-pointer flex justify-between items-center" draggable="true"
      ondragstart="handleDragStart(event)"
      data-id="{{ activity.id }}">
       <div class="flex gap-2 items-center">
         {{aspect_colors.energy.iconbig|safe}}
-        <p class="text-[#d0b400] ">{{activity.name}}</p>
+        <p class="text-[#d0b400]  dark:text-[{{aspect_colors.energy.secondary}}]">{{activity.name}}</p>
       </div>
-      <svg onclick="duplicateActivity(this)"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 fill-black opacity-50 hover:opacity-60">
+      <svg onclick="duplicateActivity(event,this)"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 fill-black dark:fill-[{{aspect_colors.energy.secondary}}] opacity-50 hover:opacity-60">
         <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 9a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V15a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V9Z" clip-rule="evenodd" />
       </svg>
      </div>
 
      {% elif activity.activity_type == "physique" %}
 
-     <div  onclick="activityInfo(this)" class="bg-[#EAAFAF] dark:bg-[#8D2E2E] dark:bg-opacity-30  p-4 activity-card rounded-xl cursor-pointer flex justify-between items-center" draggable="true"
+     <div  onclick="activityInfo(this)" class="bg-[#EAAFAF] dark:bg-[#8D2E2E] dark:bg-opacity-50  p-4 activity-card rounded-xl cursor-pointer flex justify-between items-center" draggable="true"
      ondragstart="handleDragStart(event)"
      data-id="{{ activity.id }}">
       <div class="flex gap-2 items-center">
         {{aspect_colors.physique.iconbig|safe}}
-        <p class="text-[#8D2E2E] ">{{activity.name}}</p>
+        <p class="text-[#8D2E2E]  dark:text-[{{aspect_colors.physique.secondary}}]">{{activity.name}}</p>
       </div>
       
-      <svg onclick="duplicateActivity(this)"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 fill-black opacity-50 hover:opacity-60">
+      <svg onclick="duplicateActivity(event,this)"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 fill-black dark:fill-[{{aspect_colors.physique.secondary}}] opacity-50 hover:opacity-60">
         <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 9a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V15a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V9Z" clip-rule="evenodd" />
       </svg>
      </div>
@@ -341,9 +360,9 @@ border-color: linear-gradient(0deg,rgba(51, 51, 51, 1) 1%, rgba(176, 176, 176, 1
      {%endif%}
 
     {%endfor%}
-    <div  onclick="activityInfo(this)" id="add-custom-activity" class="bg-gray-300 dark:bg-gray-800 p-4 rounded-xl cursor-pointer flex justify-between items-center">
+    <div  id="add-custom-activity" class="bg-gray-300 dark:bg-[#333] p-4 rounded-xl cursor-pointer flex justify-between items-center">
       <div class="flex gap-2 items-center">
-        <p class="text-gray-800 ">Create Custom Activity</p>
+        <p class="text-gray-800 dark:text-gray-200">Create Custom Activity</p>
       </div>
     
       <button  class="flex items-center">
@@ -473,6 +492,7 @@ function toggleActivityPopup() {
       }
   
       const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]')?.value;
+      showLoadingPopup("Generating Activity...");
   
       const response = await fetch("{% url 'create_custom_activity' %}", {
           method: "POST",
@@ -487,13 +507,16 @@ function toggleActivityPopup() {
       });
   
       const data = await response.json();
-  
+      
+      hideLoadingPopup();
+
       if (data.status === "success") {
           // Hide the popup
           console.log(data)
           // Add the new activity to your recent activities list
           const container = document.querySelector("#recent-activities");
-  
+          const type = data.activity_type.toLowerCase();
+          const name = data.name;
           const colors = {
               logic: [`{{ aspect_colors.logic.primary }}`,`{{ aspect_colors.logic.secondary }}`],
               creativity: [`{{ aspect_colors.creativity.primary }}`,`{{ aspect_colors.creativity.secondary }}`],
@@ -521,7 +544,7 @@ function toggleActivityPopup() {
                 ${icon}
                 <p class="text-[${text}]">${name}</p>
                 </div>
-              <svg onclick="removeActivity(this)" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"  stroke-width="1.5" stroke="currentColor" class="w-6 h-6 stroke-black opacity-50 hover:opacity-60">
+              <svg onclick="removeActivity(event,this)" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"  stroke-width="1.5" stroke="currentColor" class="w-6 h-6 stroke-black opacity-50 hover:opacity-60">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
               </svg>
               
@@ -561,7 +584,8 @@ function toggleActivityPopup() {
   
 
 
-  function duplicateActivity(svgElement) {
+  function duplicateActivity(event,svgElement) {
+    event.stopPropagation();
     const tagsinput = document.getElementById('id_tags').value
     // check if there are more than 3 tags after splitting by comma, if so, alert and return
     const tags = tagsinput.split(',');
@@ -575,7 +599,7 @@ function toggleActivityPopup() {
     const clone = parentCard.cloneNode(true);
     clone.querySelectorAll('svg')[1].remove();
 
-    const html = `<svg onclick="removeActivity(this)" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"  stroke-width="1.5" stroke="currentColor" class="w-6 h-6 stroke-black opacity-50 hover:opacity-60">
+    const html = `<svg onclick="removeActivity(event,this)" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"  stroke-width="1.5" stroke="currentColor" class="w-6 h-6 stroke-black opacity-50 hover:opacity-60">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
               </svg>`
 
@@ -600,13 +624,14 @@ function toggleActivityPopup() {
     document.getElementById('id_tags').value = activities.join(',');
   }
 
-  function removeActivity(button) {
+  function removeActivity(event,button) {
+    event.stopPropagation();
     const parentCard = button.closest('.activity-card');
     if (parentCard) {
         const clone = parentCard.cloneNode(true);
         clone.querySelectorAll('svg')[1].remove();
 
-        const html = `<svg onclick="duplicateActivity(this)"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 fill-black opacity-50 hover:opacity-60">
+        const html = `<svg onclick="duplicateActivity(event,this)"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 fill-black opacity-50 hover:opacity-60">
         <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 9a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V15a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V9Z" clip-rule="evenodd" />
       </svg>`
         clone.insertAdjacentHTML("beforeend", html);
@@ -706,7 +731,7 @@ document.querySelector("#duration-hours").addEventListener("input", function () 
     if (draggedEl) {
       const duplicateBtn = draggedEl.querySelector("svg[onclick^='duplicateActivity']");
       if (duplicateBtn) {
-        duplicateActivity(duplicateBtn);
+        duplicateActivity(event,duplicateBtn);
       }
     }
   }
@@ -780,15 +805,18 @@ async function activityInfo(activity){
 
 
   try {
+    showLoadingPopup("Getting Activity Info...");
     const response = await fetch(`/fetch_activity_info?activity_id=${id}`);
 
     const data = await response.json();
+    hideLoadingPopup();
 
     if (data.status === 'success') {
       toggleActivityInfoPopup(data.message);
       updateActivityPopup(data.message);
     } 
   } catch (error) {
+    hideLoadingPopup();
     console.error('Error fetching activity info:', error);
     alert('Error fetching activity info. Please try again.');
   }
@@ -807,12 +835,14 @@ async function validateAndSubmit(form) {
   formData.append('activities', activities);
   formData.append('image', imageFile);
 
-  if (!content.value || !activities.value || !imageFile) {
+  if (!content || !activities || !imageFile) {
+    console.log(content.value, activities.value, imageFile);
     toggleErrorPopup("Missing Fields|There are some missing fields, please make sure to fill in all fields");
     return;
   }
 
   try {
+    showLoadingPopup("Validating Post...");
     const response = await fetch('/validate_post/', {
       method: 'POST',
       headers: {
@@ -822,6 +852,7 @@ async function validateAndSubmit(form) {
     });
 
     const data = await response.json();
+    hideLoadingPopup();
 
     if (data.status === 'success') {
       // If VALID, submit the original form
@@ -904,6 +935,7 @@ function updateActivityPopup(data) {
   const createdBy = document.getElementById('activity-info-created-by');
   const typelabel = document.getElementById('activity-info-type');
   const iconprofile = document.getElementById('activity-info-icon');
+  const rating = document.getElementById('activity-info-rating');
 
   const type = data.type.toLowerCase();
   const colors = {
@@ -917,6 +949,29 @@ function updateActivityPopup(data) {
   title.innerText = data.name;
   createdAt.innerText = data.created_at;
   createdBy.innerText = data.created_by;
+
+  // i want an integer rating from 0 to 5, for the scale of 0XP to 200XP, anything less than 0XP should be 0, and anything more than 200XP should be 5
+  ratingValue = Math.floor((data.total_xp / 500) * 5);
+  console.log(ratingValue)
+  if (ratingValue < 0) {
+    ratingValue = 0;
+  } else if (ratingValue > 5) {
+    ratingValue = 5;
+  }
+
+  // clear the rating div and add golden stars equal to the rating value and gray stars equal to 5 - rating value
+  rating.innerHTML = "";
+  for (let i = 0; i < ratingValue; i++) {
+    rating.innerHTML += ` <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#EFA900" class="size-6">
+                <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" />
+              </svg>`;
+  }
+  for (let i = 0; i < 5 - ratingValue; i++) {
+    rating.innerHTML += ` <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#333" class="size-6">
+                <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" />
+              </svg>`;
+  }
+
   
   // If there's already a chart, destroy it first (important when reusing the popup!)
   if (xpRadarChart) {
@@ -930,7 +985,8 @@ function updateActivityPopup(data) {
       datasets: [{
         label: 'XP Distribution',
         data: Object.values(xp),
-        backgroundColor: hexToRgba(colors[type][1], 0.5),
+        backgroundColor: hexToRgba(colors[type][0], 0.3),
+        backgroundOpacity: 0.5,
         borderColor: colors[type][0],
         borderWidth: 2,
         pointBackgroundColor: colors[type][0],
@@ -938,22 +994,33 @@ function updateActivityPopup(data) {
       }]
     },
     options: {
+      
+      responsive: true,
       scales: {
-        r: {
-          
-          pointLabels: {
-            
-            font: {
-              size: 8
+            r: {
+            angleLines: {
+                color: document.body.classList.contains('dark') ? '#444' : '#ccc',  // Spoke lines
+            },
+            grid: {
+                color: document.body.classList.contains('dark') ? '#444' : '#ccc', // Circular grid
+                backgroundColor: document.body.classList.contains('dark') ? '#f9fafb' : '#1f2937', // Background color
+                drawOnChartArea: true,  // Ensure grid is drawn on chart area
+                zIndex: 4  // Set a higher zIndex than the radar surface
+            },
+            pointLabels: {
+                color: document.body.classList.contains('dark') ? '#AAA' : '#444',  // Label text color
+                font: {
+                size: 14
+                },
+                zIndex: 5  // Ensure point labels are above the radar chart surface
+            },
+            ticks: {
+                color: document.body.classList.contains('dark') ? '#ccc' : '#444',  // Ticks color
+                backdropColor: 'transparent', // Removes the default tick background
+                zIndex: 6  // Ensure ticks are above the grid and below the radar chart
             }
-          },
-          ticks: {
-            backdropColor: 'transparent',
-            
-            beginAtZero: true
-          }
-        }
-      },
+            }
+        },
       plugins: {
         legend: {
           display: false
@@ -973,6 +1040,18 @@ function updateActivityPopup(data) {
 
 
 }
+
+
+function showLoadingPopup(message) {
+  document.getElementById('activity-loading-popup').classList.remove('hidden');
+  document.getElementById('loading-message').innerText = message;
+}
+
+function hideLoadingPopup(message) {
+  document.getElementById('activity-loading-popup').classList.add('hidden');
+}
+
+
 
 
 

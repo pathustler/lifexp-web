@@ -191,7 +191,7 @@ def fetch_activity_info(request):
             'created_at': activity.created_at.strftime('%d %B %Y'),
             'total_xp':activity.total_xp,
             'description': activity.description,
-            'created_by': activity.created_by.username if activity.created_by else "In built",
+            'created_by': activity.created_by.username if activity.created_by and activity.created_by not in ['pat']  else "In built",
             
             'xp_distribution': activity.xp_distribution
         }
@@ -289,6 +289,14 @@ def mark_notifications_read(request):
     
     return JsonResponse({"status": "error"}, status=400)
 
+
+def clear_popup_flag(request):
+    request.session['show_streak_popup'] = False
+    return JsonResponse({'status': 'ok'})
+
+
+
+
 @login_required
 def index(request):
     currentpage = "index"
@@ -327,6 +335,8 @@ def index(request):
     notifications = Notification.objects.filter(recipient=request.user).order_by('-created_at')
     unread_count = notifications.filter(is_read=False).count()
     notifications = notifications.filter(is_read=False)
+    
+
    
     return render(request, 'main/index.html',{
         "currentpage": currentpage,
@@ -753,8 +763,8 @@ Given an activity name, perform the following checks:
 3. Check if it is a fundamental activity — it should not include explanations, durations (e.g., "for 2 hours"), combinations of multiple distinct actions (e.g., "running and cooking"), or overly detailed variations. It should be a basic, atomic action.
 
 Respond according to the following rules:
-- If all three checks pass, reply exactly with: VALID|<single activity type from Physique/Energy/Social/Creativity/Logic>|<a short 20-25 word descrition of the activity>|<comma seperated list of xp distribution for each type when the activity is done without additional context for 1 hour>
-  - Example: if the input is "Running", you could reply: VALID|Physique|A form of terrestrial locomotion where a person moves rapidly on foot, helps in building a good physique.|80,-20,0,-10,0
+- If all three checks pass, reply exactly with: VALID|<single activity type from Physique/Energy/Social/Creativity/Logic>|<a short 10-20 word fun fact about the activity>|<comma seperated list of xp distribution for each type when the activity is done without additional context for 1 hour, in the format Physique, Energy, Social, Creativity, Logic>.
+  - Example: if the input is "Running", you could reply: VALID|Physique|The euphoric feeling after a run, known as "runner's high," is a real thing caused by the release of endorphins, which can help relieve stress and anxiety.|80,-20,0,-10,0
 - If only checks 1 and 2 pass, but check 3 fails, reply with: WARNING|<one to three fundamentalized versions of the activity name separated by "|"> 
   - Example: if the input is "Running for 2 hours and lifting weights", you could reply: WARNING|Running|Weightlifting
 - If either check 1 or check 2 fails, reply exactly with: INVALID
@@ -783,9 +793,9 @@ Activity to validate: "{name}"
                 description= resultlist[2],
                 xp_distribution={
                     "physique": int(resultlist[3].split(",")[0]),
-                    "creativity": int(resultlist[3].split(",")[1]),
+                    "energy": int(resultlist[3].split(",")[1]),
                     "social": int(resultlist[3].split(",")[2]),
-                    "energy": int(resultlist[3].split(",")[3]),
+                    "creativity": int(resultlist[3].split(",")[3]),
                     "logic": int(resultlist[3].split(",")[4])
                 },
                 created_by=request.user.player,  # Assuming you want to set the creator

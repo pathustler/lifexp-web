@@ -9,7 +9,7 @@
 {% block content %}
 <input type="hidden" id="csrf-token" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
 <div id="comments-modal" class="fixed  inset-0 bg-black/50 z-50 hidden items-center justify-center">
-  <div class="bg-white p-6 rounded-xl shadow-lg w-full max-w-md relative flex flex-col justify-between dark:bg-[#1f2022] dark:border-[#27292c]">
+  <div class="bg-white p-6 rounded-xl shadow-lg w-full max-w-md relative flex flex-col justify-between dark:bg-gray-900 dark:border-[#27292c]">
     <button onclick="closeCommentsPopup()" class="absolute top-2 right-2 text-gray-500 hover:text-red-500 text-xl">&times;</button>
     <div>
       <h2 class="text-lg font-bold mb-4">Comments</h2>
@@ -23,7 +23,7 @@
 
     <!-- Add Comment Field -->
     <br>
-    <div class="flex items-center gap-3 border rounded-full px-4 py-2 shadow-sm dark:border-[#444] bg-white dark:bg-[#1f2022]">
+    <div class="flex items-center gap-3 border rounded-full px-4 py-2 shadow-sm dark:border-[#444] bg-white dark:bg-gray-900">
       <img src="{{ player.profile_picture.url }}" alt="User Avatar" class="w-9 h-9 rounded-full">
     
       <textarea
@@ -49,7 +49,7 @@
      <!-- top bar thing -->
     <div class="mb-8 flex gap-4 overflow-x-auto whitespace-nowrap scrollbar-hide">
       <a href="{% url 'profile' player.username %}">
-      <div class="bg-white overflow-x-hidden border border-gray-200 dark:border-gray-900 flex p-3 rounded-xl gap-3 min-w-[200px] max-w-[250px] items-center cursor-pointer flex-shrink-0 dark:bg-[#1f2022]">
+      <div class="bg-white overflow-x-hidden border border-gray-200 dark:border-gray-900 flex p-3 rounded-xl gap-3 min-w-[200px] max-w-[250px] items-center cursor-pointer flex-shrink-0 dark:bg-gray-900">
         <img src="{{ player.profile_picture.url }}" class='
                 {% if player.masterytitle == "Prodigy" %}
                 border-4 border-[#713599] border-opacity-50
@@ -87,7 +87,7 @@
 
       {% for followed in following_players %}
       <a href="{% url 'profile' followed.username %}">
-      <div class="bg-white overflow-x-hidden border border-gray-200 dark:border-gray-900 flex p-3 rounded-xl gap-3 min-w-[200px] max-w-[250px] items-center cursor-pointer flex-shrink-0 dark:bg-[#1f2022]">
+      <div class="bg-white overflow-x-hidden border border-gray-200 dark:border-gray-900 flex p-3 rounded-xl gap-3 min-w-[200px] max-w-[250px] items-center cursor-pointer flex-shrink-0 dark:bg-gray-900">
                 <img src="{{ followed.profile_picture.url }}" class='
                 {% if followed.masterytitle == "Prodigy" %}
                 border-4 border-[#713599] border-opacity-50
@@ -140,7 +140,7 @@
   <!-- Profile Widget -->
   <aside style="width: 450px;" class="w-80 p-6 overflow-auto">
 
-    <div class="bg-white p-6 mb-4 rounded-xl border-2 border-gray-200 dark:bg-[#1f2022] dark:border-[#242729]">
+    <div class="bg-white p-6 mb-4 rounded-xl border-2 border-gray-200 dark:bg-gray-900 dark:border-[#242729]">
       <a href="{% url 'profile' player.username %}">
         <div class="text-center flex flex-col items-center">
 
@@ -169,7 +169,7 @@
             </div>
         </div>
         <div class="mt-4 flex justify-between text-sm gap-4">
-            <div class="bg-gray-100 w-full flex flex-col rounded-md items-center justify-between p-4 dark:bg-[#292b2f] dark:border-[#2d2f32]">
+            <div class="bg-gray-100 w-full flex flex-col rounded-md items-center justify-between p-4 dark:bg-gray-800 dark:bg-opacity-50   dark:border-[#2d2f32]">
                 
               <span class="flex items-center justify-center gap-1">
                 <p style="color: {{player.primary_accent_color}};"  class=" text-lg font-bold ">
@@ -222,7 +222,7 @@
                
             </div>
 
-            <div class="bg-gray-100 w-full flex flex-col rounded-md items-center justify-between p-4 dark:bg-[#292b2f] dark:border-[#2d2f32]">
+            <div class="bg-gray-100 w-full flex flex-col rounded-md items-center justify-between p-4 dark:bg-gray-800 dark:bg-opacity-50  dark:border-[#2d2f32]">
                 <p class="text-sm ">Streak Count</p>
                 <div class="flex gap-2 items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {% if player.streak_active %} fill="#ffc05b" {% else %} fill="#BBBBBB" {%endif%} class="size-6">
@@ -242,7 +242,7 @@
     </div>
 
 
-    <div id='notifications-tab' class="bg-white p-6 mb-4 rounded-xl border-2 border-gray-200 dark:bg-[#1f2022] dark:border-[#2d2f32]">
+    <div id='notifications-tab' class="bg-white p-6 mb-4 rounded-xl border-2 border-gray-200 dark:bg-gray-900 dark:border-[#2d2f32]">
       <div class="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 gap-2.5 max-w-full">
         <div class="flex mb-4 justify-between items-center self-stretch w-full relative overflow-hidden">
           <div class="flex justify-between items-center w-full">
@@ -303,7 +303,7 @@
 
 
 
-    <div class="bg-white p-6  rounded-xl border-2 border-gray-200 dark:bg-[#1f2022] dark:border-[#2d2f32]">
+    <div class="bg-white p-6  rounded-xl border-2 border-gray-200 dark:bg-gray-900 dark:border-[#2d2f32]">
       <div class="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 gap-2.5 pb-2.5">
         <div class="flex justify-between items-center self-stretch w-full relative overflow-hidden">
         <p class="flex-grow-0 flex-shrink-0 text-md text-left text-black dark:text-white">Discover players</p>
@@ -392,7 +392,7 @@
                 }).join(" ");
                 postElement.classList.add('post');
                 postElement.innerHTML = `
-                    <div class="bg-white mb-6 p-6 rounded-xl border-2 border-gray-200 dark:bg-[#1f2022] dark:border-[#242729]">
+                    <div class="bg-white mb-6 p-6 rounded-xl border-2 border-gray-200 dark:bg-gray-900 dark:border-[#242729]">
                       <div class="flex items-center mb-4">
                         <a href="/user/${post.username}">
                           <div class="flex items-center">
@@ -611,7 +611,7 @@
 
                             <div id="comments-${post.id}" class="space-y-4 mt-2">
                                 ${post.comments && post.comments.length > 0 ? post.comments.slice(0, 3).map(comment => `
-                                    <div class="flex gap-3 items-center self-stretch flex-grow-0 flex-shrink-0 h-10 relative rounded-[45px] bg-white dark:bg-[#1f2022] py-3">
+                                    <div class="flex gap-3 items-center self-stretch flex-grow-0 flex-shrink-0 h-10 relative rounded-[45px] bg-white dark:bg-gray-900 py-3">
                                         <img class="h-10 w-10 rounded-full" src="${comment.pfp}" alt="PFP"/>
                                         <div class="flex flex-col w-full">
                                             <div class="flex justify-start items-start">
@@ -807,7 +807,7 @@ async function submitComment(button) {
   newComment.innerHTML = `
   
 
-    <div class="flex gap-3 items-center self-stretch flex-grow-0 flex-shrink-0 h-10 relative rounded-[45px] bg-white dark:bg-[#1f2022] py-3">
+    <div class="flex gap-3 items-center self-stretch flex-grow-0 flex-shrink-0 h-10 relative rounded-[45px] bg-white dark:bg-gray-900 py-3">
         <img class="h-10 w-10 rounded-full" src="${data.profile_picture}" alt="PFP"/>
         <div class="flex flex-col w-full">
             <div class="flex justify-start items-start">
@@ -855,7 +855,7 @@ async function showCommentsPopup(postId) {
 
     if (data.comments.length > 0) {
       content.innerHTML = data.comments.map(comment => `
-        <div class="flex gap-3 items-center self-stretch flex-grow-0 flex-shrink-0 h-10 relative rounded-[45px] bg-white dark:bg-[#1f2022] py-3">
+        <div class="flex gap-3 items-center self-stretch flex-grow-0 flex-shrink-0 h-10 relative rounded-[45px] bg-white dark:bg-gray-900 py-3">
             <img class="h-10 w-10 rounded-full" src="${comment.pfp}" alt="PFP"/>
             <div class="flex flex-col w-full">
                 <div class="flex justify-start items-start">

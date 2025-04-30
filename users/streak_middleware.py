@@ -12,7 +12,7 @@ class UpdateStreakMiddleware:
                 player = Player.objects.get(username=request.user.username)
                 today = now().date()
                 latest_post = Post.objects.filter(user=player).order_by('-created_at').first()
-
+                request.session['show_streak_popup'] = False
                 if not latest_post:
                     # If no posts exist, set streak_active to False
                     player.streak_active = False
@@ -34,7 +34,12 @@ class UpdateStreakMiddleware:
                     player.streak_active = True
                     player.streak_count += 1
                     player.save()
+                    request.session['show_streak_popup'] = True
                     
+                
+                
+                    
+                
             except Player.DoesNotExist:
                 pass
 
