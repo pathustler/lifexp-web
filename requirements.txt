@@ -48,7 +48,6 @@ optree==0.15.0
 packaging==24.2
 pillow==11.1.0
 proto-plus==1.26.1
-protobuf==5.29.4
 psycopg==3.2.5
 psycopg-binary==3.2.6
 pyasn1==0.6.1
