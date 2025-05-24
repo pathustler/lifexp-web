@@ -38,3 +38,5 @@ google-auth-httplib2==0.2.0
 google-generativeai==0.8.5
 google-pasta==0.2.0
 googleapis-common-protos==1.70.0
+django-browser-reload==1.18.0
+django-tailwind==4.0.1

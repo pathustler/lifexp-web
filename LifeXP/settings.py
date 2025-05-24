@@ -46,7 +46,12 @@ INSTALLED_APPS = [
     'users',
     'cloudinary',
     'cloudinary_storage',
+    'tailwind',
+    'theme',
+    'django_browser_reload'
 ]
+
+TAILWIND_APP_NAME = 'theme'
 
 load_dotenv()
 # key = os.getenv("MY_KEY")
@@ -72,6 +77,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'users.streak_middleware.UpdateStreakMiddleware',
     'users.update_last_visit.UpdateLastVisitMiddleware',
+    "django_browser_reload.middleware.BrowserReloadMiddleware",
 
 ]
 

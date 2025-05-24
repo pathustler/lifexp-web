@@ -162,7 +162,7 @@ def global_variables(request):
     }
 
 def dark_mode_context(request):
-    dark_mode = True  # Default: Light mode
+    dark_mode = False  # Default: Light mode
 
     if request.user.is_authenticated:
         try:
