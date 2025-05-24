@@ -410,7 +410,7 @@ def profile(request, username):
             if act["name"] == activity.name:
                 act["total_xp"] += totalxp
                 for key in act["xp_distribution"]:
-                    act["xp_distribution"][key] += activity.xp_distribution[key]
+                    act["xp_distribution"][key] += activity.xp_distribution.get(key, 0)
                 
                 actitem =Activity.objects.filter(name=activity.name)
                 if actitem.exists():
